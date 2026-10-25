@@ -59,8 +59,8 @@ connect build --name x --live --max-cost-usd 2 --runner "command:my-agent --prom
 ```
 | Measure                               | Run the originals   | Compiled          | Change   |
 | Static coverage (6 evals with needs)  | 1.00                | 1.00              | +0.00    |
-| Needs already in context on activation| 0.94                | 0.69              | -0.25    |
-| Context on activation (est. tokens)   | 15,345 (3 SKILL.md) | 4,849 (1 SKILL.md)| -10,496  |
+| Needs already in context on activation| 0.83                | 0.50              | -0.33    |
+| Context on activation (est. tokens)   | 15,345 (3 SKILL.md) | 4,865 (1 SKILL.md)| -10,480  |
 | Listing (description characters)      | 1,566               | 566               | -1,000   |
 ```
 

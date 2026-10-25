@@ -39,7 +39,7 @@ python3 -I skills/connect-skills/scripts/connect build --name my-design
 
 ## Examples
 
-- [`examples/apple-design`](examples/apple-design): recreates a hand-made design skill from Hallmark, UI UX Pro Max and the author's own Apple pass. Its `MERGE.md` explains, section by section, how it differs from the hand-made one. 4,849 tokens on activation instead of 15,345 for the three originals.
+- [`examples/apple-design`](examples/apple-design): recreates a hand-made design skill from Hallmark, UI UX Pro Max and the author's own Apple pass. Its `MERGE.md` explains, section by section, how it differs from the hand-made one. 4,865 tokens on activation instead of 15,345 for the three originals.
 - [`examples/research-compile`](examples/research-compile): a research-brief skill compiled from five candidates in a skill-radar report. It excludes the sub-skills that need a paid API, meets CC BY duties for one source and adapts two sections with the changes recorded.
 - [`examples/update-app-screens`](examples/update-app-screens): an update run that adopts a lock for the hand-made skill, keeps its local edits, finds the gap ("app screens"), names an unlicensed candidate instead of copying it, and proposes a patch.
 - [`examples/refusals`](examples/refusals): two unlicensed skills named, never copied; a real promotional sign-off and a hidden download-and-run step excluded and named; a merge that loses an eval, refused with its scores.

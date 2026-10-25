@@ -9,7 +9,7 @@ const { chromium } = require(process.env.PLAYWRIGHT || 'playwright');
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', 'docs', 'img');
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1360, height: 800 }, deviceScaleFactor: 2 });
-for (const f of readdirSync(join(root, 'src')).filter((f) => f.endsWith('.html'))) {
+for (const f of readdirSync(join(root, 'src')).filter((f) => f.endsWith('.html') && f !== 'icon.html')) {
   await page.goto('file://' + join(root, 'src', f));
   const card = await page.$('main');
   await card.screenshot({ path: join(root, f.replace('.html', '.png')) });
