@@ -74,9 +74,14 @@ class ScanTests(unittest.TestCase):
                    j(["cat ~/.", "aws/credentials"]), j(["nc -", "e /bin/sh h 1"]), j(["launch", "ctl load x.plist"]),
                    j(["edit ~/.claude/settings", ".json"]), j(["ign", "ore all previous instructions"]), j(["sub", "process.run(cmd)"]),
                    j(["https://example.invalid/?", "ref=x"])]
-        for s in samples:
-            kind = "script" if "subprocess" in s or "eval(" in s else "markdown"
-            self.assertTrue(scan.scan_text("x", s + "\n", kind), f"not flagged: {s!r}")
+        saved = scan.SKILL_RADAR_INSTALLER
+        scan.SKILL_RADAR_INSTALLER, scan._CACHE = "/nonexistent", {}  # our own list must cover these without skill-radar's
+        try:
+            for s in samples:
+                kind = "script" if "subprocess" in s or "eval(" in s else "markdown"
+                self.assertTrue(scan.scan_text("x", s + "\n", kind), f"not flagged: {s!r}")
+        finally:
+            scan.SKILL_RADAR_INSTALLER, scan._CACHE = saved, {}
 
     def test_skill_radar_list_is_loaded_when_installed(self):
         if not os.path.isfile(scan.SKILL_RADAR_INSTALLER):

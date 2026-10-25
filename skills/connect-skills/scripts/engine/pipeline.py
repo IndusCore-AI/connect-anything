@@ -202,12 +202,13 @@ def build(plan, out=None, live=False, runner=None, model=None, judge_model=None,
     merge.write_folder(plan, build_dir)
     _apply_strips(plan, build_dir)
     eval_paths = list(plan.get("evals") or [])
-    for s in plan["sources"]:  # the sources' own skill-creator evals join the set
+    source_evals = []
+    for s in plan["sources"]:  # the sources' own skill-creator evals join the set (static tier only)
         p = os.path.join(s["staging"], "evals", "evals.json")
         if s["mode"] != "excluded" and os.path.isfile(p):
-            eval_paths.append(p)
+            source_evals.append(p)
     eval_dir = os.path.join(workdir, "eval")
-    result, lines, evals = evalmod.run_eval(plan, build_dir, eval_paths, live=live, runner_spec=runner, model=model,
+    result, lines, evals = evalmod.run_eval(plan, build_dir, eval_paths, source_evals=source_evals, live=live, runner_spec=runner, model=model,
                                             judge_model=judge_model, trials=trials, max_cost=max_cost, dry_run=dry_run,
                                             tolerance=tolerance, workdir=eval_dir)
     from .util import plain_dashes as _pd

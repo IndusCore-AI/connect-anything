@@ -33,6 +33,7 @@ PATTERNS = [
     ("rm-home", "block", r"rm\s+-[a-z]*r[a-z]*f?[a-z]*\s+(/\s|/$|~/?\s|~/?$|\$HOME/?\s|\$HOME/?$|/\*)", "deletes the home or root folder"),
     ("hidden-unicode", "block", None, "zero-width or bidirectional control characters"),
     ("sudo", "review", r"\bsudo\b", "uses sudo"),
+    ("base64-decode", "review", r"base64\s+(-d|--decode|-D)\b", "decodes base64"),
     ("chmod-777", "review", r"chmod\s+(-R\s+)?[0-7]*777", "chmod 777"),
     ("eval", "review", r"\beval\s*\(|\beval\s+[\"'$]", "evaluates code from a string"),
     ("persistence", "review", r"\blaunchctl\b|\bcrontab\b|LaunchAgents|LaunchDaemons|systemctl\s+enable|\.bashrc|\.zshrc|\.profile\b", "installs something that keeps running"),

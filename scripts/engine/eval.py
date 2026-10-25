@@ -90,7 +90,7 @@ def auto_probes(plan, per_source=3):
 
 
 def eval_set_hash(evals):
-    blob = json.dumps([{k: e.get(k) for k in ("prompt", "expectations", "needs", "output_checks")} for e in evals], sort_keys=True)
+    blob = json.dumps([{k: e.get(k) for k in ("prompt", "expectations", "needs", "output_checks")} for e in evals], sort_keys=True, ensure_ascii=True)
     return hashlib.sha256(blob.encode()).hexdigest()[:16]
 
 
@@ -392,8 +392,10 @@ def scoreboard_lines(static, live, verdict, reasons, tolerance):
 
 
 def run_eval(plan, out_dir, eval_paths=None, live=False, runner_spec=None, model=None, judge_model=None, trials=1,
-             max_cost=None, dry_run=False, tolerance=0.05, workdir=None):
-    evals = load_eval_set(eval_paths) if eval_paths else []
+             max_cost=None, dry_run=False, tolerance=0.05, workdir=None, source_evals=None):
+    evals = load_eval_set(list(eval_paths or []) + list(source_evals or []))
+    for e in evals:  # prompts written by a fetched source are untrusted: they never reach a model
+        e["untrusted"] = e.get("origin") in (source_evals or [])
     if not evals:
         evals = auto_probes(plan)
     arms = [originals_arm(plan), compiled_arm(plan, out_dir)]
@@ -404,7 +406,8 @@ def run_eval(plan, out_dir, eval_paths=None, live=False, runner_spec=None, model
             if max_cost is None:
                 raise EngineError("a live eval needs --max-cost-usd: agree the budget before any model is called")
         runner = Runner(runner_spec, model=model, judge_model=judge_model)
-        live_res = live_tier(evals, arms, runner, Budget(max_cost or 0.0), trials=trials, workdir=workdir, dry_run=dry_run)
+        live_evals = [x for x in evals if not x.get("untrusted")]
+        live_res = live_tier(live_evals, arms, runner, Budget(max_cost or 0.0), trials=trials, workdir=workdir, dry_run=dry_run)
     verdict, reasons = gate(static, live_res, tolerance)
     result = {"verdict": verdict, "reasons": reasons, "tiers": ["static"] + (["live"] if live_res and not live_res.get("dry_run") else []),
               "originals": {"static": static["totals"]["originals"], "live": (live_res or {}).get("summary", {}).get("originals")},

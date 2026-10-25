@@ -119,8 +119,9 @@ def read_source(src):
         rec["body_tokens"] = estimate_tokens(rec["body"])
         rec["bytes_read"] = sum(f["size"] for f in files)
         rec["files_read"] = sum(1 for f in files if f.get("read"))
-        if src["skill_paths"] and len(src["skill_paths"]) > 1:
-            rec["alias"] = f"{src['alias']}-{os.path.basename(skill_path)}" if skill_path != "." else src["alias"]
+        if src["skill_paths"] and len(src["skill_paths"]) > 1 and skill_path != ".":
+            from .util import to_skill_name  # a folder name inside an untrusted repo becomes an output folder name
+            rec["alias"] = to_skill_name(f"{src['alias']}-{os.path.basename(skill_path)}")
         out.append(rec)
     return out
 
