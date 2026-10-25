@@ -143,6 +143,7 @@ def git_source(base, repo, work):
     bare = os.path.join(base, repo + ".git")
     os.makedirs(os.path.dirname(bare), exist_ok=True)
     git(base, "init", "-q", "--bare", bare)
+    git(bare, "symbolic-ref", "HEAD", "refs/heads/main")  # whatever init.defaultBranch is on this machine
     git(bare, "config", "uploadpack.allowAnySHA1InWant", "true")
     os.makedirs(work, exist_ok=True)
     git(work, "init", "-q")

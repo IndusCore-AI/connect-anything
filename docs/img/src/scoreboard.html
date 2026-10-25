@@ -1,0 +1,31 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Eval gate</title><link rel="stylesheet" href="base.css"></head>
+<body><main class="card">
+<h1>The eval gate</h1>
+<p class="sub">A compiled skill is emitted only if it matches or beats running the originals. Same six evals, same three sources.</p>
+<div class="grid">
+<section class="panel">
+<h2>apple-design <span class="chip pass">PASS, emitted</span></h2>
+<p>The merge as decided in <code>examples/apple-design</code>.</p>
+<table>
+<thead><tr><th>Measure</th><th class="num">Originals</th><th class="num">Compiled</th></tr></thead>
+<tbody>
+<tr><td>Static coverage, 6 evals</td><td class="num">1.00</td><td class="num">1.00</td></tr>
+<tr><td>Context on activation</td><td class="num">15,345 tokens</td><td class="num">4,849 tokens</td></tr>
+<tr><td>SKILL.md files loaded</td><td class="num">3</td><td class="num">1</td></tr>
+<tr><td>Listing characters</td><td class="num">1,566</td><td class="num">566</td></tr>
+</tbody></table>
+</section>
+<section class="panel">
+<h2>apple-design, leaner <span class="chip refuse">REFUSED</span></h2>
+<p>The same merge with UI UX Pro Max left out.</p>
+<table>
+<thead><tr><th>Measure</th><th class="num">Originals</th><th class="num">Compiled</th></tr></thead>
+<tbody>
+<tr><td>Static coverage, 6 evals</td><td class="num">1.00</td><td class="num">0.83</td></tr>
+<tr><td>Context on activation</td><td class="num">15,345 tokens</td><td class="num">4,139 tokens</td></tr>
+<tr><td colspan="3">Missing: <code>--domain google-fonts</code> (bengali-fonts), <code>touch-target-size</code> (app-settings-screen)</td></tr>
+</tbody></table>
+</section>
+</div>
+<p class="foot">Static coverage runs on every build, free. The live tier (claude -p, both arms, graded answers) runs only with a budget you set.</p>
+</main></body></html>

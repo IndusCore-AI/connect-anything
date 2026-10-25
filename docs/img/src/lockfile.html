@@ -1,0 +1,30 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Lockfile</title><link rel="stylesheet" href="base.css"></head>
+<body><main class="card">
+<h1><code>connect-anything.lock.json</code></h1>
+<p class="sub">Shaped like the skills CLI's lockfile, plus what an honest compiled skill needs: licence, what was read, the scan, and the eval.</p>
+<pre>{
+  <span class="k">"version"</span>: <span class="n">1</span>,
+  <span class="k">"tool"</span>: { <span class="k">"name"</span>: <span class="s">"connect-anything"</span>, <span class="k">"version"</span>: <span class="s">"0.1.0"</span> },
+  <span class="k">"skill"</span>: { <span class="k">"name"</span>: <span class="s">"apple-design"</span>, <span class="k">"mode"</span>: <span class="s">"connect"</span>, <span class="k">"computedHash"</span>: <span class="s">"779416dd...43cab8"</span> },
+  <span class="k">"skills"</span>: {
+    <span class="k">"hallmark"</span>: {
+      <span class="k">"source"</span>: <span class="s">"Nutlope/hallmark"</span>,
+      <span class="k">"sourceType"</span>: <span class="s">"github"</span>,
+      <span class="k">"ref"</span>: <span class="s">"7ec868225c6caa040558c321ee0fefa0e73f83a8"</span>,
+      <span class="k">"skillPath"</span>: <span class="s">"skills/hallmark/SKILL.md"</span>,
+      <span class="k">"computedHash"</span>: <span class="s">"32269cfd...fa5f7ec"</span>,
+      <span class="k">"use"</span>: <span class="s">"flatten"</span>,
+      <span class="k">"licence"</span>: { <span class="k">"spdx"</span>: <span class="s">"MIT"</span>, <span class="k">"verdict"</span>: <span class="s">"flatten"</span>, <span class="k">"file"</span>: <span class="s">"skills/hallmark/LICENSE"</span> },
+      <span class="k">"read"</span>: { <span class="k">"files"</span>: <span class="n">178</span>, <span class="k">"bytes"</span>: <span class="n">6841340</span> },
+      <span class="k">"scan"</span>: { <span class="k">"block"</span>: <span class="n">0</span>, <span class="k">"review"</span>: <span class="n">34</span>, <span class="k">"info"</span>: <span class="n">17</span> },
+      <span class="k">"files"</span>: { <span class="c">... the hash of every file read, for update ...</span> }
+    },
+    <span class="k">"apple-pass"</span>: {
+      <span class="k">"source"</span>: <span class="s">"~/.claude/skills/apple-design/SKILL.md"</span>, <span class="k">"section"</span>: <span class="s">"part-c-the-apple-pass"</span>,
+      <span class="k">"licence"</span>: { <span class="k">"spdx"</span>: <span class="s">"LicenseRef-Own"</span>, <span class="k">"verdict"</span>: <span class="s">"own"</span> }
+    },
+    <span class="k">"uiux-pro-max"</span>: { <span class="k">"source"</span>: <span class="s">"nextlevelbuilder/ui-ux-pro-max-skill"</span>, <span class="k">"ref"</span>: <span class="s">"d14efff8..."</span>, <span class="c">...</span> }
+  },
+  <span class="k">"eval"</span>: { <span class="k">"verdict"</span>: <span class="s">"pass"</span>, <span class="k">"tiers"</span>: [<span class="s">"static"</span>], <span class="k">"eval_set_hash"</span>: <span class="s">"ca4bf781d39c71f8"</span> }
+}</pre>
+</main></body></html>

@@ -1,0 +1,14 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>MERGE.md</title><link rel="stylesheet" href="base.css"></head>
+<body><main class="card">
+<h1><code>MERGE.md</code></h1>
+<p class="sub">Every conflict between the sources, the winner and why. From the apple-design example: the Apple pass, Hallmark @ 7ec8682, UI UX Pro Max @ d14efff.</p>
+<table>
+<thead><tr><th>#</th><th>One says</th><th>The other says</th><th>Winner</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td>c12</td><td><span class="who">apple-pass</span><br>Avoid CSS transitions and <code>@keyframes</code> for anything gesture-driven; use springs.</td><td><span class="who">uiux-pro-max</span><br>State changes should animate smoothly, not snap.</td><td><span class="chip pass">apple-pass</span></td><td>For anything a finger drives, a spring that can be grabbed mid-flight; a CSS transition stays fine for hover and state changes.</td></tr>
+<tr><td>c17</td><td><span class="who">hallmark</span><br>Display: Switzer 500, <code>--tracking-display</code> on the hero head.</td><td><span class="who">uiux-pro-max</span><br>Bold headings (600 to 700), regular body (400).</td><td><span class="chip pass">hallmark</span></td><td>On a new page the theme's display face and weight stand (rank 4).</td></tr>
+<tr><td>c2</td><td><span class="who">apple-pass</span><br>Add about 10px of hit padding around the target.</td><td><span class="who">hallmark</span><br>Controls 32 to 40px with a 44px hit target.</td><td><span class="chip dim">dismissed</span></td><td>Both hold: a 44px target, and about 10px of slop around it while a press is held.</td></tr>
+<tr><td>note</td><td><span class="who">hallmark</span><br>Refuse glass panels (genre files, most themes).</td><td><span class="who">apple-pass</span><br>Build toolbars as translucent layers.</td><td><span class="chip pass">hallmark</span></td><td>Recorded by hand: the scan misses it because the sources name it differently. The theme wins on a new page.</td></tr>
+</tbody></table>
+<p class="foot">Also in MERGE.md: the what-wins list, duplicates folded to one copy, every section's score and use, files left out and why, review flags, and a section-by-section diff against the hand-made skill.</p>
+</main></body></html>
