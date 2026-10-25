@@ -240,6 +240,9 @@ def build_proposal(skill_dir, lock, ups, cands, gap, workdir, take=2, pieces_per
         shutil.rmtree(prop)
     shutil.copytree(skill_dir, prop, ignore=shutil.ignore_patterns(".git", "__pycache__", ".DS_Store"))
     changes = []
+    fixed = requote_frontmatter(os.path.join(prop, "SKILL.md"))
+    if fixed:
+        changes.append(f"SKILL.md frontmatter re-quoted so strict YAML loaders read it ({fixed})")
     # upstream changes, never over a local edit
     for u in ups:
         if u["status"] != "changed":
@@ -312,6 +315,22 @@ def build_proposal(skill_dir, lock, ups, cands, gap, workdir, take=2, pieces_per
         write_text(skill_md, text)
         changes.append(f"SKILL.md: {len(block) - 2} pointer line(s) added after \"{anchor}\"")
     return prop, changes, added, refd, anchor
+
+
+def requote_frontmatter(path):
+    """A plain YAML value holding ': ' fails strict loaders (skills-ref; Claude Code then loads the skill with no
+    fields). Re-emit the same keys and values, quoted where needed. Returns what was wrong, or None."""
+    from .util import dump_frontmatter
+    text = open(path, encoding="utf-8").read()
+    block, body = split_frontmatter(text)
+    if block is None:
+        return None
+    data, problems = parse_frontmatter(block)
+    bad = [p for p in problems if "quote it" in p or "flow style" in p]
+    if not bad or any(isinstance(v, (dict, list)) for k, v in data.items() if k != "metadata"):
+        return None
+    write_text(path, dump_frontmatter(data) + body)
+    return "; ".join(bad)
 
 
 def _gist(text, n=150):

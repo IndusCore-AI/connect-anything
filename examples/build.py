@@ -16,6 +16,7 @@ import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
+OUT = os.environ.get("CA_EXAMPLES_OUT") or HERE  # the tests write elsewhere so the committed outputs stay as they are
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 sys.path.insert(0, os.path.join(ROOT, "tests"))
 
@@ -72,7 +73,7 @@ def apple_design(scratch):
     ex = os.path.join(HERE, "apple-design")
     rep = build("connect", "apple-design", APPLE_SOURCES, work, out, decisions=os.path.join(ex, "decisions.json"),
                 evals=[os.path.join(ex, "evals.json")], own=["apple-pass"], job=APPLE_JOB, compare_to=APPLE_DESIGN)
-    keep_compiler_files(rep["emitted"] or rep["build"], os.path.join(ex, "output"))
+    keep_compiler_files(rep["emitted"] or rep["build"], os.path.join(OUT, "apple-design", "output"))
     return rep
 
 
@@ -83,7 +84,7 @@ def research_compile(scratch):
     work, out = os.path.join(scratch, "research-brief.connect-anything"), os.path.join(scratch, "out", "research-brief")
     rep = build("compile", "research-brief", [p["spec"] for p in picks], work, out, decisions=os.path.join(ex, "decisions.json"),
                 evals=[os.path.join(ex, "evals.json")], profile_path=os.path.join(ex, "profile.json"), job=RESEARCH_JOB)
-    keep_compiler_files(rep["emitted"] or rep["build"], os.path.join(ex, "output"))
+    keep_compiler_files(rep["emitted"] or rep["build"], os.path.join(OUT, "research-compile", "output"))
     return rep
 
 
@@ -98,7 +99,7 @@ def update_app_screens(scratch):
     cands = json.load(open(os.path.join(ex, "candidates.json")))["candidates"]
     state, md = update.plan_update(copy, work, gap="app screens", candidates=cands, adopt_ok=True,
                                    evals=[os.path.join(HERE, "apple-design", "evals.json")], plain=True)
-    dest = os.path.join(ex, "output")
+    dest = os.path.join(OUT, "update-app-screens", "output")
     if os.path.isdir(dest):
         shutil.rmtree(dest)
     os.makedirs(dest)
@@ -117,7 +118,6 @@ def update_app_screens(scratch):
 
 def refusals(scratch):
     import fixtures as fx
-    ex = os.path.join(HERE, "refusals")
     reps = {}
     # 1. two real unlicensed skills are named, never copied; the MIT one is copied
     work, out = os.path.join(scratch, "mobile-screens.connect-anything"), os.path.join(scratch, "out", "mobile-screens")
@@ -126,7 +126,7 @@ def refusals(scratch):
                                 "pixel-perfect=UMDhodi/pixel-perfect-mobile",
                                 "podo=podo/design-agent-skills@8eeb2a7:skills/mobile-app-ui-design"],
                                work, out, job="Design mobile app screens")
-    keep_compiler_files(reps["unlicensed"]["emitted"] or reps["unlicensed"]["build"], os.path.join(ex, "unlicensed"))
+    keep_compiler_files(reps["unlicensed"]["emitted"] or reps["unlicensed"]["build"], os.path.join(OUT, "refusals", "unlicensed"))
     # 2. a real sign-off and a generated hidden download-and-run step are excluded and named
     fixture_root = tempfile.mkdtemp(prefix="fixture-", dir=scratch)
     lookalike = fx.hidden_payload_skill(fixture_root)
@@ -136,7 +136,7 @@ def refusals(scratch):
                              f"lookalike={lookalike}",
                              "ios-app-design=ahonn/dotfiles@27f1e58:.claude/skills/ios-app-design"],
                             work, out, job="Design dashboards and app screens", fit_threshold=0.0)
-    keep_compiler_files(reps["scanner"]["emitted"] or reps["scanner"]["build"], os.path.join(ex, "scanner"),
+    keep_compiler_files(reps["scanner"]["emitted"] or reps["scanner"]["build"], os.path.join(OUT, "refusals", "scanner"),
                         extra=[(lookalike, "<generated fixture: tests/fixtures.py hidden_payload_skill>")])
     # 3. a leaner apple-design without UI UX Pro Max loses an eval, so it is refused
     need_apple_design()
@@ -153,8 +153,8 @@ def refusals(scratch):
     work, out = os.path.join(scratch, "apple-design-lean.connect-anything"), os.path.join(scratch, "out", "apple-design-lean")
     reps["gate"] = build("connect", "apple-design", APPLE_SOURCES, work, out, decisions=dpath,
                          evals=[os.path.join(HERE, "apple-design", "evals.json")], own=["apple-pass"], job=APPLE_JOB)
-    os.makedirs(os.path.join(ex, "gate"), exist_ok=True)
-    with open(os.path.join(ex, "gate", "REFUSED.md"), "w", encoding="utf-8") as f:
+    os.makedirs(os.path.join(OUT, "refusals", "gate"), exist_ok=True)
+    with open(os.path.join(OUT, "refusals", "gate", "REFUSED.md"), "w", encoding="utf-8") as f:
         f.write(scrub(open(os.path.join(work, "REFUSED.md"), encoding="utf-8").read()))
     return reps
 
