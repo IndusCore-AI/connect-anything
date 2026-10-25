@@ -95,8 +95,55 @@ def cmd_build(args):
     return 0 if report.get("emitted") else EXIT_REFUSED
 
 
+def main_update(argv):
+    from . import update as up
+    ap = argparse.ArgumentParser(prog="update", description="connect-anything: update a skill you already use")
+    sub = ap.add_subparsers(dest="cmd")
+    p = sub.add_parser("plan", help="diff upstream, search the field for the gap, build a proposal; writes nothing to the skill")
+    p.add_argument("skill_dir")
+    p.add_argument("--gap", default="", help="what the skill is weak on, in plain words (e.g. 'app screens')")
+    p.add_argument("--candidates", nargs="*", default=[], help="specs to consider for the gap")
+    p.add_argument("--from-radar", help="also take gap candidates from a skill-radar report (path or 'latest')")
+    p.add_argument("--search", action="store_true", help="also search GitHub for skills that name the gap")
+    p.add_argument("--adopt", action="store_true", help="no lockfile: build one from the per-source READMEs")
+    p.add_argument("--ref", help="compare against this upstream ref instead of the default branch")
+    p.add_argument("--evals", action="append", default=[], help="eval sets that must not regress")
+    p.add_argument("--take", type=int, default=2, help="how many gap candidates to add at most")
+    p.add_argument("--work", help="working folder (default ./<skill>.update)")
+    p.add_argument("--plain-dashes", action="store_true")
+    a = sub.add_parser("apply", help="replace the installed skill with an approved proposal (backup kept)")
+    a.add_argument("--work", required=True)
+    a.add_argument("--approve", required=True, help="the id printed by update plan")
+    a.add_argument("--to", help="apply to another folder (for example the repo that distributes the skill)")
+    args = ap.parse_args(argv)
+    try:
+        if args.cmd == "plan":
+            name = os.path.basename(os.path.normpath(os.path.expanduser(args.skill_dir)))
+            work = os.path.abspath(os.path.expanduser(args.work or f"{name}.update"))
+            state, md = up.plan_update(args.skill_dir, work, gap=args.gap, candidates=args.candidates, from_radar=args.from_radar,
+                                       search=args.search, adopt_ok=args.adopt, ref=args.ref, evals=args.evals, take=args.take,
+                                       plain=args.plain_dashes)
+            print(md)
+            print(f"\nproposal: {state['proposal']}\nreport: {os.path.join(work, 'PROPOSAL.md')}")
+            if state["id"]:
+                print(f"nothing was written to {state['skill_dir']}. To apply after review: update apply --work {work} --approve {state['id']}")
+                return 0
+            return EXIT_REFUSED
+        if args.cmd == "apply":
+            target, backup = up.apply_update(os.path.abspath(os.path.expanduser(args.work)), args.approve, to=args.to)
+            print(f"applied to {target}; the previous version is in {backup}")
+            return 0
+        ap.print_help()
+        return 2
+    except EngineError as e:
+        print(f"update: {e}", file=sys.stderr)
+        return 2
+
+
 def main(mode, argv=None):
     argv = sys.argv[1:] if argv is None else argv
+    if mode == "update":
+        return main_update(argv)
     ap = argparse.ArgumentParser(prog=mode, description=f"connect-anything: {mode}")
     sub = ap.add_subparsers(dest="cmd")
     p_plan = sub.add_parser("plan", help="fetch, read, scan, check licences, and draft plan.json")

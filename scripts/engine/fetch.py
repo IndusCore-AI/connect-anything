@@ -50,7 +50,13 @@ def parse_spec(spec):
 
 
 def _gh_available():
-    return shutil.which("gh") is not None
+    return shutil.which("gh") is not None and not os.environ.get("CONNECT_ANYTHING_GIT_BASE")
+
+
+def remote_url(repo):
+    """https://github.com/<repo>.git, or a local mirror when CONNECT_ANYTHING_GIT_BASE is set (offline tests)."""
+    base = os.environ.get("CONNECT_ANYTHING_GIT_BASE")
+    return os.path.join(base, repo + ".git") if base else f"https://github.com/{repo}.git"
 
 
 def resolve_ref(repo, ref):
@@ -61,6 +67,11 @@ def resolve_ref(repo, ref):
         sha, _, date = out.strip().partition(" ")
         if re.fullmatch(r"[0-9a-f]{40}", sha):
             return sha, date[:10]
+    if os.environ.get("CONNECT_ANYTHING_GIT_BASE"):
+        url = remote_url(repo)
+        sha = run(["git", "-C", url, "rev-parse", f"{ref or 'HEAD'}^{{commit}}"], timeout=30).strip()
+        date = run(["git", "-C", url, "show", "-s", "--format=%cs", sha], timeout=30).strip()
+        return sha, date
     if ref and re.fullmatch(r"[0-9a-f]{40}", ref):
         return ref, ""
     out = run(["git", "ls-remote", f"https://github.com/{repo}.git", ref or "HEAD"], timeout=60)
@@ -72,7 +83,10 @@ def resolve_ref(repo, ref):
 
 def _git(args, cwd, timeout=300):
     cred = ["-c", "credential.helper=", "-c", "credential.helper=!gh auth git-credential"] if _gh_available() else []
-    return run(["git", *GIT_SAFE, *cred, *args], cwd=cwd, timeout=timeout)
+    safe = list(GIT_SAFE)
+    if os.environ.get("CONNECT_ANYTHING_GIT_BASE"):
+        safe[safe.index("protocol.file.allow=never")] = "protocol.file.allow=always"
+    return run(["git", *safe, *cred, *args], cwd=cwd, timeout=timeout)
 
 
 def fetch_commits(repo, shas, dest):
@@ -80,7 +94,7 @@ def fetch_commits(repo, shas, dest):
     os.makedirs(dest, exist_ok=True)
     if not os.path.isdir(os.path.join(dest, ".git")):
         _git(["init", "-q"], dest)
-        _git(["remote", "add", "origin", f"https://github.com/{repo}.git"], dest)
+        _git(["remote", "add", "origin", remote_url(repo)], dest)
     _git(["fetch", "-q", "--depth", "1", "--no-tags", "origin", *shas], dest, timeout=600)
 
 

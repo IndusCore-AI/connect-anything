@@ -17,7 +17,8 @@ from .util import content_words, estimate_tokens, folder_hash, sha256_bytes, rea
 
 DEFAULT_BUDGET = {"lines": 450, "tokens": 4500}
 CHECK_SCRIPT_RE = re.compile(r"(check|lint|validat|verify|audit|sloplint|test)[^/]*\.(m?js|py|sh|ts)$", re.I)
-TRIGGER_TITLE_RE = re.compile(r"^(when to (use|apply|trigger|invoke)|triggers?|usage triggers|overview|about|introduction)\b", re.I)
+TRIGGER_TITLE_RE = re.compile(r"^\W*(when to (use|apply|trigger|invoke)( this skill)?|triggers?|usage triggers|overview|about|introduction)\b", re.I)
+REPO_DOCS = re.compile(r"(^|/)(README|CHANGELOG|CONTRIBUTING|CODE_OF_CONDUCT|SECURITY|HISTORY|AUTHORS|ROADMAP)(\.[a-z]{2})?\.(md|markdown|txt)$", re.I)
 DROP_FILE_RULES = [
     (re.compile(r"(^|/)(tests?|__tests__|fixtures|spec)/|(^|/)test_[^/]+\.py$|_test\.[a-z]+$|\.test\.[a-z]+$|\.spec\.[a-z]+$"), "test code, not needed to use the skill"),
     (re.compile(r"(^|/)\.github/"), "repository CI, not part of the skill"),
@@ -52,15 +53,15 @@ class Scorer:
 
     def __init__(self, docs, job="", gap="", profile=None):
         self.docs = docs
-        self.tok = [content_words(d) for d in docs]
+        self.tok = [[stem(w) for w in content_words(d)] for d in docs]
         self.N = max(1, len(docs))
         self.avg = sum(len(t) for t in self.tok) / self.N if self.tok else 1
         df = Counter()
         for t in self.tok:
             df.update(set(t))
         self.idf = {w: math.log(1 + (self.N - n + 0.5) / (n + 0.5)) for w, n in df.items()}
-        self.job = content_words(job)
-        self.gap = content_words(gap)
+        self.job = [stem(w) for w in content_words(job)]
+        self.gap = [stem(w) for w in content_words(gap)]
         profile = profile or {}
         self.interests = _terms(profile.get("interests"))
         self.negatives = _terms(profile.get("negatives"))
@@ -421,7 +422,7 @@ def build_plan(mode, name, recs, assessments, scans, profile, job="", gap="", bu
         if by_alias[rec["alias"]]["mode"] != "flatten":
             continue
         for f in rec["files"]:
-            if f["kind"] == "markdown" and f["path"] != rec.get("main_file") and f.get("text") and f["size"] < 200_000:
+            if f["kind"] == "markdown" and f["path"] != rec.get("main_file") and f.get("text") and f["size"] < 200_000 and not REPO_DOCS.search(f["path"]):
                 cand.append((rec["alias"], f["path"], f["text"], rank.get(rec["alias"], 99)))
     dups = find_duplicates(cand)
     duplicates = []

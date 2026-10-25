@@ -28,7 +28,7 @@ ALLOWED_FIELDS = {"name", "description", "license", "allowed-tools", "metadata",
 MAX_LINES, MAX_TOKENS = 500, 5000
 COMPILER_FILES = re.compile(r"^(SKILL\.md|MERGE\.md|[^/]+/README\.md|" + re.escape(LOCK_NAME) + r"|evals/.*)$")
 PROMO_RULES = {"promo-instruction", "promo-line"}
-SELF_CREDIT = re.compile(r"induscore|github\.com/gaurpulkit|built (with|by) connect-anything|made (with|by) connect-anything|powered by connect-anything", re.I)
+SELF_CREDIT = re.compile(r"github\.com/(gaurpulkit|induscore)[^\s]*/connect-anything|(built|made|compiled|generated) (with|by) connect-anything|powered by connect-anything|connect-anything (by|from) induscore", re.I)
 
 
 def spec_problems(skill_dir):

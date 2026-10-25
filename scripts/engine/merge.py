@@ -26,6 +26,16 @@ def renamed_skill_file(alias):
     return f"{alias.upper()}.md"
 
 
+def vendored_name(alias, rel):
+    """Where a source file lands in its folder: SKILL.md is renamed so no loader sees a second skill, and a
+    README.md at the source's root is renamed so the compiler's README.md never overwrites it."""
+    if rel == "SKILL.md":
+        return renamed_skill_file(alias)
+    if rel in ("README.md", "LICENSE", "NOTICE"):
+        return "SOURCE-" + rel
+    return rel
+
+
 def _section_text(plan, src, sec, mods):
     key = f"{src['alias']}:{sec['id']}"
     text = sec["text"]
@@ -276,6 +286,8 @@ def source_readme(plan, src):
     if any(f["path"] == "SKILL.md" for f in kept):
         lines.append(f"- `{renamed}`: the original SKILL.md, unchanged, renamed so agents never load it as a second skill. "
                      "Its own file references still hold relative to this folder.")
+    if any(f["path"] == "README.md" for f in kept):
+        lines.append("- `SOURCE-README.md`: the source's own README, unchanged (this file is the compiler's).")
     for d, shown, n in _dir_summary([f["path"] for f in kept if f["path"] != "SKILL.md"], limit=14):
         lines.append(f"- `{d or '.'}/` ({n}): {shown}")
     inline = [s for s in src["sections"] if s["action"] == "inline"]
@@ -525,7 +537,7 @@ def write_folder(plan, out_dir):
                     write_text(os.path.join(dest, renamed_skill_file(src["alias"])),
                                "".join(x["text"] for x in src["sections"]))
                     continue
-                target_rel = renamed_skill_file(src["alias"]) if rel == "SKILL.md" else rel
+                target_rel = vendored_name(src["alias"], rel)
                 target = os.path.join(dest, target_rel)
                 os.makedirs(os.path.dirname(target), exist_ok=True)
                 shutil.copyfile(os.path.join(src["staging"], rel), target)
