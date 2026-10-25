@@ -1,0 +1,202 @@
+{
+  "version": 1,
+  "tool": {
+    "name": "connect-anything",
+    "version": "0.1.0",
+    "url": "https://github.com/gaurpulkit/connect-anything"
+  },
+  "skill": {
+    "name": "screen-kit",
+    "mode": "compile",
+    "computedHash": "9cf40d8c922ddb1d27808eb1f70ba026e43ecdf1973d07f7029534d7fc93ce52",
+    "job": "Design dashboards and app screens"
+  },
+  "skills": {
+    "dashboard": {
+      "source": "abdiraimov-otabek/dashboard-design-skill",
+      "sourceUrl": "https://github.com/abdiraimov-otabek/dashboard-design-skill",
+      "sourceType": "github",
+      "ref": "ba1fd0d6705a45c7937fd7026ca5cee77078cad4",
+      "skillPath": "skills/dashboard-design/SKILL.md",
+      "computedHash": "a02d9cc007f6d5a63421d3991941d299d838d013bf4c73959f4e8806baa62db8",
+      "use": "excluded",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 9,
+        "bytes": 48056
+      },
+      "scan": {
+        "block": 2,
+        "review": 5,
+        "info": 1,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "61156372cf189fc559836920932d72c36f56da6ca1b390766df4e16aea315b0b",
+        "references/case-study-datafast.md": "62c018b049f84099e1ca346d9b0b79abdc5a0e3646bbce9e2fd9a98c079d66f7",
+        "references/components.md": "a20d811260a2fe8874c6ddc95733c468349eada227166f263384bb32a3554920",
+        "references/layout.md": "6f0bf50f77d318a6440a7a043a784e2efafdbdb81f491d4a2b9de435870c5e0c",
+        "references/qa.md": "763b7a1ef0b1a83da4dc131bc0dffcb12ea73b54296f43c7d7247bb8aeaa1196",
+        "references/snippets.md": "34d9f582c77f0ecff107b68f0c63a389ac84dc6c8dadf27b48de528b345b8469",
+        "references/sources.md": "ebfaee2858000d8220ef5bdd6db0d4cf23bafa9fb67ab17c0076008c3d56d5b7",
+        "references/swiftui.md": "10553c080b921f0a61f379d01917dedd09dd85c5f2d2823b1d59bcf8490a96cf",
+        "references/tokens.md": "80e9f5c7122df3f25dc26d67640f63164a85778b399c8eb2f4167971c886b7d3"
+      },
+      "excluded": "scanner: tells the agent to add a promotional line at SKILL.md:72"
+    },
+    "ios-app-design": {
+      "source": "ahonn/dotfiles",
+      "sourceUrl": "https://github.com/ahonn/dotfiles",
+      "sourceType": "github",
+      "ref": "27f1e58fe5d4e4949fd0896f5936164e0112fe9d",
+      "skillPath": ".claude/skills/ios-app-design/SKILL.md",
+      "computedHash": "14290251144d00278375b3f6e926c932b029c6c5a2e0ff148cde2cb4149794d5",
+      "folder": "ios-app-design",
+      "use": "flatten",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 10,
+        "bytes": 32590
+      },
+      "scan": {
+        "block": 0,
+        "review": 0,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "24378ceb6a9a770a85169bd7abe37b33c243c95ef77a8a61872f84e724aa0877",
+        "references/accessibility.md": "0fef8af058567d7622f0f9e87e0f6fd2a5e91f4835c1cab2abac98bd30a5470b",
+        "references/color-and-theme.md": "a61018cdad5f5ae8b4c60398b170559ceb4cf9ee0ddc538e1d693c1921a3bced",
+        "references/haptics-and-feedback.md": "5cb14a6ae652021fea8908456ed10d4a25fdc1ccb7c6282d80f4c4e2b69fc536",
+        "references/icons-and-imagery.md": "c29cd07d6d170cff1d1b876f3b026f2d6982ff5f474504eec68b3bdd5cafb998",
+        "references/layout.md": "8206698393715348b4089014a8906324d645d0372789a88827e944dd658247d1",
+        "references/liquid-glass.md": "693f0e0edb2e264195a106a8621b6f04e5e7944115960141dfdd541915193c1a",
+        "references/motion.md": "c6c349053a9dc3e08617d619894427d4e7a400945f0a701cc1c9a827810d2c17",
+        "references/navigation.md": "425e9ad438c292af75a73790ca581a9f5a62442a10871160af04903af86ac272",
+        "references/typography.md": "e38fd96c49dfe8c91bfb763eb8c47310ac93867352b71b23025751212478d736"
+      },
+      "kept": [
+        "SKILL.md",
+        "references/accessibility.md",
+        "references/color-and-theme.md",
+        "references/haptics-and-feedback.md",
+        "references/icons-and-imagery.md",
+        "references/layout.md",
+        "references/liquid-glass.md",
+        "references/motion.md",
+        "references/navigation.md",
+        "references/typography.md"
+      ],
+      "sections": [
+        {
+          "id": "ios-app-design",
+          "file": "SKILL.md",
+          "lines": [
+            7,
+            10
+          ],
+          "hash": "85dfd5b9f0801737",
+          "use": "inline",
+          "modified": true
+        },
+        {
+          "id": "ios-app-design-design-criteria",
+          "file": "SKILL.md",
+          "lines": [
+            11,
+            19
+          ],
+          "hash": "48ee8314d741fb00",
+          "use": "inline"
+        },
+        {
+          "id": "ios-app-design-read-by-decision",
+          "file": "SKILL.md",
+          "lines": [
+            20,
+            35
+          ],
+          "hash": "34b4a58711d9e9bc",
+          "use": "inline",
+          "modified": true
+        },
+        {
+          "id": "ios-app-design-completion",
+          "file": "SKILL.md",
+          "lines": [
+            36,
+            40
+          ],
+          "hash": "99b20f29a21ab7b8",
+          "use": "reference"
+        }
+      ]
+    },
+    "lookalike": {
+      "source": "<generated fixture: tests/fixtures.py hidden_payload_skill>",
+      "sourceType": "local",
+      "ref": "5cc7f0a96e8296e62966164916059619a6d4fc4a30ed4bb2940202ddd026272b",
+      "skillPath": "SKILL.md",
+      "computedHash": "5cc7f0a96e8296e62966164916059619a6d4fc4a30ed4bb2940202ddd026272b",
+      "use": "excluded",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 3,
+        "bytes": 946
+      },
+      "scan": {
+        "block": 1,
+        "review": 0,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "LICENSE": "fd02437f68da32ff0941a4958436cab67b0f2f312abcea2b9a6fdb9dc1db3375",
+        "SKILL.md": "c171e2f7b29b0f61cdc51afa5fe98755b6355427a3ff676698ee16fbca94f1c7",
+        "setup-installation.md": "633975dce2e44dea7d4b23dcc538c720418458e578ad3d2e6a5ca64660f6ada8"
+      },
+      "excluded": "scanner: downloads a script and runs it at setup-installation.md:6"
+    }
+  },
+  "eval": {
+    "verdict": "pass",
+    "tiers": [
+      "static"
+    ],
+    "originals": {
+      "static": {
+        "coverage": 1.0,
+        "in_context": 1.0,
+        "context_tokens": 730,
+        "skills_loaded": 1,
+        "listing_chars": 124
+      },
+      "live": null
+    },
+    "compiled": {
+      "static": {
+        "coverage": 1.0,
+        "in_context": 1.0,
+        "context_tokens": 978,
+        "skills_loaded": 1,
+        "listing_chars": 91
+      },
+      "live": null
+    },
+    "eval_set_hash": "87e5bf90d9ea475a",
+    "tolerance": 0.05
+  }
+}

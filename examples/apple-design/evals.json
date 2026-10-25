@@ -12,10 +12,21 @@
         "Says an interrupted animation must start from the current on-screen position, not the target",
         "Gives a reduced-motion fallback"
       ],
-      "needs": ["Enter and exit along the same path", "animate from the presentation (current) value", "prefers-reduced-motion: reduce", "rubberband"],
+      "needs": [
+        "Enter and exit along the same path",
+        "animate from the presentation (current) value",
+        "prefers-reduced-motion: reduce",
+        "rubberband"
+      ],
       "output_checks": [
-        {"text": "mentions the same path or direction for enter and exit", "regex": "same (path|direction|way)|exit[^.]{0,60}(the way|where) it (came|entered)"},
-        {"text": "mentions reduced motion", "regex": "reduced.?motion"}
+        {
+          "text": "mentions the same path or direction for enter and exit",
+          "regex": "same (path|direction|way)|exit[^.]{0,60}(the way|where) it (came|entered)"
+        },
+        {
+          "text": "mentions reduced motion",
+          "regex": "reduced.?motion"
+        }
       ]
     },
     {
@@ -29,10 +40,21 @@
         "Does not invent testimonials, ratings or student counts",
         "Uses overflow-x: clip rather than overflow hidden on the page"
       ],
-      "needs": ["theme.mjs deal", "Never an invented metric", "minmax(0, 1fr)", "overflow-x: clip"],
+      "needs": [
+        "theme.mjs deal",
+        "Never an invented metric",
+        "minmax(0, 1fr)",
+        "overflow-x: clip"
+      ],
       "output_checks": [
-        {"text": "no invented star rating or student count", "not_regex": "(\\d+\\+? (happy )?students|\\d(\\.\\d)? ?stars|\\d{2,}% of)"},
-        {"text": "uses overflow-x: clip", "regex": "overflow-x:\\s*clip"}
+        {
+          "text": "no invented star rating or student count",
+          "not_regex": "(\\d+\\+? (happy )?students|\\d(\\.\\d)? ?stars|\\d{2,}% of)"
+        },
+        {
+          "text": "uses overflow-x: clip",
+          "regex": "overflow-x:\\s*clip"
+        }
       ]
     },
     {
@@ -46,10 +68,19 @@
         "Says press feedback should appear on pointer-down, not on release",
         "Uses or names the UX rules search for the concern"
       ],
-      "needs": [":focus-visible", "--domain ux", "highlight on touch-*down*"],
+      "needs": [
+        ":focus-visible",
+        "highlight on touch-*down*"
+      ],
       "output_checks": [
-        {"text": "mentions focus-visible", "regex": "focus-visible"},
-        {"text": "mentions pointer-down or press feedback", "regex": "pointer.?down|touch.?down|on press|:active"}
+        {
+          "text": "mentions focus-visible",
+          "regex": "focus-visible"
+        },
+        {
+          "text": "mentions pointer-down or press feedback",
+          "regex": "pointer.?down|touch.?down|on press|:active"
+        }
       ]
     },
     {
@@ -62,10 +93,19 @@
         "Recommends faces available on Google Fonts that cover Bengali script",
         "Says tracking depends on size: tighter for large headings, near zero for body"
       ],
-      "needs": ["google-fonts", "Tracking (letter-spacing) is size-specific"],
+      "needs": [
+        "--domain google-fonts",
+        "Tracking (letter-spacing) is size-specific"
+      ],
       "output_checks": [
-        {"text": "names Google Fonts", "regex": "google fonts"},
-        {"text": "size-specific tracking", "regex": "(negative|tighter|-0\\.0\\d)[^.]{0,80}(head|display|large)|(head|display|large)[^.]{0,80}(negative|tighter|-0\\.0\\d)"}
+        {
+          "text": "names Google Fonts",
+          "regex": "google fonts"
+        },
+        {
+          "text": "size-specific tracking",
+          "regex": "(negative|tighter|-0\\.0\\d)[^.]{0,80}(head|display|large)|(head|display|large)[^.]{0,80}(negative|tighter|-0\\.0\\d)"
+        }
       ]
     },
     {
@@ -79,10 +119,19 @@
         "Gives touch targets of at least 44px",
         "Uses or names stack-specific guidance for Next.js"
       ],
-      "needs": ["--stack", "44px hit target", "pro-rules"],
+      "needs": [
+        "touch-target-size",
+        "44px hit target"
+      ],
       "output_checks": [
-        {"text": "44px targets", "regex": "44 ?(px|pt)"},
-        {"text": "inherits existing tokens", "regex": "(existing|inherit|the app's|your) (design )?(tokens|components|system)"}
+        {
+          "text": "44px targets",
+          "regex": "44 ?(px|pt)"
+        },
+        {
+          "text": "inherits existing tokens",
+          "regex": "(existing|inherit|the app's|your) (design )?(tokens|components|system)"
+        }
       ]
     },
     {
@@ -95,10 +144,19 @@
         "Removes transition: all",
         "Animates only transform and opacity (or an equivalent that avoids animating height)"
       ],
-      "needs": ["Never `transition: all`", "Animate only compositor-friendly properties"],
+      "needs": [
+        "Never `transition: all`",
+        "Animate only compositor-friendly properties"
+      ],
       "output_checks": [
-        {"text": "addresses transition: all", "regex": "transition: ?all"},
-        {"text": "transform and opacity", "regex": "transform[^.]{0,40}opacity|opacity[^.]{0,40}transform"}
+        {
+          "text": "addresses transition: all",
+          "regex": "transition: ?all"
+        },
+        {
+          "text": "transform and opacity",
+          "regex": "transform[^.]{0,40}opacity|opacity[^.]{0,40}transform"
+        }
       ]
     }
   ]

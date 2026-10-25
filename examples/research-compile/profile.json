@@ -1,0 +1,78 @@
+{
+  "_comment": "skill-radar 兴趣画像（teamctx 分发的默认版是 IndusCore 团队画像；每台电脑可自行改）。interests: 关键词 -> 权重（命中加分）；negatives: 命中减分。小写；英文按整词匹配，结尾带 * 表示前缀匹配（test* 命中 tests/testing），中文按子串。改完直接生效。",
+  "window_days": 14,
+  "min_stars_trending": 40,
+  "pick_threshold": 3,
+  "watch_lists": [
+    "ComposioHQ/awesome-claude-skills",
+    "hesreallyhim/awesome-claude-code",
+    "BehiSecc/awesome-claude-skills",
+    "Chat2AnyLLM/awesome-claude-skills",
+    "anthropics/skills"
+  ],
+  "search_queries": [
+    "claude code skill",
+    "claude skill",
+    "claude skills",
+    "agent skill",
+    "agent skills",
+    "claude code plugin"
+  ],
+  "search_topics": [
+    "claude-skills",
+    "claude-skill",
+    "claude-code-skills",
+    "agent-skills",
+    "claude-code-plugin"
+  ],
+  "code_search_keywords": [
+    "claude code",
+    "erp OR manufacturing OR garment",
+    "next.js OR fastapi OR postgres"
+  ],
+  "exa_queries": [
+    "new Claude Code skill github this week",
+    "Claude Code skills for Next.js FastAPI Postgres developers"
+  ],
+  "interests": {
+    "claude code": 3, "claude-code": 3, "coding agent*": 2, "agent skill*": 2, "skill*": 1, "plugin*": 1,
+    "hook*": 2, "mcp": 2, "subagent*": 3, "sub-agent*": 3, "orchestrat*": 3, "multi-agent": 2, "workflow*": 1,
+    "memory": 2, "context": 1, "prompt cach*": 3, "token*": 1, "cost*": 1,
+    "code review": 3, "review*": 1, "refactor*": 1, "test*": 1, "eval*": 2, "benchmark*": 2, "playwright": 3, "e2e": 2, "qa": 2,
+    "next.js": 3, "nextjs": 3, "react": 2, "tailwind": 2, "typescript": 2, "vercel": 2,
+    "fastapi": 3, "python": 1, "postgres*": 3, "sql": 2, "alembic": 3, "sqlalchemy": 2,
+    "design system*": 3, "ui": 1, "ux": 2, "dashboard*": 3, "apple": 2, "hig": 2, "motion": 2, "animat*": 2, "typograph*": 2, "frontend design": 3, "web design": 2, "landing page*": 2,
+    "i18n": 3, "localiz*": 3, "translat*": 2, "chinese": 2, "中文": 2, "bengali": 3, "multilingual": 2,
+    "email*": 3, "imap": 3, "outlook": 3, "gmail": 2, "inbox": 2,
+    "wecom": 3, "企业微信": 3, "wechat": 3, "微信": 3, "小红书": 2, "xiaohongshu": 2, "xhs": 2,
+    "erp": 3, "manufactur*": 3, "factory": 3, "garment*": 3, "apparel": 3, "textile*": 3, "supply chain": 3, "procurement": 3, "sourcing": 3,
+    "rfq": 3, "quotation*": 3, "quote*": 2, "costing": 3, "pricing": 2, "bom": 2, "purchase order*": 3, "sales order*": 3, "invoice*": 2, "b2b": 2,
+    "excel": 2, "xlsx": 2, "spreadsheet*": 2, "ppt": 2, "pptx": 2, "slides": 2, "deck*": 2, "docx": 1, "pdf": 2, "ocr": 2,
+    "scrap*": 2, "browser automation": 3, "crawler*": 1,
+    "reverse engineer*": 3, "reverse-engineer*": 3, "rea": 3, "decompil*": 2,
+    "seo": 3, "llms.txt": 3, "sitemap*": 2,
+    "shopify": 3, "amazon": 3, "e-commerce": 3, "ecommerce": 3, "dtc": 3, "独立站": 3, "storefront*": 2, "product page*": 2,
+    "writing": 2, "copywriting": 2, "slop": 3, "plain english": 2,
+    "chart*": 2, "data viz": 3, "visualiz*": 2, "kpi*": 3, "analytics": 2,
+    "deploy*": 2, "ci/cd": 2, "cron": 2, "schedul*": 2, "notification*": 2, "telegram": 2, "alert*": 2,
+    "security audit*": 3, "security": 1, "secret*": 2,
+    "pull request*": 2, "pr review": 3,
+    "pitch deck*": 2, "investor*": 2, "startup*": 1, "yc": 2, "founder*": 1,
+    "crm": 2, "b2b sales": 2, "outreach": 2,
+    "fx": 2, "exchange rate*": 2, "accounting": 2,
+    "transcri*": 2, "meeting notes": 2
+  },
+  "negatives": {
+    "trading": -4, "trader*": -4, "day trading": -4, "stock*": -2, "crypto*": -4, "solana": -5, "web3": -5, "nft*": -5, "defi": -5, "bitcoin": -4,
+    "nsfw": -10, "porn*": -10, "jailbreak*": -10, "bypass": -6,
+    "roblox": -5, "minecraft": -5, "game*": -2, "gaming": -3, "nintendo": -5, "diablo": -5, "godot": -4, "unity": -3,
+    "rap": -4, "music video*": -3, "lyric*": -4, "suno": -4, "anime": -3, "短剧": -4, "漫剧": -4,
+    "real estate": -4, "property": -2, "dubai": -3,
+    "resume*": -2, "job search": -3, "job hunting": -3,
+    "legal": -2, "law": -1, "tax*": -1,
+    "blender": -3, "3d": -1, "vfx": -3, "biology": -2, "chemistry": -2, "physics": -2,
+    "kaggle": -2, "robotic*": -3, "ros": -3, "arduino": -2,
+    "mcdonald*": -3, "麦当劳": -3, "recipe*": -2, "fitness": -3, "diet": -3,
+    "religion": -4, "gratitude": -3, "astrolog*": -5, "tarot": -5
+  }
+}

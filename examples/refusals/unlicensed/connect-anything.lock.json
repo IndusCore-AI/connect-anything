@@ -1,0 +1,428 @@
+{
+  "version": 1,
+  "tool": {
+    "name": "connect-anything",
+    "version": "0.1.0",
+    "url": "https://github.com/gaurpulkit/connect-anything"
+  },
+  "skill": {
+    "name": "mobile-screens",
+    "mode": "connect",
+    "computedHash": "9db758cdb523273fb5eca2a223d97e1f7eea83fa4c4cb6c79314074011a8a28b",
+    "job": "Design mobile app screens"
+  },
+  "skills": {
+    "mobile-app-design": {
+      "source": "awesome-skills/mobile-app-design",
+      "sourceUrl": "https://github.com/awesome-skills/mobile-app-design",
+      "sourceType": "github",
+      "ref": "83e4721da7d19f0094d5e2af155d77dc2d63889c",
+      "skillPath": "SKILL.md",
+      "computedHash": "1f5bbf9b7f8b8ad8879de190cfb0e060d4a54bfd973b12e6cc2cfafdc8e650f1",
+      "folder": "mobile-app-design",
+      "use": "reference",
+      "licence": {
+        "spdx": "NOASSERTION",
+        "verdict": "reference",
+        "file": null
+      },
+      "read": {
+        "files": 16,
+        "bytes": 184772
+      },
+      "scan": {
+        "block": 0,
+        "review": 0,
+        "info": 15,
+        "allowed": 0
+      },
+      "files": {
+        "README.md": "302b2f82dcc876a6372244384c62c01e38bf25f0f4fbed15c257aea605968912",
+        "SKILL.md": "e0a5bbb293af991b672deabbfce33081e60f337389e8b6999978c18b57110c09",
+        "examples/design-system-config.ts": "eb7e6fc212ea008f411406d651e9234567090eaf8054d62ba1598d10dcca8320",
+        "examples/form-validation-example.tsx": "746e458988bfdee830f608daa4d78f46ebb9b34a8e61001fc40a014029ab7ae5",
+        "examples/optimized-list-example.tsx": "5b46be322eb294a4fbc48351938149712f6e0426cb9e40b1c75552a77887d581",
+        "examples/profile-screen-example.tsx": "59b4d6d1d18f15ac22ea28299a2c9f8f880ad1e70733582bb8c6d6e63e53b77d",
+        "references/accessibility-checklist.md": "19569b21477fa01bad341a5a1e1b3624cc4f3c66a46e90089be22e81be45e3f3",
+        "references/android-guidelines.md": "d3133c046aa990dcfba135204db4dc21a3b17f10ad4639bd99d257662744a8a4",
+        "references/common-mistakes.md": "0c0a579c06e468b3ab88c34b0d013a162480c3600297d2c9d3227f94dde49097",
+        "references/ios-guidelines.md": "e293fa9426298480db26dd35a1e603d10cddb547169ef1756db9c05313b01288",
+        "references/performance-patterns.md": "8e4e1fd180c4fd0a32f88cc5b8392067c043e23895603b26be2933a247415bdf",
+        "references/platform-differences.md": "ad3b77fbf1f9ff4f1a68c70c3fd4e80c64d81a0abd8ec2e34eff04a7ef5dc16e",
+        "references/ui-libraries.md": "d7f62925cae35d944016e9ce8b39f853892a294f7071a4043918ed0ce9afe1df",
+        "scripts/accessibility-audit.sh": "7e86c11475660f06cdfa28ef3a497507349058f83e87c461ca9f3f88e6ca7d32",
+        "scripts/check-contrast.py": "da59a26366e2d7b95164dc4a47ad7d1bc6f7b9d90ff2b1e1466cd8bc99732cdf",
+        "scripts/validate-touch-targets.sh": "f6257a80ada1ec3930729d6ed810e6ba45f89afce27b9d4db1114fba909fd6c9"
+      },
+      "sections": [
+        {
+          "id": "mobile-app-design-standards",
+          "file": "SKILL.md",
+          "lines": [
+            7,
+            10
+          ],
+          "hash": "b9b93e2121ffe64a",
+          "use": "reference"
+        },
+        {
+          "id": "mobile-app-design-standards-purpose",
+          "file": "SKILL.md",
+          "lines": [
+            11,
+            14
+          ],
+          "hash": "8657d40698568713",
+          "use": "reference"
+        },
+        {
+          "id": "mobile-app-design-standards-when-to-use-this-skill",
+          "file": "SKILL.md",
+          "lines": [
+            15,
+            25
+          ],
+          "hash": "ce2bb7bfe3897c61",
+          "use": "reference"
+        },
+        {
+          "id": "mobile-app-design-standards-core-design-principles",
+          "file": "SKILL.md",
+          "lines": [
+            26,
+            91
+          ],
+          "hash": "dc7b004446e856ae",
+          "use": "reference"
+        },
+        {
+          "id": "mobile-app-design-standards-component-architecture",
+          "file": "SKILL.md",
+          "lines": [
+            92,
+            130
+          ],
+          "hash": "2e83dbbb8dce145d",
+          "use": "reference"
+        },
+        {
+          "id": "mobile-app-design-standards-accessibility-a11y",
+          "file": "SKILL.md",
+          "lines": [
+            131,
+            159
+          ],
+          "hash": "904a3e734e73bf5d",
+          "use": "reference"
+        },
+        {
+          "id": "mobile-app-design-standards-performance-optimization",
+          "file": "SKILL.md",
+          "lines": [
+            160,
+            189
+          ],
+          "hash": "fdd9a674b32afecf",
+          "use": "reference"
+        },
+        {
+          "id": "mobile-app-design-standards-design-system-essentials",
+          "file": "SKILL.md",
+          "lines": [
+            190,
+            217
+          ],
+          "hash": "fc34157596440d55",
+          "use": "reference"
+        },
+        {
+          "id": "mobile-app-design-standards-2026-design-trends-optional-enhancement",
+          "file": "SKILL.md",
+          "lines": [
+            218,
+            246
+          ],
+          "hash": "bb57def4d8b8ad87",
+          "use": "reference"
+        },
+        {
+          "id": "mobile-app-design-standards-workflow-integration",
+          "file": "SKILL.md",
+          "lines": [
+            247,
+            275
+          ],
+          "hash": "0e98e7f499e8515e",
+          "use": "reference"
+        },
+        {
+          "id": "mobile-app-design-standards-additional-resources",
+          "file": "SKILL.md",
+          "lines": [
+            276,
+            307
+          ],
+          "hash": "791a71bbcaffce71",
+          "use": "reference"
+        },
+        {
+          "id": "mobile-app-design-standards-quick-reference",
+          "file": "SKILL.md",
+          "lines": [
+            308,
+            330
+          ],
+          "hash": "7f83ce245dfc0d57",
+          "use": "reference"
+        }
+      ]
+    },
+    "pixel-perfect": {
+      "source": "UMDhodi/pixel-perfect-mobile",
+      "sourceUrl": "https://github.com/UMDhodi/pixel-perfect-mobile",
+      "sourceType": "github",
+      "ref": "ee3ceee7ebbba1e98002e90d84fdc095e72620d2",
+      "skillPath": "SKILL.md",
+      "computedHash": "b94ff9989552f03fbd614a732354d7e9a76da4572119e625c3e949b14f426cd9",
+      "folder": "pixel-perfect",
+      "use": "reference",
+      "licence": {
+        "spdx": "NOASSERTION",
+        "verdict": "reference",
+        "file": null
+      },
+      "read": {
+        "files": 5,
+        "bytes": 26515
+      },
+      "scan": {
+        "block": 0,
+        "review": 0,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "README.md": "1a0ea638335c98bfaf5d3451b8462473fb9145ebbda0b5791405e5873d9184b1",
+        "SKILL.md": "68e4a7ad168df78e40dddc03c19bbd99d124dec2bfbb99a51f20ffd067379263",
+        "references/colors.md": "a6b99397d8d0a903b09362bc3efeff18390741bbf162476f35ccaf43cf6b5dad",
+        "references/components.md": "5fda6a4d429075e5942226e180a52200e1998982a5ee33f7a3d0b9f29e2e52e8",
+        "references/typography.md": "ba56d7be86fa4ff4fe9db02dc731460ce67075af84f5ede8d0159c48e5e8363d"
+      },
+      "sections": [
+        {
+          "id": "pixel-perfect-mobile-ui-skill",
+          "file": "SKILL.md",
+          "lines": [
+            13,
+            19
+          ],
+          "hash": "9680a4a4122dd7a0",
+          "use": "reference"
+        },
+        {
+          "id": "pixel-perfect-mobile-ui-skill-core-philosophy",
+          "file": "SKILL.md",
+          "lines": [
+            20,
+            34
+          ],
+          "hash": "ce59350035093e4c",
+          "use": "reference"
+        },
+        {
+          "id": "pixel-perfect-mobile-ui-skill-typography-system",
+          "file": "SKILL.md",
+          "lines": [
+            35,
+            57
+          ],
+          "hash": "b7fd56970d94c09b",
+          "use": "reference"
+        },
+        {
+          "id": "pixel-perfect-mobile-ui-skill-color-system",
+          "file": "SKILL.md",
+          "lines": [
+            58,
+            78
+          ],
+          "hash": "12426cd13d39c065",
+          "use": "reference"
+        },
+        {
+          "id": "pixel-perfect-mobile-ui-skill-spacing-layout",
+          "file": "SKILL.md",
+          "lines": [
+            79,
+            99
+          ],
+          "hash": "870ef208882c9e12",
+          "use": "reference"
+        },
+        {
+          "id": "pixel-perfect-mobile-ui-skill-component-library",
+          "file": "SKILL.md",
+          "lines": [
+            100,
+            112
+          ],
+          "hash": "fe11dabadfa5ca42",
+          "use": "reference"
+        },
+        {
+          "id": "pixel-perfect-mobile-ui-skill-platform-output-formats",
+          "file": "SKILL.md",
+          "lines": [
+            113,
+            129
+          ],
+          "hash": "8bdbc0e14a74ced1",
+          "use": "reference"
+        },
+        {
+          "id": "pixel-perfect-mobile-ui-skill-code-token-templates",
+          "file": "SKILL.md",
+          "lines": [
+            130,
+            203
+          ],
+          "hash": "e1bb538f907ef12f",
+          "use": "reference"
+        },
+        {
+          "id": "pixel-perfect-mobile-ui-skill-good-vs-bad-patterns",
+          "file": "SKILL.md",
+          "lines": [
+            204,
+            223
+          ],
+          "hash": "054a092fa1152960",
+          "use": "reference"
+        },
+        {
+          "id": "pixel-perfect-mobile-ui-skill-how-to-use-this-skill",
+          "file": "SKILL.md",
+          "lines": [
+            224,
+            231
+          ],
+          "hash": "dd1197fc28a14942",
+          "use": "reference"
+        }
+      ]
+    },
+    "podo": {
+      "source": "podo/design-agent-skills",
+      "sourceUrl": "https://github.com/podo/design-agent-skills",
+      "sourceType": "github",
+      "ref": "8eeb2a75abee71a8453eff263827c9797c1d51c1",
+      "skillPath": "skills/mobile-app-ui-design/SKILL.md",
+      "computedHash": "195eca55e098bcb209f350f5a485dfc9b0e0bdee8cc13b749b255a924309263d",
+      "folder": "podo",
+      "use": "flatten",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 2,
+        "bytes": 2955
+      },
+      "scan": {
+        "block": 0,
+        "review": 0,
+        "info": 2,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "106628a8ac48e4495673cd3ac3e1401fefdaf488ceb1c6f4fb99b8079fd2c0ed",
+        "stub.yaml": "2f8e12f93fc726a1cb629059367f12fcfae9bbaa1de4df124f6a485880f58e17"
+      },
+      "kept": [
+        "SKILL.md",
+        "stub.yaml"
+      ],
+      "sections": [
+        {
+          "id": "mobile-app-ui-design",
+          "file": "SKILL.md",
+          "lines": [
+            22,
+            26
+          ],
+          "hash": "ef8c2d1410951495",
+          "use": "reference"
+        },
+        {
+          "id": "mobile-app-ui-design-decision-tree",
+          "file": "SKILL.md",
+          "lines": [
+            27,
+            56
+          ],
+          "hash": "3268415cf8d18dc6",
+          "use": "reference"
+        },
+        {
+          "id": "mobile-app-ui-design-invoke-after-install",
+          "file": "SKILL.md",
+          "lines": [
+            57,
+            61
+          ],
+          "hash": "8d1a60f077aa7ae9",
+          "use": "inline"
+        },
+        {
+          "id": "mobile-app-ui-design-what-it-does",
+          "file": "SKILL.md",
+          "lines": [
+            62,
+            65
+          ],
+          "hash": "db0c261527586b59",
+          "use": "inline"
+        },
+        {
+          "id": "mobile-app-ui-design-when-not-to-use",
+          "file": "SKILL.md",
+          "lines": [
+            66,
+            70
+          ],
+          "hash": "8bf05bbe2a7d5d97",
+          "use": "reference"
+        }
+      ]
+    }
+  },
+  "eval": {
+    "verdict": "pass",
+    "tiers": [
+      "static"
+    ],
+    "originals": {
+      "static": {
+        "coverage": 1.0,
+        "in_context": 1.0,
+        "context_tokens": 5192,
+        "skills_loaded": 3,
+        "listing_chars": 1121
+      },
+      "live": null
+    },
+    "compiled": {
+      "static": {
+        "coverage": 1.0,
+        "in_context": 0.25,
+        "context_tokens": 821,
+        "skills_loaded": 1,
+        "listing_chars": 140
+      },
+      "live": null
+    },
+    "eval_set_hash": "b011b7a45587e05d",
+    "tolerance": 0.05
+  }
+}

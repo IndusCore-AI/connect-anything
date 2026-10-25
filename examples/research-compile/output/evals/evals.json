@@ -1,0 +1,106 @@
+{
+  "skill_name": "research-brief",
+  "evals": [
+    {
+      "id": 1,
+      "name": "company-brief",
+      "prompt": "Research Northwind Fabrics (northwindfabrics.example), a mid-size textile supplier, and write me a one-page brief for an investor call tomorrow: what they sell, who buys it, how big they are, what they are doing now.",
+      "expected_output": "A brief whose claims are each tagged observed, inferred or unknown, with a source per claim and open questions listed.",
+      "files": [],
+      "expectations": [
+        "Tags each claim as observed, inferred or unknown",
+        "Gives a source for every number",
+        "Lists the questions it could not answer and what would settle them"
+      ],
+      "needs": [
+        "Never write an inferred item as if it were observed",
+        "A provider that returns nothing has missed",
+        "Open questions"
+      ],
+      "output_checks": [
+        {
+          "text": "uses the three tags",
+          "regex": "observed[\\s\\S]{0,4000}inferred|inferred[\\s\\S]{0,4000}observed"
+        },
+        {
+          "text": "has an open questions part",
+          "regex": "open questions|still unknown|not yet known"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "fact-check-one-pager",
+      "prompt": "Here is our sales one-pager claim list: 'Founded 2011. 400 customers in 30 countries. Cuts sampling time by 60%. Used by three of the top five denim brands.' Which of these can we keep, and how would you check them?",
+      "expected_output": "Each claim tagged by its basis, ranked by damage if wrong, with how to settle it; nothing confirmed without a source.",
+      "files": [],
+      "expectations": [
+        "Tags each claim by what stands behind it (sourced, recalled, assumed or similar)",
+        "Ranks the claims by the damage a wrong one would do",
+        "Does not confirm any claim without a source"
+      ],
+      "needs": [
+        "Rank by damage if wrong",
+        "A miss means \"not confirmed\", not \"false\""
+      ],
+      "output_checks": [
+        {
+          "text": "ranks by damage or risk",
+          "regex": "damage|risk|most (harmful|dangerous)|if wrong"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "plain-market-summary",
+      "prompt": "Rewrite this market summary so it reads like a person wrote it: 'The textile ERP space is undergoing a pivotal transformation. Experts agree that robust, seamless solutions are reshaping the landscape.'",
+      "expected_output": "Plain claims: no vague authority, no adjective without a specific, no inflated significance; no invented numbers.",
+      "files": [],
+      "expectations": [
+        "Removes 'experts agree' or names who",
+        "Drops 'robust', 'seamless' and 'pivotal' unless a specific is attached",
+        "Does not invent a number to replace them"
+      ],
+      "needs": [
+        "Vague authority",
+        "An adjective with no specific behind it",
+        "Never supply a number the source lacks"
+      ],
+      "output_checks": [
+        {
+          "text": "no 'experts agree'",
+          "not_regex": "experts agree"
+        },
+        {
+          "text": "no 'seamless'",
+          "not_regex": "seamless"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "send-check",
+      "prompt": "My competitor brief on Contoso Mills is done. What should I check before I send it to the board?",
+      "expected_output": "A reader test: every claim's source findable from the brief alone, inferences marked, open questions left open.",
+      "files": [],
+      "expectations": [
+        "Checks that each claim's source can be found from the brief alone",
+        "Checks that inferences are marked as inferences"
+      ],
+      "needs": [
+        "Mark an inference as an inference",
+        "do not invent it or pad the report with prose"
+      ],
+      "output_checks": [
+        {
+          "text": "mentions sources for claims",
+          "regex": "source"
+        },
+        {
+          "text": "mentions inference",
+          "regex": "inferr|inference"
+        }
+      ]
+    }
+  ]
+}

@@ -421,8 +421,10 @@ def build_plan(mode, name, recs, assessments, scans, profile, job="", gap="", bu
         lic = assessments[alias]
         findings, summary = scans[alias]
         blocked = [f for f in findings if f["severity"] == "block" and not f.get("allowed")]
+        excluded_by = None
         if blocked:
             mode_s, why = "excluded", f"scanner: {blocked[0]['label']} at {blocked[0]['file']}:{blocked[0]['line']}"
+            excluded_by = "scanner"
         elif lic["verdict"] in ("flatten", "own"):
             mode_s, why = "flatten", None
         else:
@@ -451,7 +453,7 @@ def build_plan(mode, name, recs, assessments, scans, profile, job="", gap="", bu
             "staging": rec["skill_root"], "repo_root": rec["root"], "section_selector": rec.get("section"),
             "computedHash": folder_hash(rec["skill_root"], exclude={".connect-anything-fetch.json"}),
             "licence": {k: v for k, v in lic.items() if k != "file_text"},
-            "mode": mode_s, "excluded_reason": why,
+            "mode": mode_s, "excluded_reason": why, "excluded_by": excluded_by,
             "scan": {"summary": summary, "findings": [f for f in findings if f["severity"] != "info"],
                      "info": dict(Counter(f["rule"] for f in findings if f["severity"] == "info")),
                      "network_files": sorted({f["file"] for f in findings if f["rule"] == "network"})},

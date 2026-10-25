@@ -1,0 +1,19 @@
+{
+  "skill_name": "screen-kit",
+  "evals": [
+    {
+      "id": 1,
+      "name": "probe-ios-app-design-ios-app-design-design-criteria",
+      "prompt": "Using the skill, apply its guidance on \"Design Criteria\" to the job: Design dashboards and app screens",
+      "expected_output": "Follows \"Design Criteria\" from ios-app-design.",
+      "files": [],
+      "expectations": [
+        "Applies the guidance in \"Design Criteria\""
+      ],
+      "needs": [
+        "Treat Liquid Glass adoption as a compatibility",
+        "Apply SwiftUI, UIKit, and React Native examples"
+      ]
+    }
+  ]
+}

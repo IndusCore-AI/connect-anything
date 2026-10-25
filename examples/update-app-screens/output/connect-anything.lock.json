@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "skill": {
+    "name": "apple-design",
+    "mode": "adopted",
+    "computedHash": "cac3384fa36939d97fb083fd0721da67a727b365ab7ac8516d822dba1dc7b98c"
+  },
+  "skills": {
+    "hallmark": {
+      "source": "Nutlope/hallmark",
+      "sourceUrl": "https://github.com/Nutlope/hallmark",
+      "sourceType": "github",
+      "ref": "7ec868225c6caa040558c321ee0fefa0e73f83a8",
+      "skillPath": "skills/hallmark/SKILL.md",
+      "folder": "hallmark",
+      "use": "flatten",
+      "renamedSkillFile": "HALLMARK.md",
+      "date": "2026-10-22",
+      "adopted": true
+    },
+    "ios-app-design": {
+      "source": "ahonn/dotfiles",
+      "sourceUrl": "https://github.com/ahonn/dotfiles",
+      "sourceType": "github",
+      "ref": "27f1e58fe5d4e4949fd0896f5936164e0112fe9d",
+      "skillPath": ".claude/skills/ios-app-design/SKILL.md",
+      "folder": "ios-app-design",
+      "use": "flatten",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten"
+      },
+      "files": {
+        "SKILL.md": "24378ceb6a9a770a85169bd7abe37b33c243c95ef77a8a61872f84e724aa0877",
+        "references/accessibility.md": "0fef8af058567d7622f0f9e87e0f6fd2a5e91f4835c1cab2abac98bd30a5470b",
+        "references/color-and-theme.md": "a61018cdad5f5ae8b4c60398b170559ceb4cf9ee0ddc538e1d693c1921a3bced",
+        "references/haptics-and-feedback.md": "5cb14a6ae652021fea8908456ed10d4a25fdc1ccb7c6282d80f4c4e2b69fc536",
+        "references/icons-and-imagery.md": "c29cd07d6d170cff1d1b876f3b026f2d6982ff5f474504eec68b3bdd5cafb998",
+        "references/layout.md": "8206698393715348b4089014a8906324d645d0372789a88827e944dd658247d1",
+        "references/liquid-glass.md": "693f0e0edb2e264195a106a8621b6f04e5e7944115960141dfdd541915193c1a",
+        "references/motion.md": "c6c349053a9dc3e08617d619894427d4e7a400945f0a701cc1c9a827810d2c17",
+        "references/navigation.md": "425e9ad438c292af75a73790ca581a9f5a62442a10871160af04903af86ac272",
+        "references/typography.md": "e38fd96c49dfe8c91bfb763eb8c47310ac93867352b71b23025751212478d736"
+      },
+      "gap": "app screens"
+    },
+    "mobile-app-design": {
+      "source": "awesome-skills/mobile-app-design",
+      "sourceUrl": "https://github.com/awesome-skills/mobile-app-design",
+      "sourceType": "github",
+      "ref": "83e4721da7d19f0094d5e2af155d77dc2d63889c",
+      "skillPath": "SKILL.md",
+      "folder": "mobile-app-design",
+      "use": "reference",
+      "licence": {
+        "spdx": "NOASSERTION",
+        "verdict": "reference"
+      },
+      "files": {
+        "README.md": "302b2f82dcc876a6372244384c62c01e38bf25f0f4fbed15c257aea605968912",
+        "SKILL.md": "e0a5bbb293af991b672deabbfce33081e60f337389e8b6999978c18b57110c09",
+        "examples/design-system-config.ts": "eb7e6fc212ea008f411406d651e9234567090eaf8054d62ba1598d10dcca8320",
+        "examples/form-validation-example.tsx": "746e458988bfdee830f608daa4d78f46ebb9b34a8e61001fc40a014029ab7ae5",
+        "examples/optimized-list-example.tsx": "5b46be322eb294a4fbc48351938149712f6e0426cb9e40b1c75552a77887d581",
+        "examples/profile-screen-example.tsx": "59b4d6d1d18f15ac22ea28299a2c9f8f880ad1e70733582bb8c6d6e63e53b77d",
+        "references/accessibility-checklist.md": "19569b21477fa01bad341a5a1e1b3624cc4f3c66a46e90089be22e81be45e3f3",
+        "references/android-guidelines.md": "d3133c046aa990dcfba135204db4dc21a3b17f10ad4639bd99d257662744a8a4",
+        "references/common-mistakes.md": "0c0a579c06e468b3ab88c34b0d013a162480c3600297d2c9d3227f94dde49097",
+        "references/ios-guidelines.md": "e293fa9426298480db26dd35a1e603d10cddb547169ef1756db9c05313b01288",
+        "references/performance-patterns.md": "8e4e1fd180c4fd0a32f88cc5b8392067c043e23895603b26be2933a247415bdf",
+        "references/platform-differences.md": "ad3b77fbf1f9ff4f1a68c70c3fd4e80c64d81a0abd8ec2e34eff04a7ef5dc16e",
+        "references/ui-libraries.md": "d7f62925cae35d944016e9ce8b39f853892a294f7071a4043918ed0ce9afe1df",
+        "scripts/accessibility-audit.sh": "7e86c11475660f06cdfa28ef3a497507349058f83e87c461ca9f3f88e6ca7d32",
+        "scripts/check-contrast.py": "da59a26366e2d7b95164dc4a47ad7d1bc6f7b9d90ff2b1e1466cd8bc99732cdf",
+        "scripts/validate-touch-targets.sh": "f6257a80ada1ec3930729d6ed810e6ba45f89afce27b9d4db1114fba909fd6c9"
+      },
+      "gap": "app screens"
+    },
+    "uiux-pro-max": {
+      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "sourceUrl": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "sourceType": "github",
+      "ref": "d14efff8ed1faa4187f004f79926f428c8074ec7",
+      "skillPath": ".claude/skills/ui-ux-pro-max/SKILL.md",
+      "folder": "uiux-pro-max",
+      "use": "flatten",
+      "renamedSkillFile": "UIUX.md",
+      "date": "2026-10-23",
+      "adopted": true
+    }
+  },
+  "tool": {
+    "name": "connect-anything",
+    "version": "0.1.0",
+    "url": "https://github.com/gaurpulkit/connect-anything"
+  }
+}

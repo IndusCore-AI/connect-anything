@@ -1,0 +1,60 @@
+{
+  "skill_name": "mobile-screens",
+  "evals": [
+    {
+      "id": 1,
+      "name": "probe-mobile-app-design-mobile-app-design-standards-when-to-use-this-skill",
+      "prompt": "Using the skill, apply its guidance on \"When to Use This Skill\" to the job: Design mobile app screens",
+      "expected_output": "Follows \"When to Use This Skill\" from mobile-app-design.",
+      "files": [],
+      "expectations": [
+        "Applies the guidance in \"When to Use This Skill\""
+      ],
+      "needs": [
+        "Designing new mobile app screens or features",
+        "Establishing design systems or style guides"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "probe-mobile-app-design-mobile-app-design-standards-component-architecture",
+      "prompt": "Using the skill, apply its guidance on \"Component Architecture\" to the job: Design mobile app screens",
+      "expected_output": "Follows \"Component Architecture\" from mobile-app-design.",
+      "files": [],
+      "expectations": [
+        "Applies the guidance in \"Component Architecture\""
+      ],
+      "needs": [
+        "No state management or business logic",
+        "Handle data fetching and state"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "probe-pixel-perfect-pixel-perfect-mobile-ui-skill-how-to-use-this-skill",
+      "prompt": "Using the skill, apply its guidance on \"How to Use This Skill\" to the job: Design mobile app screens",
+      "expected_output": "Follows \"How to Use This Skill\" from pixel-perfect.",
+      "files": [],
+      "expectations": [
+        "Applies the guidance in \"How to Use This Skill\""
+      ],
+      "needs": [
+        "User asks for a full app design",
+        "User asks for a component → read"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "probe-podo-mobile-app-ui-design-invoke-after-install",
+      "prompt": "Using the skill, apply its guidance on \"Invoke after install\" to the job: Design mobile app screens",
+      "expected_output": "Follows \"Invoke after install\" from podo.",
+      "files": [],
+      "expectations": [
+        "Applies the guidance in \"Invoke after install\""
+      ],
+      "needs": [
+        "Triggers: \"mobile UI\", \"mobile-app-ui-design\", \"alive interfaces\", \"smooth"
+      ]
+    }
+  ]
+}

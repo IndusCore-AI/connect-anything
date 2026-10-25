@@ -103,6 +103,11 @@ def missing_refs(skill_dir):
     to that source) is missing too: the copied text was not pointed at its folder."""
     text = open(os.path.join(skill_dir, "SKILL.md"), encoding="utf-8").read()
     subdirs = [d for d in os.listdir(skill_dir) if os.path.isdir(os.path.join(skill_dir, d))]
+    aliases = set()
+    lock_path = os.path.join(skill_dir, LOCK_NAME)
+    if os.path.isfile(lock_path):  # a path into any source's folder must exist, even one the merge left out
+        import json
+        aliases = set(json.load(open(lock_path, encoding="utf-8")).get("skills", {}))
     cands = {m.group(1) for m in PATH_IN_TICKS.finditer(text)} | {m.group(1) for m in LINK_TARGET.finditer(text)}
     missing = []
     for p in cands:
@@ -111,7 +116,7 @@ def missing_refs(skill_dir):
         clean = p.rstrip("/")
         if os.path.exists(os.path.join(skill_dir, clean)):
             continue
-        if os.path.exists(os.path.join(skill_dir, clean.split("/")[0])):
+        if os.path.exists(os.path.join(skill_dir, clean.split("/")[0])) or clean.split("/")[0] in aliases:
             missing.append(p)
         elif any(os.path.exists(os.path.join(skill_dir, d, clean)) for d in subdirs):
             missing.append(p + " (relative to a source folder)")

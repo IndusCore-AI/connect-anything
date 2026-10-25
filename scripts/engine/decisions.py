@@ -42,7 +42,11 @@ def apply(plan, dec):
         if mode not in ("excluded", "reference"):
             raise EngineError(f"decisions: source {alias} mode {mode!r}; a decision can only exclude or reference a source "
                               "(copying is decided by its licence and the scan)")
+        if src.get("excluded_by") == "scanner":
+            raise EngineError(f"decisions: {alias} was excluded by the scanner; only --allow or --strip at plan time can change that")
         src["mode"], src["excluded_reason"] = mode, d.get("why") or "the compiler's decision"
+        if mode == "excluded":
+            src["excluded_by"] = "decision"
         for f in src["files"]:
             f["keep"], f["why"] = False, "source is not copied"
         for s in src["sections"]:

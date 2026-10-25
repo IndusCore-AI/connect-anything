@@ -1,0 +1,1608 @@
+{
+  "version": 1,
+  "tool": {
+    "name": "connect-anything",
+    "version": "0.1.0",
+    "url": "https://github.com/gaurpulkit/connect-anything"
+  },
+  "skill": {
+    "name": "research-brief",
+    "mode": "compile",
+    "computedHash": "c6bf4e0f6b0d4f3a4494a35f4814d2aeb3174c3f8ad9e422a93e6efcec469ddc",
+    "job": "Research a market, product or company from public evidence and write a short brief where every number and claim carries its source and plain writing"
+  },
+  "skills": {
+    "ai-analyst-workbench-caliber-skill-template": {
+      "source": "Ethanyang9512/ai-analyst-workbench",
+      "sourceUrl": "https://github.com/Ethanyang9512/ai-analyst-workbench",
+      "sourceType": "github",
+      "ref": "2b5d00bdaea40944a7be453d307bad0e2d72363f",
+      "skillPath": "templates/skills/caliber-skill-template/SKILL.md",
+      "computedHash": "676c1140b8ed08aa617ca3f704f121906b5003e1380b88da8d0ebb892213eb0f",
+      "use": "excluded",
+      "licence": {
+        "spdx": "CC-BY-4.0",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 1,
+        "bytes": 2179
+      },
+      "scan": {
+        "block": 0,
+        "review": 0,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "e6f3b97daf7d7e39687381067cafda6a9eca2068f9ceb6b0331c7cd23a0cef78"
+      },
+      "excluded": "does not fit the profile (best section score 0.08 < 0.2)"
+    },
+    "ai-analyst-workbench-ethan-analysis-brief": {
+      "source": "Ethanyang9512/ai-analyst-workbench",
+      "sourceUrl": "https://github.com/Ethanyang9512/ai-analyst-workbench",
+      "sourceType": "github",
+      "ref": "2b5d00bdaea40944a7be453d307bad0e2d72363f",
+      "skillPath": "skills/ethan-analysis-brief/SKILL.md",
+      "computedHash": "36a87e3d93813df7af0be3ecb9ff3aea9dd26476ed86fcf0c382a3749be84ae1",
+      "folder": "ai-analyst-workbench-ethan-analysis-brief",
+      "use": "flatten",
+      "licence": {
+        "spdx": "CC-BY-4.0",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 2,
+        "bytes": 6906
+      },
+      "scan": {
+        "block": 0,
+        "review": 0,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "ba387a2a254cc3980d94064d80705a474556e6b1a30f323c62f18efe98adb2f5",
+        "assets/brief-template.md": "38efeee41db4b06eb3bd6412630a1166701a45a1e2e63e52a893b81bd91c2401"
+      },
+      "kept": [
+        "SKILL.md",
+        "assets/brief-template.md"
+      ],
+      "sections": [
+        {
+          "id": "新分析项目的开题-第二步取数之前攻一遍分析设计",
+          "file": "SKILL.md",
+          "lines": [
+            31,
+            43
+          ],
+          "hash": "f26e8d6586f3cfa3",
+          "use": "reference"
+        },
+        {
+          "id": "新分析项目的开题-交付规范",
+          "file": "SKILL.md",
+          "lines": [
+            51,
+            61
+          ],
+          "hash": "a946aa8dc74e0172",
+          "use": "reference"
+        },
+        {
+          "id": "新分析项目的开题-交付前",
+          "file": "SKILL.md",
+          "lines": [
+            62,
+            65
+          ],
+          "hash": "5f7565495dd93093",
+          "use": "reference"
+        }
+      ]
+    },
+    "ai-analyst-workbench-ethan-critical-review": {
+      "source": "Ethanyang9512/ai-analyst-workbench",
+      "sourceUrl": "https://github.com/Ethanyang9512/ai-analyst-workbench",
+      "sourceType": "github",
+      "ref": "2b5d00bdaea40944a7be453d307bad0e2d72363f",
+      "skillPath": "skills/ethan-critical-review/SKILL.md",
+      "computedHash": "557c9bb6dd89d9be8d5ceef91c2b9143557338064db0c614531298e2270cb201",
+      "use": "excluded",
+      "licence": {
+        "spdx": "CC-BY-4.0",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 1,
+        "bytes": 3722
+      },
+      "scan": {
+        "block": 0,
+        "review": 0,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "82bc9708b23add7224ad4adf5115155cd408f50194161a05d7b86c2296986046"
+      },
+      "excluded": "does not fit the profile (best section score 0.00 < 0.2)"
+    },
+    "ai-analyst-workbench-ethan-data-package-review": {
+      "source": "Ethanyang9512/ai-analyst-workbench",
+      "sourceUrl": "https://github.com/Ethanyang9512/ai-analyst-workbench",
+      "sourceType": "github",
+      "ref": "2b5d00bdaea40944a7be453d307bad0e2d72363f",
+      "skillPath": "skills/ethan-data-package-review/SKILL.md",
+      "computedHash": "3cfe059ab87aa1044bac517f22df2259608e41b9bca7e76ed9adceec9cb83b84",
+      "use": "excluded",
+      "licence": {
+        "spdx": "CC-BY-4.0",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 7,
+        "bytes": 100523
+      },
+      "scan": {
+        "block": 0,
+        "review": 3,
+        "info": 1,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "b23bda5282023e3c1ab0714295396775ab24c4b79b60d35647196903b1545e79",
+        "assets/取数字段清单.md": "798770c8e0c77eb754b6d8b66bcbe00d58c77dc0821defb9f29ab38238cf8b99",
+        "assets/审核报告.md": "0ef7ad1ad25d5cecea79da19cd12eebd98c04b25cb0d984d30f5e9e3fce99920",
+        "assets/需求包.md": "38aabdc7ca5cd8d9d2f81fb452057482b45ded49a347efeba209e1b1c9eee53f",
+        "scripts/extract_package.py": "d72ff9b46b5984e696cf7b81c4482195fece5672d0c2376e9adf7bd7880c7a2e",
+        "scripts/pkgcheck.py": "0f18f3ad356effb9b1470ed9c20746559d058d91174b9057e04fb29e5b33e40e",
+        "tests/test_pkgcheck.py": "8b4d3266c498282eb9fdb45433a6763c852b100c98a62db76e15ca953dd525cd"
+      },
+      "excluded": "does not fit the profile (best section score 0.16 < 0.2)"
+    },
+    "ai-analyst-workbench-ethan-executive-summary": {
+      "source": "Ethanyang9512/ai-analyst-workbench",
+      "sourceUrl": "https://github.com/Ethanyang9512/ai-analyst-workbench",
+      "sourceType": "github",
+      "ref": "2b5d00bdaea40944a7be453d307bad0e2d72363f",
+      "skillPath": "skills/ethan-executive-summary/SKILL.md",
+      "computedHash": "1cb1398810f80d2b4b6e4e0a6f8aed68ea6d8eb7fa7458ac7f79173e17e05949",
+      "use": "excluded",
+      "licence": {
+        "spdx": "CC-BY-4.0",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 1,
+        "bytes": 4857
+      },
+      "scan": {
+        "block": 0,
+        "review": 0,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "a2b09a9db8f039b5daaa0c7c00e5a1a25d8b7fc0be8d8e3cbd24098098c90531"
+      },
+      "excluded": "nothing from it made the cut (best section 0.20, none inline)"
+    },
+    "ai-analyst-workbench-ethan-feishu-delivery": {
+      "source": "Ethanyang9512/ai-analyst-workbench",
+      "sourceUrl": "https://github.com/Ethanyang9512/ai-analyst-workbench",
+      "sourceType": "github",
+      "ref": "2b5d00bdaea40944a7be453d307bad0e2d72363f",
+      "skillPath": "skills/ethan-feishu-delivery/SKILL.md",
+      "computedHash": "d4ccc3b5b3f5a5077232375bf84b838402c6eec7820f156c38f656b5b078ce49",
+      "use": "excluded",
+      "licence": {
+        "spdx": "CC-BY-4.0",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 1,
+        "bytes": 3762
+      },
+      "scan": {
+        "block": 0,
+        "review": 0,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "669410ebbec1e913b1cdfb7e1426b55d3e65b57ea07d4b41771d104f2df5d761"
+      },
+      "excluded": "nothing from it made the cut (best section 0.24, none inline)"
+    },
+    "ai-analyst-workbench-ethan-optimization-modeling": {
+      "source": "Ethanyang9512/ai-analyst-workbench",
+      "sourceUrl": "https://github.com/Ethanyang9512/ai-analyst-workbench",
+      "sourceType": "github",
+      "ref": "2b5d00bdaea40944a7be453d307bad0e2d72363f",
+      "skillPath": "skills/ethan-optimization-modeling/SKILL.md",
+      "computedHash": "df277dfb945cf76175e0e0ac712fe0d2aeade234177ebfa565264316c4e64a86",
+      "use": "excluded",
+      "licence": {
+        "spdx": "CC-BY-4.0",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 4,
+        "bytes": 9734
+      },
+      "scan": {
+        "block": 0,
+        "review": 0,
+        "info": 4,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "8dd48ecedbbb63fe4da2f9979c60a34c3cac37b11598677342d9cd7de1af3f6b",
+        "requirements.txt": "2804236b30017a9cbcaf9ca8b2872268f8974d5f32d3d88305b87d965baffaca",
+        "examples/allocation_pulp.py": "89a6f66caeb5355364189609a7a96f962cb897c8cb92d727c88895c80a109e26",
+        "examples/shift_cpsat.py": "4e3acbc0c0f2171f32ce3414ebc7f084e90682a8920911d71fc5cca5f385fecd"
+      },
+      "excluded": "does not fit the profile (best section score 0.08 < 0.2)"
+    },
+    "ai-analyst-workbench-ethan-pyramid-storyline": {
+      "source": "Ethanyang9512/ai-analyst-workbench",
+      "sourceUrl": "https://github.com/Ethanyang9512/ai-analyst-workbench",
+      "sourceType": "github",
+      "ref": "2b5d00bdaea40944a7be453d307bad0e2d72363f",
+      "skillPath": "skills/ethan-pyramid-storyline/SKILL.md",
+      "computedHash": "da93bd4b3a1c04bf73b4cbb4d7de7a433bea202091a13e0366604b5f62be943e",
+      "use": "excluded",
+      "licence": {
+        "spdx": "CC-BY-4.0",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 7,
+        "bytes": 26127
+      },
+      "scan": {
+        "block": 0,
+        "review": 0,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "5f57a01c42c954f1f1374d27c666c667b3da03ed12a7481c510da1ab53f86d51",
+        "references/approved-examples.md": "d03a2897d99fd27e21d8983ed1d98fcb473708ad22576490fd0969bc94ebe0d8",
+        "references/before-after.md": "7bdad6a31ab89cd1cd54113bd6857447fff438a0253ecbfdc479e47eb5b50757",
+        "references/chart-chooser.md": "b18054b027601fe95cbd806753b2b25d059a562222fc516d5420f5da0f385b3f",
+        "references/checklist.md": "a7066e35d7ecddced7f42764687d8b9b9c55a7c8a8e58d734cf1b28b5e3449a1",
+        "references/readout-rules.md": "9722f5b4eccb1f362ba8fa2cb833f0263479f16a8de72add6115d1939c211f66",
+        "references/storyline-patterns.md": "bf64b2ad64b54fc7761a161950a577cb97b3879a1457a460905a6bef4c924319"
+      },
+      "excluded": "does not fit the profile (best section score 0.08 < 0.2)"
+    },
+    "ai-analyst-workbench-ethan-report-writing": {
+      "source": "Ethanyang9512/ai-analyst-workbench",
+      "sourceUrl": "https://github.com/Ethanyang9512/ai-analyst-workbench",
+      "sourceType": "github",
+      "ref": "2b5d00bdaea40944a7be453d307bad0e2d72363f",
+      "skillPath": "skills/ethan-report-writing/SKILL.md",
+      "computedHash": "73c715a7be2ef5228214e125705811025f0a432447e06b561d67175646d4f0d7",
+      "use": "excluded",
+      "licence": {
+        "spdx": "CC-BY-4.0",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 18,
+        "bytes": 209480
+      },
+      "scan": {
+        "block": 0,
+        "review": 0,
+        "info": 6,
+        "allowed": 0
+      },
+      "files": {
+        "README.md": "33e3ca70240b03d25cc3a2cb33091e49be1d16ea5df457c0b2f2af3a77136c77",
+        "SKILL.md": "82cbd8b77ffcaf46a3f0e89b6e2e10b0d89310c8f8ae3cbe4ff16e60482e777a",
+        "references/chart-style-guide.md": "3095fc59e085f62d73acb5b096d14fc5e17bace8d693c2ed0f2cdcc9e36e3a6d",
+        "references/feishu-ops.md": "45d58e5a9e4749798e14f5a4878a816357b7cff11848fddb3a1b1e1a957cabb7",
+        "references/revision-patterns.md": "0e80246222b485aeb47ed7ec9b4529728edf8ad795bf719c027e27bc92a1fdec",
+        "references/style-lexicon-archive.md": "2c4b40d626c737db7e7651585da6f61bc8eb1ccbb08796a3f3ee40e51a567c55",
+        "references/style-lexicon.md": "8c580f94272e1bb9a0e893eb8fa60e073880af9471881d74aa50dd21a575b72b",
+        "scripts/chart_template.py": "fb4783c6ee0ee9333a5e0f3f2434b9512db52e8ef9c872ddd9cc73e3f514e7e4",
+        "scripts/deckcheck.py": "197e888517f87f5dfb26b228c4907dadb7e7d00e5dcf7848bf016e4770a6e8a1",
+        "scripts/figcheck.py": "160ee0946ab4091de0106a17fd6e8a44f7952986296e6abb8bba20552c55032f",
+        "scripts/pairsnap.py": "5ff5b3d000f30fc75ef821185721e0c0f14ba3529d52012484dd66129a19f38a",
+        "scripts/style_lint.py": "4c5de400e7b9318a1566af95a7b190224b87677a2d42e0bc25640b14354027fb",
+        "scripts/trace_scan.py": "289293b17be989453cc3e1bdd20ae8ca0b85168e8f2dc94d9a18ca756462abb1",
+        "tests/test_deckcheck.py": "911b2837fe75edc652917731b53c545543805d1dfde2d33beabed661d3b44907",
+        "tests/test_figcheck.py": "d8296e177956c394da6e7b445786957293ddaefa8a4f9f7117c84e1c4b6f8502",
+        "tests/test_pairsnap.py": "2576c2d1fb8cdac4beda9d34ebd1e4f49f0caf02f9602e3b32ba50873b988f33",
+        "tests/test_style_lint.py": "2e1054f48844693e9888e62f8f42acb77c917a771991eb23f12ae81daa7d8856",
+        "tests/test_trace_scan.py": "7d57d9cd8c9b2f51960067337ddc868fdc532bf684834b47e340034345d16c53"
+      },
+      "excluded": "nothing from it made the cut (best section 0.33, none inline)"
+    },
+    "ai-analyst-workbench-ethan-reproducible-analysis": {
+      "source": "Ethanyang9512/ai-analyst-workbench",
+      "sourceUrl": "https://github.com/Ethanyang9512/ai-analyst-workbench",
+      "sourceType": "github",
+      "ref": "2b5d00bdaea40944a7be453d307bad0e2d72363f",
+      "skillPath": "skills/ethan-reproducible-analysis/SKILL.md",
+      "computedHash": "56121f7441c1792a883bc0599db97dd8876a6a5bc7c9c79e53bf498e1f391c91",
+      "use": "excluded",
+      "licence": {
+        "spdx": "CC-BY-4.0",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 2,
+        "bytes": 7195
+      },
+      "scan": {
+        "block": 0,
+        "review": 0,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "5b1c3ea7a0870e1edd886803d9e499223bf44158109627d651bd9936bb8a84d2",
+        "assets/sql-header-template.sql": "e2035a64ea82af9b11b63c1023257a22d835703732c74751418a53d3d6b72271"
+      },
+      "excluded": "does not fit the profile (best section score 0.16 < 0.2)"
+    },
+    "ai-analyst-workbench-ethan-slide-deck": {
+      "source": "Ethanyang9512/ai-analyst-workbench",
+      "sourceUrl": "https://github.com/Ethanyang9512/ai-analyst-workbench",
+      "sourceType": "github",
+      "ref": "2b5d00bdaea40944a7be453d307bad0e2d72363f",
+      "skillPath": "skills/ethan-slide-deck/SKILL.md",
+      "computedHash": "608baeb5e53967d780fde4be2d22e8723c4a302f9fef9cf698a0e39df81e722c",
+      "use": "excluded",
+      "licence": {
+        "spdx": "CC-BY-4.0",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 3,
+        "bytes": 28517
+      },
+      "scan": {
+        "block": 0,
+        "review": 0,
+        "info": 5,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "b1f1f0ad54476b3b3430e0b60f700c6a8cdaed749061f1670c5d09d9ec6da249",
+        "scripts/check_deck.py": "f4e3a15779da2ed6e4e83dab4970c1ce8131d9203d5c8de6149d6ee07a635c61",
+        "tests/test_check_deck.py": "3357dea107cb45daa6739d201ef603501edbc4a890a82fd85a4880bf0d54927d"
+      },
+      "excluded": "makes slides, not briefs"
+    },
+    "ai-analyst-workbench-ethan-workbench-maintenance": {
+      "source": "Ethanyang9512/ai-analyst-workbench",
+      "sourceUrl": "https://github.com/Ethanyang9512/ai-analyst-workbench",
+      "sourceType": "github",
+      "ref": "2b5d00bdaea40944a7be453d307bad0e2d72363f",
+      "skillPath": "skills/ethan-workbench-maintenance/SKILL.md",
+      "computedHash": "6cd866fa3bd6dd8b08d04dff1a74e320c45df762c8ca39d26065af73473d5d2b",
+      "use": "excluded",
+      "licence": {
+        "spdx": "CC-BY-4.0",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 2,
+        "bytes": 7328
+      },
+      "scan": {
+        "block": 0,
+        "review": 10,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "2dd1cf20a27b8f03f239ca21d86cdb025eb156d9adf1a7410725639aee82630a",
+        "scripts/backup.sh": "b4de26d9e1992b8c239d56e3e47e4501ef0ae9646080dc01a12422ab2381666d"
+      },
+      "excluded": "does not fit the profile (best section score 0.12 < 0.2)"
+    },
+    "ai-analyst-workbench-sql-skill-template": {
+      "source": "Ethanyang9512/ai-analyst-workbench",
+      "sourceUrl": "https://github.com/Ethanyang9512/ai-analyst-workbench",
+      "sourceType": "github",
+      "ref": "2b5d00bdaea40944a7be453d307bad0e2d72363f",
+      "skillPath": "templates/skills/sql-skill-template/SKILL.md",
+      "computedHash": "97c7b28820197b9de52be9c5707afb17553c6bb0ad32d506b0833098eb8a1c00",
+      "use": "excluded",
+      "licence": {
+        "spdx": "CC-BY-4.0",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 1,
+        "bytes": 3943
+      },
+      "scan": {
+        "block": 0,
+        "review": 0,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "f7667a4c2eca1d61719a1b824932ff208e0c9d383826b35eb4cbb6ef8e4545be"
+      },
+      "excluded": "nothing from it made the cut (best section 0.28, none inline)"
+    },
+    "bug-bounty-triage": {
+      "source": "Sequester-AG/bug-bounty-triage",
+      "sourceUrl": "https://github.com/Sequester-AG/bug-bounty-triage",
+      "sourceType": "github",
+      "ref": "9684e1bfc876e841f9c789f0b258902b43d461e4",
+      "skillPath": "SKILL.md",
+      "computedHash": "e41c8681bda8b217d9356accf24c080202287492954d5cdd6f34787e500a5482",
+      "folder": "bug-bounty-triage",
+      "use": "flatten",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 4,
+        "bytes": 29986
+      },
+      "scan": {
+        "block": 0,
+        "review": 0,
+        "info": 5,
+        "allowed": 0
+      },
+      "files": {
+        ".gitignore": "96486c057de667051813724dd6903e330019c199aa8c3cfe4a3b2400553363f5",
+        "LICENSE": "77fb0a32a0a2bc739cb0340cde3f827d06a686307314fcc164c65a95bc6a6a38",
+        "README.md": "942f730f91d57212b8da7f7c20e5e0064337d1118705f044d596be56c2bda3f4",
+        "SKILL.md": "6c7a275d199f9ebe5192980f4ce3843360ae51b89b1fefa9d9789ac87b523002"
+      },
+      "kept": [
+        ".gitignore",
+        "LICENSE",
+        "README.md",
+        "SKILL.md"
+      ],
+      "sections": [
+        {
+          "id": "bug-bounty-report-triage-validation-severity-escalation-report-audience-and-information-density",
+          "file": "SKILL.md",
+          "lines": [
+            18,
+            30
+          ],
+          "hash": "1ca7aaa287d8f7ac",
+          "use": "reference"
+        },
+        {
+          "id": "bug-bounty-report-triage-validation-severity-escalation-source-fidelity-never-redact",
+          "file": "SKILL.md",
+          "lines": [
+            47,
+            60
+          ],
+          "hash": "eb188a4d666a11e2",
+          "use": "reference"
+        },
+        {
+          "id": "bug-bounty-report-triage-validation-severity-escalation-phase-2-live-end-to-end-testing-when-applicable-and-authorized",
+          "file": "SKILL.md",
+          "lines": [
+            61,
+            118
+          ],
+          "hash": "3afdacf5e549229e",
+          "use": "reference"
+        },
+        {
+          "id": "bug-bounty-report-triage-validation-severity-escalation-phase-3-submission-readiness",
+          "file": "SKILL.md",
+          "lines": [
+            119,
+            164
+          ],
+          "hash": "718f240ccaa4b1f8",
+          "use": "reference"
+        },
+        {
+          "id": "bug-bounty-report-triage-validation-severity-escalation-phase-4-escalation-maximize-bounty",
+          "file": "SKILL.md",
+          "lines": [
+            165,
+            238
+          ],
+          "hash": "a0d8f473c0fa9853",
+          "use": "reference"
+        },
+        {
+          "id": "bug-bounty-report-triage-validation-severity-escalation-phase-5-generate-submission-report",
+          "file": "SKILL.md",
+          "lines": [
+            239,
+            250
+          ],
+          "hash": "e9c77c39cda23925",
+          "use": "reference"
+        },
+        {
+          "id": "phase-5-generate-submission-report-report-template",
+          "file": "SKILL.md",
+          "lines": [
+            251,
+            300
+          ],
+          "hash": "928407462a883fab",
+          "use": "reference"
+        },
+        {
+          "id": "phase-5-generate-submission-report-report-rules",
+          "file": "SKILL.md",
+          "lines": [
+            301,
+            318
+          ],
+          "hash": "a504170422a9b19f",
+          "use": "reference"
+        },
+        {
+          "id": "phase-5-generate-submission-report-knowledge-assumption-audit",
+          "file": "SKILL.md",
+          "lines": [
+            319,
+            335
+          ],
+          "hash": "f82b747c5fc0ed1a",
+          "use": "inline",
+          "modified": true
+        },
+        {
+          "id": "bug-bounty-report-triage-validation-severity-escalation-phase-6-triage-decision",
+          "file": "SKILL.md",
+          "lines": [
+            336,
+            359
+          ],
+          "hash": "6a17887d95e6d15c",
+          "use": "reference"
+        },
+        {
+          "id": "bug-bounty-report-triage-validation-severity-escalation-rules",
+          "file": "SKILL.md",
+          "lines": [
+            360,
+            380
+          ],
+          "hash": "dacf76b86d7b0f87",
+          "use": "reference"
+        }
+      ]
+    },
+    "philosopher-okf": {
+      "source": "frypan05/philosopher-OKF",
+      "sourceUrl": "https://github.com/frypan05/philosopher-OKF",
+      "sourceType": "github",
+      "ref": "cdc752b2c4a93187db08e6e755d46f7350b5f1c2",
+      "skillPath": "SKILL.md",
+      "computedHash": "2aa6169e347e2f950f78f8f1087cf4089b85d506c0927e660363c09e7fa72f7e",
+      "use": "excluded",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 43,
+        "bytes": 528468
+      },
+      "scan": {
+        "block": 0,
+        "review": 4,
+        "info": 1,
+        "allowed": 0
+      },
+      "files": {
+        ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "LICENSE": "61bc4c8f208830c16bfe4e95d5cad83066d5b08d21375a06466b0912d674eb2b",
+        "README.md": "137c6204dbb1c82f03c7699650f8fc13912fa2bcdcaf0502cbb4980da6f70e4a",
+        "SKILL.md": "4dbd9308596ec56113eff5309ae7d82cde92c5d79a3366f5ed3ed5cfa9dab161",
+        "image.png": "a1cae217205082505d561754443c836b184b7a18ee0d65527dd72a000c79f0fe",
+        "image_1.png": "79907b0a3b147853ccd481115bbe1ba21e0e896b0c0277f9971a94a0f9b84696",
+        "image_2.png": "37f11081d4087588cb31bd1252cb366fdfd8c64112fb8c35227afa276792c395",
+        "index.html": "4b22ef5d8b558ef81348e2738b8f2b5df5cc67340ddd12e10f273c105e7ca53e",
+        "llms.txt": "0ab498e1f6dcdf45595f44d59b800f57b5caa99a13725ebab5f91f752afbbbd6",
+        "philosopher.md": "59e34759ea8dd951db370d2dd4464bc60f9554e55c70368e7c8dfa118fe70818",
+        ".github/workflows/build.yml": "29f72236832b8c5f68569840044f9db146d4f5d4c69665fe0a49ff2adf4a6e7b",
+        "examples/bits-scheduling-memory.html": "47938da4fcca337cc083748680cc9e6d77800e7c32c73078b9140b6170c0c27f",
+        "examples/kafka.html": "a4722d5e5a05c12b1e895fa73b8ec83d280cd659cf35a69363a5e6003201b30a",
+        "examples/mcp-and-acp.html": "412099ff2def9847cab455f0996e0c2a12413e0a24898a32757f4e9e3161c0c4",
+        "examples/sample-flamingo-reading-guide.html": "fabbf174911be9d969453cfce2dea01ae54e7d6c142cee84c19a25b388e54951",
+        "examples/stacks-queues-heaps-trees-graphs.html": "c46f6c4e8ecab7ca1be8cbce7fa0a64b020f76e960e733db64322029a1d77215",
+        "okf/index.md": "7ad0ed18268f00e9590b1308d8844e437ee141d35e1e455fcdb80a5ff7b5cc95",
+        "okf/log.md": "f31477bf931de378e55a9545170630e791259c20952e78a3e9791ebbcdc21d84",
+        "okf/core/audience-depth.md": "fb4c99c54807d492059c89c687c223ac8d03bf47b8f42fc7a1a44bcb7ed5f62f",
+        "okf/core/classifier.md": "71076fd3d1ab42b17b83493349fae876f9310c273c009f7c7938cd8765280c3b",
+        "okf/core/index.md": "addb60231d3420182e9eb720bd3f53d4ecd5d891e4f055403a32c0deca7884aa",
+        "okf/core/knowledge-graph.md": "f52b4ddf74ec7873e5ff420892b1797793838d34096f48ef227f15e485a595fa",
+        "okf/core/output-contract.md": "c9b69cf4508f4066a6af62d1ee6f8b8697e2a316fae87a8ff639d3fe44007bb5",
+        "okf/core/page-template.md": "e85acbdd811cb1afef690f002d29b1558b1dce9a5e4bc6e70dedb5644c4e1ac2",
+        "okf/core/source-policy.md": "c94fc648d1b94e672f56f49e3b8e0d31cb6c450a95c7c823cb9bcc084e92a7fe",
+        "okf/core/workflow.md": "9834992e1147d364785d06c382c49eaea471633af2d48a70255f9ae407725e4e",
+        "okf/core/writing-detection.md": "dea7aba44cf7581808515a195097d221fb1651510afd85fcf777cc0f6b018766",
+        "okf/core/writing-rules.md": "9224d72458ec26ccedd6f437a6cc703a95895beb531da7350d5b50311cd60edc",
+        "okf/domains/business-management.md": "42cde377d478e9dc9e26da62ea58f57bac5694d00112f1aee242f804d9080aba",
+        "okf/domains/economics.md": "67d5b1df44ca667167a4789f4f6acb7a64e904fadd8a81155385aca248a0bd31",
+        "okf/domains/finance-accounting.md": "ead313d6cf8608aba92aa99eac41f20951ee75cc2c27ef3db360b48711d733f4",
+        "okf/domains/general.md": "cf82981fe3485771d360b6f1410ec63dd65def2382a02d343271866ee73b119e",
+        "okf/domains/humanities-philosophy-history.md": "803cbf0913b483712f0eecc0443413a3e53ef222d72c52f10c5162984db2617b",
+        "okf/domains/index.md": "4f85c427747ba01cfca108252f9cc43e39394417a9972372eff17fab7b545f08",
+        "okf/domains/law-policy.md": "05843b94b1696a1f70f831da47c674a3b1742c8f95483db2dbed4d791cdbb214",
+        "okf/domains/mathematics-statistics-logic.md": "74295b61ce134734319a0650774c0cd3d5134e8420cc5f8e73853f154b1f9c52",
+        "okf/domains/medical-health.md": "5a7317a2c9b602ab106354ea6a2dbcf3f00076f7de834486ba19bbaaad0f9b0d",
+        "okf/domains/natural-sciences.md": "5b05deea919f6d7fc21c1e25cb3495201919b242da504af04c07cb80f774a8dd",
+        "okf/domains/research-papers.md": "53b5fa98373448232bfc25ee1ce81b525726de475c1a9c9df4c7dcb4bcf9b412",
+        "okf/domains/social-sciences-psychology.md": "fb2c06f02827c125b62c143679631a63f0dca651d2bce9ba45563d040f042236",
+        "okf/domains/technology-engineering.md": "29645bd1da6865c8544a97861a8245d821460b07d46b1348efaf3545b8c78d4a",
+        "scripts/build-single.sh": "10ffb042dc268c441561a221816ab05d96fda698dd71f5c9073a5dfb057452c8",
+        "scripts/validate.sh": "1ba999e1b942b864813a72e6f16d704b9b48b2c1718323df1612e0c4b8fd3399"
+      },
+      "excluded": "produces an HTML study page, not a sourced brief; its 42 files serve that job"
+    },
+    "reverse-engineer-bounded-probe": {
+      "source": "loootai/reverse-engineer",
+      "sourceUrl": "https://github.com/loootai/reverse-engineer",
+      "sourceType": "github",
+      "ref": "4aa911dba128333f9f480bc20642195ba8f6e13a",
+      "skillPath": "skills/bounded-probe/SKILL.md",
+      "computedHash": "c8ce43aa52d6a2ff79888d1832d10f8673bcb3f6a35a2a4fd2d321519af1d849",
+      "use": "excluded",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 1,
+        "bytes": 4846
+      },
+      "scan": {
+        "block": 0,
+        "review": 2,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "8ecdc6feccef00b198dc05da9d5ee590730a06dfe02da28f29e694ee604e38da"
+      },
+      "excluded": "nothing from it made the cut (best section 0.35, none inline)"
+    },
+    "reverse-engineer-claims-audit": {
+      "source": "loootai/reverse-engineer",
+      "sourceUrl": "https://github.com/loootai/reverse-engineer",
+      "sourceType": "github",
+      "ref": "4aa911dba128333f9f480bc20642195ba8f6e13a",
+      "skillPath": "skills/claims-audit/SKILL.md",
+      "computedHash": "3bdecdbfa1e389779f1a304049b6ceb919d6848bf9e00d323bc350b221bf423b",
+      "folder": "reverse-engineer-claims-audit",
+      "use": "flatten",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 1,
+        "bytes": 4630
+      },
+      "scan": {
+        "block": 0,
+        "review": 2,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "29361feb73bf5953b3fbf665249b1e018141a98ee5caf186235c0074c3298975"
+      },
+      "kept": [
+        "SKILL.md"
+      ],
+      "sections": [
+        {
+          "id": "claims-audit",
+          "file": "SKILL.md",
+          "lines": [
+            6,
+            9
+          ],
+          "hash": "90b6133b3b7e0b38",
+          "use": "reference"
+        },
+        {
+          "id": "claims-audit-inputs",
+          "file": "SKILL.md",
+          "lines": [
+            16,
+            20
+          ],
+          "hash": "03d44b9465e9c155",
+          "use": "reference"
+        },
+        {
+          "id": "claims-audit-procedure",
+          "file": "SKILL.md",
+          "lines": [
+            21,
+            35
+          ],
+          "hash": "71af61bd7feac759",
+          "use": "reference"
+        },
+        {
+          "id": "claims-audit-jobs-catalog-revision-101897-read-2026-10-11-inspect-shows-the-live-price",
+          "file": "SKILL.md",
+          "lines": [
+            36,
+            49
+          ],
+          "hash": "3be68c21a234ac90",
+          "use": "reference"
+        },
+        {
+          "id": "claims-audit-output-format",
+          "file": "SKILL.md",
+          "lines": [
+            50,
+            63
+          ],
+          "hash": "40206cf789ec9f20",
+          "use": "reference"
+        },
+        {
+          "id": "claims-audit-example",
+          "file": "SKILL.md",
+          "lines": [
+            72,
+            77
+          ],
+          "hash": "9eb8d17b2556bea7",
+          "use": "reference"
+        },
+        {
+          "id": "claims-audit-related",
+          "file": "SKILL.md",
+          "lines": [
+            78,
+            80
+          ],
+          "hash": "9a81ef94bea5b2c8",
+          "use": "reference"
+        }
+      ]
+    },
+    "reverse-engineer-competitor-diff": {
+      "source": "loootai/reverse-engineer",
+      "sourceUrl": "https://github.com/loootai/reverse-engineer",
+      "sourceType": "github",
+      "ref": "4aa911dba128333f9f480bc20642195ba8f6e13a",
+      "skillPath": "skills/competitor-diff/SKILL.md",
+      "computedHash": "806df5fe661bb9d746f821b8b1cf2c20f01b511041fe16ccab4bff061de29c34",
+      "use": "excluded",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 2,
+        "bytes": 6819
+      },
+      "scan": {
+        "block": 0,
+        "review": 2,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "574facab0cd0e4f374dc0873c422925d30586ee6d8f7ff948821b145fdaf769f",
+        "scripts/diff_snapshots.py": "f1de06e1bd7ae16d92d80c69c7de7c50daa0dc2437fe4b1a99e953abf48cbbbc"
+      },
+      "excluded": "nothing from it made the cut (best section 0.31, none inline)"
+    },
+    "reverse-engineer-evidence-research": {
+      "source": "loootai/reverse-engineer",
+      "sourceUrl": "https://github.com/loootai/reverse-engineer",
+      "sourceType": "github",
+      "ref": "4aa911dba128333f9f480bc20642195ba8f6e13a",
+      "skillPath": "skills/evidence-research/SKILL.md",
+      "computedHash": "d352ce3931a89e1bcc2343a42baebf6516a26a754a2fcd89b421ae3ad07bfeaf",
+      "folder": "reverse-engineer-evidence-research",
+      "use": "flatten",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 1,
+        "bytes": 5581
+      },
+      "scan": {
+        "block": 0,
+        "review": 2,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "915a4d76bd72c6cb7b2e77acb0c49fd1111357b316f3a271a70bcf5aa8d637ed"
+      },
+      "kept": [
+        "SKILL.md"
+      ],
+      "sections": [
+        {
+          "id": "evidence-research",
+          "file": "SKILL.md",
+          "lines": [
+            6,
+            9
+          ],
+          "hash": "2fae5628d3e06c43",
+          "use": "reference"
+        },
+        {
+          "id": "evidence-research-inputs",
+          "file": "SKILL.md",
+          "lines": [
+            16,
+            21
+          ],
+          "hash": "ee3bc1f52c0429ed",
+          "use": "reference"
+        },
+        {
+          "id": "evidence-research-the-three-tags",
+          "file": "SKILL.md",
+          "lines": [
+            22,
+            29
+          ],
+          "hash": "7462630976f0c8ed",
+          "use": "inline"
+        },
+        {
+          "id": "evidence-research-procedure",
+          "file": "SKILL.md",
+          "lines": [
+            30,
+            40
+          ],
+          "hash": "5edff1b818e465d3",
+          "use": "reference"
+        },
+        {
+          "id": "evidence-research-jobs-catalog-revision-101897-read-2026-10-11-inspect-shows-the-live-price",
+          "file": "SKILL.md",
+          "lines": [
+            41,
+            55
+          ],
+          "hash": "a270eb366b678c70",
+          "use": "reference"
+        },
+        {
+          "id": "evidence-research-output-format",
+          "file": "SKILL.md",
+          "lines": [
+            56,
+            71
+          ],
+          "hash": "c287ab82e2c304f5",
+          "use": "inline"
+        },
+        {
+          "id": "evidence-research-example",
+          "file": "SKILL.md",
+          "lines": [
+            80,
+            90
+          ],
+          "hash": "8344b364d51880d6",
+          "use": "reference"
+        },
+        {
+          "id": "evidence-research-related",
+          "file": "SKILL.md",
+          "lines": [
+            91,
+            93
+          ],
+          "hash": "6559869e0d3cbad3",
+          "use": "reference"
+        }
+      ]
+    },
+    "reverse-engineer-rebuild-on-looot": {
+      "source": "loootai/reverse-engineer",
+      "sourceUrl": "https://github.com/loootai/reverse-engineer",
+      "sourceType": "github",
+      "ref": "4aa911dba128333f9f480bc20642195ba8f6e13a",
+      "skillPath": "skills/rebuild-on-looot/SKILL.md",
+      "computedHash": "eb023b4a2a3e04410d76a7c4d25af1f64ff20be4687b5b24761bd0b5220b7f92",
+      "use": "excluded",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 2,
+        "bytes": 17863
+      },
+      "scan": {
+        "block": 0,
+        "review": 5,
+        "info": 2,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "5df37beac2b0820e6f8d820f189f3bf793d9c42f96201facefea3abdf8a1ab2a",
+        "scripts/catalog-search.mjs": "cfa54a6eee6d14d09484bbf4020b16e15168c9d9c396ec2a9e9243a6251da1f8"
+      },
+      "excluded": "builds apps on looot's paid API; not research"
+    },
+    "reverse-engineer-request-provider": {
+      "source": "loootai/reverse-engineer",
+      "sourceUrl": "https://github.com/loootai/reverse-engineer",
+      "sourceType": "github",
+      "ref": "4aa911dba128333f9f480bc20642195ba8f6e13a",
+      "skillPath": "skills/request-provider/SKILL.md",
+      "computedHash": "a5dc75779ffb4c35fb7a9dc7c2ea02704b81611365f1bc9fa65cbdf3ab9446cb",
+      "use": "excluded",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 2,
+        "bytes": 13366
+      },
+      "scan": {
+        "block": 0,
+        "review": 4,
+        "info": 1,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "ca865f621f91d16da01996db19426f508bf6191560113ee78ab9e901b16678bc",
+        "scripts/catalog-search.mjs": "cfa54a6eee6d14d09484bbf4020b16e15168c9d9c396ec2a9e9243a6251da1f8"
+      },
+      "excluded": "files provider requests with looot"
+    },
+    "reverse-engineer-reverse-engineer": {
+      "source": "loootai/reverse-engineer",
+      "sourceUrl": "https://github.com/loootai/reverse-engineer",
+      "sourceType": "github",
+      "ref": "4aa911dba128333f9f480bc20642195ba8f6e13a",
+      "skillPath": "skills/reverse-engineer/SKILL.md",
+      "computedHash": "a1fa77acd089797f038dd9e22708030f022a67390fcef03647381efb8b789e6c",
+      "use": "excluded",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 1,
+        "bytes": 11776
+      },
+      "scan": {
+        "block": 0,
+        "review": 2,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "9f6f4be10099c04f2f50ec081ab5428a01107fc7b2c7bb15e26d8c47b9253a13"
+      },
+      "excluded": "a pipeline around looot's paid jobs; its useful rule (the three tags) is inline from evidence-research"
+    },
+    "reverse-engineer-site-teardown": {
+      "source": "loootai/reverse-engineer",
+      "sourceUrl": "https://github.com/loootai/reverse-engineer",
+      "sourceType": "github",
+      "ref": "4aa911dba128333f9f480bc20642195ba8f6e13a",
+      "skillPath": "skills/site-teardown/SKILL.md",
+      "computedHash": "74152d5e65e947d9d18414888ee743c375ae19046442d1edad11e0a273a03fd5",
+      "use": "excluded",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 1,
+        "bytes": 4911
+      },
+      "scan": {
+        "block": 0,
+        "review": 2,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "784ec919b1e96977fbab5188f46422b213fef70ba2ea25170390d6f99d3ee191"
+      },
+      "excluded": "its procedure runs looot's paid jobs; the brief's own steps cover reading a site"
+    },
+    "work-humanizer-v1": {
+      "source": "phuryn/work-humanizer",
+      "sourceUrl": "https://github.com/phuryn/work-humanizer",
+      "sourceType": "github",
+      "ref": "0a9065791d021f3dda695f3887cb2ae4c0eacbcf",
+      "skillPath": "evidence/skill-versions/v1/SKILL.md",
+      "computedHash": "36e5e6927d4c4e46d988c19016698c96abb7a9c36d98caaad71affb250b38843",
+      "use": "excluded",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 2,
+        "bytes": 16197
+      },
+      "scan": {
+        "block": 0,
+        "review": 1,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "734453274f976b08d4d38335fa4c5b1d423951466861f985d44892c0c96b412b",
+        "tells.md": "3c2862ba08a42a4285cc9012e8445ec8e6bf1294088ae2132ba18dd23049bd9a"
+      },
+      "excluded": "a version, eval or example copy inside the repo (evidence/skill-versions/v1)"
+    },
+    "work-humanizer-v2": {
+      "source": "phuryn/work-humanizer",
+      "sourceUrl": "https://github.com/phuryn/work-humanizer",
+      "sourceType": "github",
+      "ref": "0a9065791d021f3dda695f3887cb2ae4c0eacbcf",
+      "skillPath": "evidence/skill-versions/v2/SKILL.md",
+      "computedHash": "90006123d4efc46727c183da2950e93c2e958bb3e5b123f245f2c66af355bdf6",
+      "use": "excluded",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 2,
+        "bytes": 18543
+      },
+      "scan": {
+        "block": 0,
+        "review": 1,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "21525c102badc51fee5ff295dcb14c9b0ff56dc08f68ef2e47cfcb6d6d1532e9",
+        "tells.md": "3c2862ba08a42a4285cc9012e8445ec8e6bf1294088ae2132ba18dd23049bd9a"
+      },
+      "excluded": "a version, eval or example copy inside the repo (evidence/skill-versions/v2)"
+    },
+    "work-humanizer-v3": {
+      "source": "phuryn/work-humanizer",
+      "sourceUrl": "https://github.com/phuryn/work-humanizer",
+      "sourceType": "github",
+      "ref": "0a9065791d021f3dda695f3887cb2ae4c0eacbcf",
+      "skillPath": "evidence/skill-versions/v3/SKILL.md",
+      "computedHash": "727209201fc231255af60648785c61dc3747f28405b47ad743cc16647da126a1",
+      "use": "excluded",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 2,
+        "bytes": 19253
+      },
+      "scan": {
+        "block": 0,
+        "review": 1,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "6147dc659b73757df3ef5469658a4d214261b8687e5827d7121a56d18ca6396a",
+        "tells.md": "073c69670ac8710da552d39d190a5c026ec329e062b30c45e34546a8c6d8db09"
+      },
+      "excluded": "a version, eval or example copy inside the repo (evidence/skill-versions/v3)"
+    },
+    "work-humanizer-v5": {
+      "source": "phuryn/work-humanizer",
+      "sourceUrl": "https://github.com/phuryn/work-humanizer",
+      "sourceType": "github",
+      "ref": "0a9065791d021f3dda695f3887cb2ae4c0eacbcf",
+      "skillPath": "evidence/skill-versions/v5/SKILL.md",
+      "computedHash": "77c30a8554043294ee8dbf107e792e483fc7f89c34236396c188f4f663a23167",
+      "use": "excluded",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 2,
+        "bytes": 22046
+      },
+      "scan": {
+        "block": 0,
+        "review": 1,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "fd8daad6d0dbee829fb82d2a8ebf82a274338cc855d51a5171d4603fbfe62961",
+        "tells.md": "3c2862ba08a42a4285cc9012e8445ec8e6bf1294088ae2132ba18dd23049bd9a"
+      },
+      "excluded": "a version, eval or example copy inside the repo (evidence/skill-versions/v5)"
+    },
+    "work-humanizer-v5i": {
+      "source": "phuryn/work-humanizer",
+      "sourceUrl": "https://github.com/phuryn/work-humanizer",
+      "sourceType": "github",
+      "ref": "0a9065791d021f3dda695f3887cb2ae4c0eacbcf",
+      "skillPath": "evidence/skill-versions/v5i/SKILL.md",
+      "computedHash": "77bbc84d1bcdcc64226d8184828a6db914b0d34df29596c5efcf77c090bbf284",
+      "use": "excluded",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 2,
+        "bytes": 22804
+      },
+      "scan": {
+        "block": 0,
+        "review": 1,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "b6c03ee8a596eb7a8558bcf575ca08db5498d7ac0dea3b5e58bd6d648795a928",
+        "tells.md": "3c2862ba08a42a4285cc9012e8445ec8e6bf1294088ae2132ba18dd23049bd9a"
+      },
+      "excluded": "a version, eval or example copy inside the repo (evidence/skill-versions/v5i)"
+    },
+    "work-humanizer-v5r1": {
+      "source": "phuryn/work-humanizer",
+      "sourceUrl": "https://github.com/phuryn/work-humanizer",
+      "sourceType": "github",
+      "ref": "0a9065791d021f3dda695f3887cb2ae4c0eacbcf",
+      "skillPath": "evidence/skill-versions/v5r1/SKILL.md",
+      "computedHash": "dff49adc3456f8d039a5416354260a346683d529421dc325712b2e0359af0ebc",
+      "use": "excluded",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 2,
+        "bytes": 21122
+      },
+      "scan": {
+        "block": 0,
+        "review": 1,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "d584e183785fe8f011d383265673a14ff3a0762ce700ebe0201cd99cb3e09c97",
+        "tells.md": "3c2862ba08a42a4285cc9012e8445ec8e6bf1294088ae2132ba18dd23049bd9a"
+      },
+      "excluded": "a version, eval or example copy inside the repo (evidence/skill-versions/v5r1)"
+    },
+    "work-humanizer-v5r2": {
+      "source": "phuryn/work-humanizer",
+      "sourceUrl": "https://github.com/phuryn/work-humanizer",
+      "sourceType": "github",
+      "ref": "0a9065791d021f3dda695f3887cb2ae4c0eacbcf",
+      "skillPath": "evidence/skill-versions/v5r2/SKILL.md",
+      "computedHash": "6e3a8e423e62086d7efe31fa355fd7b8272c53290cd435647c88127a664cb620",
+      "use": "excluded",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 2,
+        "bytes": 21535
+      },
+      "scan": {
+        "block": 0,
+        "review": 1,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "60b769d7d73823f9edc28d5a332651e84db6622cff0ab0cfb8ea72191b109ee7",
+        "tells.md": "3c2862ba08a42a4285cc9012e8445ec8e6bf1294088ae2132ba18dd23049bd9a"
+      },
+      "excluded": "a version, eval or example copy inside the repo (evidence/skill-versions/v5r2)"
+    },
+    "work-humanizer-v6": {
+      "source": "phuryn/work-humanizer",
+      "sourceUrl": "https://github.com/phuryn/work-humanizer",
+      "sourceType": "github",
+      "ref": "0a9065791d021f3dda695f3887cb2ae4c0eacbcf",
+      "skillPath": "evidence/skill-versions/v6/SKILL.md",
+      "computedHash": "a9c7072dcf2c0e7068ff977d135e826854f072dab0dab1fc9612dfcd0769ac6c",
+      "use": "excluded",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 1,
+        "bytes": 597
+      },
+      "scan": {
+        "block": 0,
+        "review": 0,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "7a1dfa9cdc3d0dcff5f8db9de41a699571262de2f6ea0c07315ed3b84f890df3"
+      },
+      "excluded": "a version, eval or example copy inside the repo (evidence/skill-versions/v6)"
+    },
+    "work-humanizer-v6a": {
+      "source": "phuryn/work-humanizer",
+      "sourceUrl": "https://github.com/phuryn/work-humanizer",
+      "sourceType": "github",
+      "ref": "0a9065791d021f3dda695f3887cb2ae4c0eacbcf",
+      "skillPath": "evidence/skill-versions/v6a/SKILL.md",
+      "computedHash": "1abf0dc622a6270a9d7ed9f078f7fc4811f02b966952116ee4a8c969d41927c5",
+      "use": "excluded",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 1,
+        "bytes": 268
+      },
+      "scan": {
+        "block": 0,
+        "review": 0,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "f7e45916ea4cfbc08d80539eeaa37bc629369c7675bc517ec45df3ac9d65a61b"
+      },
+      "excluded": "a version, eval or example copy inside the repo (evidence/skill-versions/v6a)"
+    },
+    "work-humanizer-work-humanizer": {
+      "source": "phuryn/work-humanizer",
+      "sourceUrl": "https://github.com/phuryn/work-humanizer",
+      "sourceType": "github",
+      "ref": "0a9065791d021f3dda695f3887cb2ae4c0eacbcf",
+      "skillPath": "skills/work-humanizer/SKILL.md",
+      "computedHash": "0e3e953d31516cdb24119d65a711f559943da66550ccf115ca7dc07d3b87d4f6",
+      "folder": "work-humanizer-work-humanizer",
+      "use": "flatten",
+      "licence": {
+        "spdx": "MIT",
+        "verdict": "flatten",
+        "file": "LICENSE"
+      },
+      "read": {
+        "files": 3,
+        "bytes": 29817
+      },
+      "scan": {
+        "block": 0,
+        "review": 1,
+        "info": 0,
+        "allowed": 0
+      },
+      "files": {
+        "SKILL.md": "9ad38da86922e17d523e8a02aed352bcea617bbf5333e3d800df22f178a9559d",
+        "check.py": "d8d19e486c5fe69c1c3541ba427eb7067eeae822cff2c2b81395b6364f890d1c",
+        "tells.md": "073c69670ac8710da552d39d190a5c026ec329e062b30c45e34546a8c6d8db09"
+      },
+      "kept": [
+        "SKILL.md",
+        "check.py",
+        "tells.md"
+      ],
+      "sections": [
+        {
+          "id": "work-humanizer",
+          "file": "SKILL.md",
+          "lines": [
+            14,
+            23
+          ],
+          "hash": "53867d3f67ecbac7",
+          "use": "reference"
+        },
+        {
+          "id": "work-humanizer-pick-the-mode",
+          "file": "SKILL.md",
+          "lines": [
+            24,
+            29
+          ],
+          "hash": "80d95f496dd26b74",
+          "use": "reference"
+        },
+        {
+          "id": "work-humanizer-interview-mode",
+          "file": "SKILL.md",
+          "lines": [
+            30,
+            54
+          ],
+          "hash": "3d5698f9489e0b60",
+          "use": "reference"
+        },
+        {
+          "id": "work-humanizer-rewrite-mode",
+          "file": "SKILL.md",
+          "lines": [
+            55,
+            71
+          ],
+          "hash": "b56c749fb1c549c3",
+          "use": "reference"
+        },
+        {
+          "id": "work-humanizer-the-tells-strongest-first",
+          "file": "SKILL.md",
+          "lines": [
+            72,
+            131
+          ],
+          "hash": "8eb0d627069155fe",
+          "use": "inline",
+          "modified": true
+        },
+        {
+          "id": "work-humanizer-sound-like-a-person-not-a-costume",
+          "file": "SKILL.md",
+          "lines": [
+            132,
+            146
+          ],
+          "hash": "24c86f708f8a3fc5",
+          "use": "reference"
+        },
+        {
+          "id": "work-humanizer-keep-what-is-already-human",
+          "file": "SKILL.md",
+          "lines": [
+            147,
+            154
+          ],
+          "hash": "c7e5c283af914f56",
+          "use": "reference"
+        },
+        {
+          "id": "work-humanizer-genre-notes",
+          "file": "SKILL.md",
+          "lines": [
+            155,
+            163
+          ],
+          "hash": "1f566c76c6aff0c8",
+          "use": "reference"
+        },
+        {
+          "id": "work-humanizer-final-checks-every-time",
+          "file": "SKILL.md",
+          "lines": [
+            164,
+            173
+          ],
+          "hash": "2a7f3c6fee4d9583",
+          "use": "reference"
+        },
+        {
+          "id": "work-humanizer-what-to-return",
+          "file": "SKILL.md",
+          "lines": [
+            174,
+            178
+          ],
+          "hash": "5215dbc47759bdbf",
+          "use": "reference"
+        }
+      ]
+    }
+  },
+  "decisions": {
+    "title": "Research Brief",
+    "description": "Research a company, market or product from public evidence and write a short brief where every number and claim carries its source: each claim tagged observed, inferred or unknown, a ledger of evidence, open questions left open, plain wording, and a reader test before it is sent. Also fact-checks an existing one-pager or deck claim by claim. Use when asked to research a company or competitor, build a sourced brief, back a claim with evidence, fact-check a market number, or prepare a brief that someone will repeat to others.",
+    "intro": "A brief is done when each conclusion says how you know it. This skill takes the evidence ledger from `reverse-engineer-evidence-research/`, the claim check from `reverse-engineer-claims-audit/`, plain wording from `work-humanizer-work-humanizer/`, the reader test from `bug-bounty-triage/`, and the analysis design step from `ai-analyst-workbench-ethan-analysis-brief/`. `MERGE.md` says what was left out and why.",
+    "precedence": [
+      "The user's own words in the conversation",
+      "Honesty: every number and claim carries its source; a missing fact stays unknown, never a plausible guess",
+      "The three tags (observed, inferred, unknown) decide how a claim is written",
+      "The reader test before anything is sent",
+      "Plain claims for the wording",
+      "Taste"
+    ],
+    "order": [
+      "extra:how-a-brief-is-made",
+      "reverse-engineer-evidence-research:evidence-research-the-three-tags",
+      "reverse-engineer-evidence-research:evidence-research-output-format",
+      "work-humanizer-work-humanizer:work-humanizer-the-tells-strongest-first",
+      "bug-bounty-triage:phase-5-generate-submission-report-knowledge-assumption-audit"
+    ],
+    "extra_sections": [
+      {
+        "id": "how-a-brief-is-made",
+        "title": "How a brief is made",
+        "why": "written for this merge: the sources each cover one step, and the steps they share depend on a paid API that this skill does not need",
+        "text": "## How a brief is made\n\n1. Write the questions first. With none given, use five: what they sell, who buys it, how big they are, what they run on, what they are doing now.\n2. Before gathering, settle what each number means: its numerator, denominator, source and period, and whether both sides of a comparison use the same definition. (`ai-analyst-workbench-ethan-analysis-brief/` has this step in full, in Chinese.)\n3. Gather from public sources: the company's own pages, filings, press, job posts. Read pages as text. Never run their scripts and never get around a login wall, paywall or bot block; mark that page unknown instead.\n4. Tag every claim (below) and keep a ledger: the claim, its tag, the evidence (URL and date read), confidence, and the search boundary.\n5. Close the loop: mark each question answered, partial or open. A requested question that is still open stays in the brief as open.\n6. Word it plainly (below), then run the reader test.\n\nTo fact-check a document that already exists, follow the procedure in `reverse-engineer-claims-audit/REVERSE-ENGINEER-CLAIMS-AUDIT.md`: tag each claim by what stands behind it, rank by damage if wrong, check the top ones first. Its job table names one paid provider; any way of reading public pages does the same job.\n"
+      }
+    ],
+    "sources": {
+      "reverse-engineer-rebuild-on-looot": {
+        "mode": "excluded",
+        "why": "builds apps on looot's paid API; not research"
+      },
+      "reverse-engineer-request-provider": {
+        "mode": "excluded",
+        "why": "files provider requests with looot"
+      },
+      "reverse-engineer-reverse-engineer": {
+        "mode": "excluded",
+        "why": "a pipeline around looot's paid jobs; its useful rule (the three tags) is inline from evidence-research"
+      },
+      "reverse-engineer-site-teardown": {
+        "mode": "excluded",
+        "why": "its procedure runs looot's paid jobs; the brief's own steps cover reading a site"
+      },
+      "ai-analyst-workbench-ethan-slide-deck": {
+        "mode": "excluded",
+        "why": "makes slides, not briefs"
+      },
+      "philosopher-okf": {
+        "mode": "excluded",
+        "why": "produces an HTML study page, not a sourced brief; its 42 files serve that job"
+      }
+    },
+    "sections": {
+      "reverse-engineer-evidence-research:evidence-research-the-three-tags": {
+        "action": "inline",
+        "why": "how every claim is written"
+      },
+      "reverse-engineer-evidence-research:evidence-research-output-format": {
+        "action": "inline",
+        "why": "the shape of the brief and its ledger"
+      },
+      "reverse-engineer-evidence-research:evidence-research-procedure": {
+        "action": "reference",
+        "why": "steps 3 and 4 run looot's paid jobs; the generic steps are in \"How a brief is made\""
+      },
+      "reverse-engineer-claims-audit:claims-audit-procedure": {
+        "action": "reference",
+        "why": "for fact-checking a document that exists; one read away"
+      },
+      "work-humanizer-work-humanizer:work-humanizer-genre-notes": {
+        "action": "reference",
+        "why": "genre notes for emails and posts, not briefs"
+      },
+      "work-humanizer-work-humanizer:work-humanizer-the-tells-strongest-first": {
+        "action": "inline",
+        "why": "only part C (inflation and generic claims) inline; parts A and B stay in the source folder"
+      },
+      "bug-bounty-triage:bug-bounty-report-triage-validation-severity-escalation-source-fidelity-never-redact": {
+        "action": "reference",
+        "why": "about preserving security evidence verbatim; not needed for a brief"
+      },
+      "bug-bounty-triage:phase-5-generate-submission-report-report-rules": {
+        "action": "reference",
+        "why": "security report rules; rules 2 and 9 are folded into the reader test"
+      },
+      "bug-bounty-triage:phase-5-generate-submission-report-knowledge-assumption-audit": {
+        "action": "inline",
+        "why": "adapted into the reader test"
+      },
+      "ai-analyst-workbench-ethan-analysis-brief:新分析项目的开题-第二步取数之前攻一遍分析设计": {
+        "action": "reference",
+        "why": "in Chinese; summarised as step 2 of \"How a brief is made\""
+      }
+    },
+    "overrides": {
+      "work-humanizer-work-humanizer:work-humanizer-the-tells-strongest-first": {
+        "text": "## Plain claims (from work-humanizer, part C of its tells)\n\n- **An adjective with no specific behind it** (\"significant\", \"seamless\", \"powerful\", \"robust\", \"game-changing\"). Attach the number, name, or mechanism the source gives, or cut the adjective. Never supply a number the source lacks.\n- **Inflated significance.** \"a pivotal moment\", \"a testament to\", \"reshaping the landscape\", \"the future looks bright\". Keep the fact, drop the significance.\n- **Marketing register outside marketing**, and stock AI vocabulary. Lists in `tells.md`. One hit is weak; several together are the tell.\n- **Constructions nobody says out loud.** \"The recommended approach is X\" becomes \"Do X\". \"Serves as\" becomes \"is\". Nominalizations (\"perform an evaluation of\") become verbs. Op-ed verbs for sources (\"posits\", \"contends\", \"asserts\") become \"says\" or \"writes\". The test: would you say this sentence to a smart friend over coffee? If you'd say something plainer, write that.\n- **Vague authority.** \"Experts agree\", \"studies show\", \"many companies\". Name who, if the source does. Otherwise cut or scope it (\"in our tests\").\n\n"
+      },
+      "bug-bounty-triage:phase-5-generate-submission-report-knowledge-assumption-audit": {
+        "text": "## Before you send: the reader test\n\nAdapted from bug-bounty-triage's knowledge-assumption audit and its report rules 2 and 9, for a brief instead of a security report.\n\nRead only the brief, as a capable reader who has never seen the target. Do not send it while any answer is no:\n\n- Can the reader find the source of every number and every claim from the brief alone, without asking you?\n- Is every inference marked as an inference, and every unknown left as unknown rather than smoothed over?\n- Does each conclusion name the observed items it rests on?\n- Can the reader tell a fact from the source's own words apart from your summary of it?\n- Has repeated explanation been cut while every non-obvious detail stays?\n\nIf the evidence you have cannot answer a question the brief claims to answer, do not pad it with prose. Mark the question open and say what would settle it.\n"
+      }
+    },
+    "conflicts": {
+      "b973dfdc64": {
+        "status": "confirmed",
+        "winner": "bug-bounty-triage",
+        "why": "work-humanizer keeps the writer's own voice (\"we\" stays \"we\"); bug-bounty-triage states facts without self-reference (its rule 3). In a brief the claim is the subject and who found it goes in the ledger's evidence column, so bug-bounty-triage wins for the brief body"
+      },
+      "7869396513": {
+        "status": "dismissed",
+        "why": "different subjects (interview questions, a vulnerability class)"
+      }
+    },
+    "notes": [
+      "Five of the eight reverse-engineer skills drive looot's paid API (quotes, top-ups, job ids). The scanner marks those lines as depending on a paid or account-bound service. The brief here needs only public pages, so those skills are excluded and the method they share (the three tags) is kept from evidence-research.",
+      "ai-analyst-workbench licenses its code MIT and its documents CC BY 4.0 (`LICENSE`, `LICENSE-docs`). Its SKILL.md files are documents, so the CC BY duties apply: credit, a link to the licence, and the changes made. Both licence files travel in its folder.",
+      "work-humanizer ships nine earlier versions of itself under `evidence/skill-versions/`; compile skips them as version copies."
+    ],
+    "options": {
+      "plain_dashes": true
+    }
+  },
+  "eval": {
+    "verdict": "pass",
+    "tiers": [
+      "static"
+    ],
+    "originals": {
+      "static": {
+        "coverage": 1.0,
+        "in_context": 1.0,
+        "context_tokens": 36038,
+        "skills_loaded": 24,
+        "listing_chars": 7743
+      },
+      "live": null
+    },
+    "compiled": {
+      "static": {
+        "coverage": 1.0,
+        "in_context": 0.625,
+        "context_tokens": 2123,
+        "skills_loaded": 1,
+        "listing_chars": 529
+      },
+      "live": null
+    },
+    "eval_set_hash": "43b148a4bd9d4eef",
+    "tolerance": 0.05
+  }
+}

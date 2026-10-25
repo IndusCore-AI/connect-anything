@@ -1,0 +1,163 @@
+{
+  "skill_name": "apple-design",
+  "evals": [
+    {
+      "id": 1,
+      "name": "sheet-dismiss",
+      "prompt": "Our mobile settings sheet slides up from the bottom. Users say closing it feels stiff and sometimes jumps. Tell me exactly how the open and close motion should work and give me the code shape for it.",
+      "expected_output": "Spring motion that starts from the on-screen value, exits the way it entered, resists past its edge, and has a reduced-motion path.",
+      "files": [],
+      "expectations": [
+        "Says the sheet should leave the way it came in (down, the same path it entered)",
+        "Says an interrupted animation must start from the current on-screen position, not the target",
+        "Gives a reduced-motion fallback"
+      ],
+      "needs": [
+        "Enter and exit along the same path",
+        "animate from the presentation (current) value",
+        "prefers-reduced-motion: reduce",
+        "rubberband"
+      ],
+      "output_checks": [
+        {
+          "text": "mentions the same path or direction for enter and exit",
+          "regex": "same (path|direction|way)|exit[^.]{0,60}(the way|where) it (came|entered)"
+        },
+        {
+          "text": "mentions reduced motion",
+          "regex": "reduced.?motion"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "pottery-landing",
+      "prompt": "Build the landing page for a small pottery studio's weekend wheel-throwing classes. There is no design system yet. I have no testimonials or numbers to give you.",
+      "expected_output": "A Direct-mode page: a theme chosen from the library, the Floor held, and no invented numbers or quotes.",
+      "files": [],
+      "expectations": [
+        "Chooses a theme or page shape from the library rather than a generic layout",
+        "Does not invent testimonials, ratings or student counts",
+        "Uses overflow-x: clip rather than overflow hidden on the page"
+      ],
+      "needs": [
+        "theme.mjs deal",
+        "Never an invented metric",
+        "minmax(0, 1fr)",
+        "overflow-x: clip"
+      ],
+      "output_checks": [
+        {
+          "text": "no invented star rating or student count",
+          "not_regex": "(\\d+\\+? (happy )?students|\\d(\\.\\d)? ?stars|\\d{2,}% of)"
+        },
+        {
+          "text": "uses overflow-x: clip",
+          "regex": "overflow-x:\\s*clip"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "dashboard-buttons-review",
+      "prompt": "Review the buttons and keyboard focus on our analytics dashboard (Next.js, Tailwind). List what you would check and in what order.",
+      "expected_output": "A review that covers focus rings, press feedback on pointer-down, and the UX rule search.",
+      "files": [],
+      "expectations": [
+        "Checks that every interactive element shows a focus-visible ring",
+        "Says press feedback should appear on pointer-down, not on release",
+        "Uses or names the UX rules search for the concern"
+      ],
+      "needs": [
+        ":focus-visible",
+        "highlight on touch-*down*"
+      ],
+      "output_checks": [
+        {
+          "text": "mentions focus-visible",
+          "regex": "focus-visible"
+        },
+        {
+          "text": "mentions pointer-down or press feedback",
+          "regex": "pointer.?down|touch.?down|on press|:active"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "bengali-fonts",
+      "prompt": "We need fonts for a Bengali-language landing page that ships as a claude.ai artifact. Which faces, and how should letter spacing change between the headline and the body?",
+      "expected_output": "Google Fonts faces that cover Bengali, and size-specific tracking (tighter on large type, near zero on body).",
+      "files": [],
+      "expectations": [
+        "Recommends faces available on Google Fonts that cover Bengali script",
+        "Says tracking depends on size: tighter for large headings, near zero for body"
+      ],
+      "needs": [
+        "--domain google-fonts",
+        "Tracking (letter-spacing) is size-specific"
+      ],
+      "output_checks": [
+        {
+          "text": "names Google Fonts",
+          "regex": "google fonts"
+        },
+        {
+          "text": "size-specific tracking",
+          "regex": "(negative|tighter|-0\\.0\\d)[^.]{0,80}(head|display|large)|(head|display|large)[^.]{0,80}(negative|tighter|-0\\.0\\d)"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "app-settings-screen",
+      "prompt": "Add a notifications settings screen to our existing Next.js app. It must work well on phones.",
+      "expected_output": "Extends the product: inherits its tokens, controls sized for touch, stack guidance from the search.",
+      "files": [],
+      "expectations": [
+        "Inherits the app's existing tokens and components instead of new ones",
+        "Gives touch targets of at least 44px",
+        "Uses or names stack-specific guidance for Next.js"
+      ],
+      "needs": [
+        "touch-target-size",
+        "44px hit target"
+      ],
+      "output_checks": [
+        {
+          "text": "44px targets",
+          "regex": "44 ?(px|pt)"
+        },
+        {
+          "text": "inherits existing tokens",
+          "regex": "(existing|inherit|the app's|your) (design )?(tokens|components|system)"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "cheap-motion",
+      "prompt": "Our accordion animates its height with transition: all 300ms and it janks on low-end Android phones. Fix it.",
+      "expected_output": "No transition: all, animate transform and opacity only, a reduced-motion fallback.",
+      "files": [],
+      "expectations": [
+        "Removes transition: all",
+        "Animates only transform and opacity (or an equivalent that avoids animating height)"
+      ],
+      "needs": [
+        "Never `transition: all`",
+        "Animate only compositor-friendly properties"
+      ],
+      "output_checks": [
+        {
+          "text": "addresses transition: all",
+          "regex": "transition: ?all"
+        },
+        {
+          "text": "transform and opacity",
+          "regex": "transform[^.]{0,40}opacity|opacity[^.]{0,40}transform"
+        }
+      ]
+    }
+  ]
+}

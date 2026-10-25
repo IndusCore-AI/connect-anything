@@ -66,9 +66,11 @@ def auto_probes(plan, per_source=3):
     from .choose import rules_of
     evals = []
     for src in plan["sources"]:
-        if src["mode"] == "excluded":
+        if not in_baseline(src):
             continue
-        secs = sorted([s for s in src["sections"] if s["action"] in ("inline", "reference")], key=lambda s: -(s.get("score") or 0))
+        if plan.get("mode") == "compile" and src["mode"] == "excluded":
+            continue  # compile exists to leave parts out; only connect probes every source the user named
+        secs = sorted([s for s in src["sections"] if s.get("score") is not None], key=lambda s: -(s.get("score") or 0))
         for sec in secs[:per_source]:
             rules = [r for _, r in rules_of(sec["text"]) if len(content_words(r)) >= 4]
             if not rules:
@@ -93,11 +95,18 @@ def eval_set_hash(evals):
 
 
 # ------------------------------------------------------------------ arms
+def in_baseline(src):
+    """Every source the user named counts in 'run the originals', whatever the merge decided to leave out.
+    Only a source the scanner blocked (unsafe to run) and a version copy inside a repo are not in it."""
+    return not (src["mode"] == "excluded" and src.get("excluded_by") in ("scanner", "copy", None))
+
+
 def originals_arm(plan):
-    """What 'run the originals' puts in front of the agent: every usable original, whole."""
+    """What 'run the originals' puts in front of the agent: every original the user named, whole. Leaving a
+    source out of the merge never lowers this bar."""
     context, reach, descs = [], [], []
     for src in plan["sources"]:
-        if src["mode"] == "excluded":
+        if not in_baseline(src):
             continue
         root = src["staging"]
         main = os.path.join(root, os.path.basename(src.get("skillPath") or "SKILL.md"))
@@ -109,9 +118,9 @@ def originals_arm(plan):
         if not src.get("section_selector"):
             reach.extend(_text_files(root))
         descs.append(src.get("description") or "")
-    dirs = sorted({s["staging"] for s in plan["sources"] if s["mode"] != "excluded"})
+    dirs = sorted({s["staging"] for s in plan["sources"] if in_baseline(s)})
     return {"name": "originals", "context": context, "reach": reach, "descriptions": descs, "root": None, "dirs": dirs,
-            "root_for": {s["alias"]: s["staging"] for s in plan["sources"] if s["mode"] != "excluded"}}
+            "root_for": {s["alias"]: s["staging"] for s in plan["sources"] if in_baseline(s)}}
 
 
 def folder_arm(name, skill_dir):

@@ -113,7 +113,7 @@ def _compile_fit(plan, threshold):
             continue
         sp = os.path.dirname(src.get("skillPath") or "")
         if sp and SKIP_COPIES.search(sp):
-            src["mode"], src["excluded_reason"] = "excluded", f"a version, eval or example copy inside the repo ({sp})"
+            src["mode"], src["excluded_reason"], src["excluded_by"] = "excluded", f"a version, eval or example copy inside the repo ({sp})", "copy"
             for f in src["files"]:
                 f["keep"] = False
             for s in src["sections"]:
@@ -122,7 +122,7 @@ def _compile_fit(plan, threshold):
         best = max((s.get("score") or 0 for s in src["sections"]), default=0)
         src["fit"] = round(best, 3)
         if best < threshold:
-            src["mode"], src["excluded_reason"] = "excluded", f"does not fit the profile (best section score {best:.2f} < {threshold})"
+            src["mode"], src["excluded_reason"], src["excluded_by"] = "excluded", f"does not fit the profile (best section score {best:.2f} < {threshold})", "fit"
             for f in src["files"]:
                 f["keep"] = False
             for s in src["sections"]:
@@ -132,7 +132,7 @@ def _compile_fit(plan, threshold):
                 if s["action"] == "reference" and (s.get("score") or 0) < threshold / 2:
                     s["action"], s["why"] = "drop", f"score {s.get('score')}: does not fit the profile"
             if not any(s["action"] == "inline" for s in src["sections"]) and best < 2 * threshold:
-                src["mode"], src["excluded_reason"] = "excluded", f"nothing from it made the cut (best section {best:.2f}, none inline)"
+                src["mode"], src["excluded_reason"], src["excluded_by"] = "excluded", f"nothing from it made the cut (best section {best:.2f}, none inline)", "fit"
                 for f in src["files"]:
                     f["keep"] = False
                 for s in src["sections"]:

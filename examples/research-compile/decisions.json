@@ -26,38 +26,94 @@
     }
   ],
   "sources": {
-    "reverse-engineer-rebuild-on-looot": {"mode": "excluded", "why": "builds apps on looot's paid API; not research"},
-    "reverse-engineer-request-provider": {"mode": "excluded", "why": "files provider requests with looot"},
-    "reverse-engineer-reverse-engineer": {"mode": "excluded", "why": "a pipeline around looot's paid jobs; its useful rule (the three tags) is inline from evidence-research"},
-    "reverse-engineer-site-teardown": {"mode": "excluded", "why": "its procedure runs looot's paid jobs; the brief's own steps cover reading a site"},
-    "ai-analyst-workbench-ethan-slide-deck": {"mode": "excluded", "why": "makes slides, not briefs"},
-    "philosopher-okf": {"mode": "excluded", "why": "produces an HTML study page, not a sourced brief; its 42 files serve that job"}
+    "reverse-engineer-rebuild-on-looot": {
+      "mode": "excluded",
+      "why": "builds apps on looot's paid API; not research"
+    },
+    "reverse-engineer-request-provider": {
+      "mode": "excluded",
+      "why": "files provider requests with looot"
+    },
+    "reverse-engineer-reverse-engineer": {
+      "mode": "excluded",
+      "why": "a pipeline around looot's paid jobs; its useful rule (the three tags) is inline from evidence-research"
+    },
+    "reverse-engineer-site-teardown": {
+      "mode": "excluded",
+      "why": "its procedure runs looot's paid jobs; the brief's own steps cover reading a site"
+    },
+    "ai-analyst-workbench-ethan-slide-deck": {
+      "mode": "excluded",
+      "why": "makes slides, not briefs"
+    },
+    "philosopher-okf": {
+      "mode": "excluded",
+      "why": "produces an HTML study page, not a sourced brief; its 42 files serve that job"
+    }
   },
   "sections": {
-    "reverse-engineer-evidence-research:evidence-research-the-three-tags": {"action": "inline", "why": "how every claim is written"},
-    "reverse-engineer-evidence-research:evidence-research-output-format": {"action": "inline", "why": "the shape of the brief and its ledger"},
-    "reverse-engineer-evidence-research:evidence-research-procedure": {"action": "reference", "why": "steps 3 and 4 run looot's paid jobs; the generic steps are in \"How a brief is made\""},
-    "reverse-engineer-claims-audit:claims-audit-procedure": {"action": "reference", "why": "for fact-checking a document that exists; one read away"},
-    "work-humanizer-work-humanizer:work-humanizer-genre-notes": {"action": "reference", "why": "genre notes for emails and posts, not briefs"},
-    "work-humanizer-work-humanizer:work-humanizer-the-tells-strongest-first": {"action": "inline", "why": "only part C (inflation and generic claims) inline; parts A and B stay in the source folder"},
-    "bug-bounty-triage:bug-bounty-report-triage-validation-severity-escalation-source-fidelity-never-redact": {"action": "reference", "why": "about preserving security evidence verbatim; not needed for a brief"},
-    "bug-bounty-triage:phase-5-generate-submission-report-report-rules": {"action": "reference", "why": "security report rules; rules 2 and 9 are folded into the reader test"},
-    "bug-bounty-triage:phase-5-generate-submission-report-knowledge-assumption-audit": {"action": "inline", "why": "adapted into the reader test"},
-    "ai-analyst-workbench-ethan-analysis-brief:新分析项目的开题-第二步取数之前攻一遍分析设计": {"action": "reference", "why": "in Chinese; summarised as step 2 of \"How a brief is made\""}
+    "reverse-engineer-evidence-research:evidence-research-the-three-tags": {
+      "action": "inline",
+      "why": "how every claim is written"
+    },
+    "reverse-engineer-evidence-research:evidence-research-output-format": {
+      "action": "inline",
+      "why": "the shape of the brief and its ledger"
+    },
+    "reverse-engineer-evidence-research:evidence-research-procedure": {
+      "action": "reference",
+      "why": "steps 3 and 4 run looot's paid jobs; the generic steps are in \"How a brief is made\""
+    },
+    "reverse-engineer-claims-audit:claims-audit-procedure": {
+      "action": "reference",
+      "why": "for fact-checking a document that exists; one read away"
+    },
+    "work-humanizer-work-humanizer:work-humanizer-genre-notes": {
+      "action": "reference",
+      "why": "genre notes for emails and posts, not briefs"
+    },
+    "work-humanizer-work-humanizer:work-humanizer-the-tells-strongest-first": {
+      "action": "inline",
+      "why": "only part C (inflation and generic claims) inline; parts A and B stay in the source folder"
+    },
+    "bug-bounty-triage:bug-bounty-report-triage-validation-severity-escalation-source-fidelity-never-redact": {
+      "action": "reference",
+      "why": "about preserving security evidence verbatim; not needed for a brief"
+    },
+    "bug-bounty-triage:phase-5-generate-submission-report-report-rules": {
+      "action": "reference",
+      "why": "security report rules; rules 2 and 9 are folded into the reader test"
+    },
+    "bug-bounty-triage:phase-5-generate-submission-report-knowledge-assumption-audit": {
+      "action": "inline",
+      "why": "adapted into the reader test"
+    },
+    "ai-analyst-workbench-ethan-analysis-brief:新分析项目的开题-第二步取数之前攻一遍分析设计": {
+      "action": "reference",
+      "why": "in Chinese; summarised as step 2 of \"How a brief is made\""
+    }
   },
   "overrides": {
     "work-humanizer-work-humanizer:work-humanizer-the-tells-strongest-first": "overrides/plain-claims.md",
     "bug-bounty-triage:phase-5-generate-submission-report-knowledge-assumption-audit": "overrides/reader-test.md"
   },
   "conflicts": {
-    "b973dfdc64": {"status": "confirmed", "winner": "bug-bounty-triage", "why": "work-humanizer keeps the writer's own voice (\"we\" stays \"we\"); bug-bounty-triage states facts without self-reference (its rule 3). In a brief the claim is the subject and who found it goes in the ledger's evidence column, so bug-bounty-triage wins for the brief body"},
-    "7869396513": {"status": "dismissed", "why": "different subjects (interview questions, a vulnerability class)"},
-    "d58cc09eba": {"status": "dismissed", "why": "complementary: offer a shorter version; label untested claims as inferences"}
+    "b973dfdc64": {
+      "status": "confirmed",
+      "winner": "bug-bounty-triage",
+      "why": "work-humanizer keeps the writer's own voice (\"we\" stays \"we\"); bug-bounty-triage states facts without self-reference (its rule 3). In a brief the claim is the subject and who found it goes in the ledger's evidence column, so bug-bounty-triage wins for the brief body"
+    },
+    "7869396513": {
+      "status": "dismissed",
+      "why": "different subjects (interview questions, a vulnerability class)"
+    }
   },
   "notes": [
     "Five of the eight reverse-engineer skills drive looot's paid API (quotes, top-ups, job ids). The scanner marks those lines as depending on a paid or account-bound service. The brief here needs only public pages, so those skills are excluded and the method they share (the three tags) is kept from evidence-research.",
     "ai-analyst-workbench licenses its code MIT and its documents CC BY 4.0 (`LICENSE`, `LICENSE-docs`). Its SKILL.md files are documents, so the CC BY duties apply: credit, a link to the licence, and the changes made. Both licence files travel in its folder.",
     "work-humanizer ships nine earlier versions of itself under `evidence/skill-versions/`; compile skips them as version copies."
   ],
-  "options": {"plain_dashes": true}
+  "options": {
+    "plain_dashes": true
+  }
 }
