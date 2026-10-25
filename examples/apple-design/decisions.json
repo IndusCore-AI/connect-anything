@@ -1,0 +1,106 @@
+{
+  "title": "Apple Design",
+  "description": "The default skill for any design task: websites, landing pages, app screens, components, claude.ai artifacts, reviews and polish. For new work it picks the design with Hallmark's themes and page shapes and UI UX Pro Max's product reasoning; on every change it holds Hallmark's floor against AI-looking UI, runs its mechanical check, and finishes with Apple's interaction pass: instant press feedback, interruptible spring motion, enter and exit on one path, reduced-motion fallbacks. Use whenever anything people see or touch is designed, built, reviewed or changed.",
+  "intro": "One design skill made from three. Hallmark (`hallmark/`) chooses and checks the design, UI UX Pro Max (`uiux-pro-max/`) reasons about the product and carries the UX rules, and the Apple pass (`apple-pass/`) sets how anything a person touches responds and moves. When they disagree, the list below settles it; `MERGE.md` names each disagreement and the winner.",
+  "precedence": [
+    "The user's own words in the conversation",
+    "The project's locked system: its tokens, copy rules, i18n and screenshot checks (CLAUDE.md, design.md, token files). This skill refines; it never restyles a screen that already has a system",
+    "Honesty: no invented metric, testimonial, logo or quote (the Floor, rule 8)",
+    "Hallmark's Floor and its mechanical check, `hallmark/scripts/sloplint.mjs`",
+    "The Apple pass, on everything a person touches",
+    "UI UX Pro Max's product reasoning and UX rules; its palette and page-pattern picks give way to the Floor",
+    "Taste"
+  ],
+  "order": [
+    "extra:pick-the-mode",
+    "hallmark:hallmark-the-floor",
+    "hallmark:hallmark-flow",
+    "hallmark:flow-7-sweep",
+    "uiux-pro-max:uiux-pro-max-design-intelligence-running-the-search-tool",
+    "apple-pass:part-c-the-apple-pass-1-response-kill-latency",
+    "apple-pass:part-c-the-apple-pass-3-interruptibility-the-single-most-important-principle",
+    "apple-pass:part-c-the-apple-pass-4-behavior-over-animation-use-springs",
+    "apple-pass:part-c-the-apple-pass-7-spatial-consistency-symmetric-paths-anchored-origins",
+    "apple-pass:part-c-the-apple-pass-14-reduced-motion-accessibility",
+    "apple-pass:part-c-the-apple-pass-quick-reference"
+  ],
+  "extra_sections": [
+    {
+      "id": "pick-the-mode",
+      "title": "Pick the mode first",
+      "why": "written for this merge: none of the three sources says which of them leads for which kind of task",
+      "text": "## Pick the mode first\n\n| The task | Mode | Do |\n| --- | --- | --- |\n| Change a screen in a repo that has a design system (tokens, a Tailwind theme, `design.md`) | Refine | Keep the system. Apply the Floor where it does not contradict the system. Search the concern with `uiux-pro-max/scripts/search.py \"<concern>\" --domain ux`. Then the sweep and the Apple pass. |\n| A new screen inside an existing product | Extend | Inherit the product's tokens and components. Controls 32 to 40px with a 44px hit target. For phones, finish with `uiux-pro-max/references/pro-rules.md`. |\n| A new page with no system yet | Direct | Follow Hallmark's flow below: theme, shape, build, sweep. Product reasoning first: `uiux-pro-max/scripts/search.py \"<product> <industry>\" --design-system`. |\n| One component | Component | The Floor, every control state, the Apple pass. |\n| A review with no build | Review | Run the sweep's check, walk the Floor, `uiux-pro-max/references/quick-reference.md` priorities 1 to 3, and the Apple pass. Rank findings by what a user would notice. |\n\nPaths are relative to this skill's folder (in Claude Code, `${CLAUDE_SKILL_DIR}`). Run the search with plain `python3`, not `-I`: it imports its own `core.py`.\n"
+    }
+  ],
+  "sections": {
+    "hallmark:hallmark": {"action": "drop", "why": "Hallmark's own one-line introduction; the compiled intro replaces it"},
+    "hallmark:hallmark-the-floor": {"action": "inline", "why": "the rules every output must meet; it carries the mechanical check"},
+    "hallmark:hallmark-flow": {"action": "inline", "why": "the order of work for a new page"},
+    "hallmark:flow-3-direction": {"action": "reference", "why": "long; Direct mode reads it from `hallmark/HALLMARK.md`"},
+    "hallmark:flow-7-sweep": {"action": "inline", "why": "how to run the check before handing back"},
+    "uiux-pro-max:uiux-pro-max-design-intelligence-running-the-search-tool": {"action": "inline", "why": "the one command every mode uses"},
+    "uiux-pro-max:uiux-pro-max-design-intelligence-query-contract": {"action": "reference", "why": "long; read from `uiux-pro-max/UIUX-PRO-MAX.md` when a query needs it"},
+    "uiux-pro-max:query-contract-step-2b-persist-design-system-master-overrides-pattern": {"action": "reference", "why": "writes design-system files into the project, which a repo with a locked system must not get; see the note in MERGE.md"},
+    "apple-pass:part-c-the-apple-pass": {"action": "reference", "why": "the Apple pass's own introduction; its rules are inline below"},
+    "apple-pass:part-c-the-apple-pass-1-response-kill-latency": {"action": "inline", "why": "press feedback is part of every interactive change"},
+    "apple-pass:part-c-the-apple-pass-3-interruptibility-the-single-most-important-principle": {"action": "inline", "why": "the principle the rest of the motion rules serve"},
+    "apple-pass:part-c-the-apple-pass-4-behavior-over-animation-use-springs": {"action": "inline", "why": "the default spring values"},
+    "apple-pass:part-c-the-apple-pass-7-spatial-consistency-symmetric-paths-anchored-origins": {"action": "inline", "why": "enter and exit on one path"},
+    "apple-pass:part-c-the-apple-pass-14-reduced-motion-accessibility": {"action": "inline", "why": "the fallback every animation needs"},
+    "apple-pass:part-c-the-apple-pass-quick-reference": {"action": "inline", "why": "the values table, so the rest of the pass can stay one read away"},
+    "apple-pass:part-c-the-apple-pass-16-design-foundations-the-eight-principles": {"action": "reference", "why": "background reasoning; one read away in `apple-pass/APPLE-PASS.md`"},
+    "apple-pass:part-c-the-apple-pass-17-process": {"action": "reference", "why": "process advice; one read away"}
+  },
+  "files": {
+    "hallmark:references/comp.md": {"keep": false, "why": "generates comps through Together AI, a paid service the author works with; needs TOGETHER_API_KEY"},
+    "hallmark:references/flow.md": {"keep": false, "why": "Hallmark's per-harness branches and its edit-time hook; this skill's modes replace them"},
+    "hallmark:agents/openai.yaml": {"keep": false, "why": "another agent's manifest; nothing here reads it"},
+    "uiux-pro-max:scripts/validate_data.py": {"keep": false, "why": "the source's data validator, for its maintainers"},
+    "uiux-pro-max:data/phosphor-icons-upstream.json": {"keep": false, "why": "read only by the data validator, which is left out"},
+    "uiux-pro-max:data/google-font-licenses.json": {"keep": false, "why": "read only by the data validator, which is left out"},
+    "uiux-pro-max:data/data-provenance.json": {"keep": false, "why": "read only by the data validator, which is left out"},
+    "uiux-pro-max:data/catalog-summary.json": {"keep": false, "why": "read only by the data validator, which is left out"}
+  },
+  "conflicts": {
+    "844a9b6479": {"status": "confirmed", "winner": "hallmark", "why": "on display type the two agree (zero or tighter). The Apple pass adds slight positive tracking for small text; Hallmark's Floor (rule 9) keeps labels, captions and table heads untracked. The more specific rule wins for labels; the Apple pass's tracking applies to small running text"},
+    "b5bc316583": {"status": "dismissed", "why": "leading and display tracking; the two rules agree"},
+    "e89ab24d25": {"status": "dismissed", "why": "Hallmark sets the duration tokens, UI UX Pro Max says an exit takes the shorter one; both hold"},
+    "0c16124226": {"status": "dismissed", "why": "both allow linear only for constant-rate progress"},
+    "acd5250795": {"status": "dismissed", "why": "both hold: a 44px target, and about 10px of slop around it while a press is held"},
+    "d64de772b4": {"status": "dismissed", "why": "different subjects (press slop, button emphasis)"},
+    "2119f9a927": {"status": "dismissed", "why": "different subjects (press slop, grid spacing)"},
+    "d8cf1bc8ad": {"status": "dismissed", "why": "the same rule: the hero image is eager, everything below the fold is lazy"},
+    "3b7617996c": {"status": "dismissed", "why": "the same rule applied to components"},
+    "e71feb9c75": {"status": "dismissed", "why": "both protect sticky and fixed bars"},
+    "fc8d11e848": {"status": "dismissed", "why": "both keep content out of the safe area"},
+    "bc03ee3fd4": {"status": "dismissed", "why": "a ban specific to one theme (Brutal), not a general rule"},
+    "e4da3a64ec": {"status": "dismissed", "why": "a rule specific to the monospace themes"},
+    "8111269da3": {"status": "dismissed", "why": "different subjects"},
+    "f87cad9477": {"status": "dismissed", "why": "different subjects"},
+    "6447c09cbd": {"status": "dismissed", "why": "different subjects"},
+    "658c6d58e5": {"status": "dismissed", "why": "different subjects"},
+    "5d445e16a3": {"status": "dismissed", "why": "different subjects"},
+    "f69860aa74": {"status": "dismissed", "why": "different subjects"},
+    "b695b44717": {"status": "dismissed", "why": "different subjects"},
+    "aacb47ae10": {"status": "dismissed", "why": "different subjects"},
+    "4dd6fc1493": {"status": "dismissed", "why": "different subjects"},
+    "01acff514d": {"status": "dismissed", "why": "different subjects"},
+    "562a40e473": {"status": "dismissed", "why": "different subjects"},
+    "92ae2e958e": {"status": "dismissed", "why": "complementary: materialize glass surfaces; never leave an element lingering half faded"}
+  },
+  "compare_notes": {
+    "scripts": "The hand-made `scripts/check.mjs` is a wrapper written for that merge (it filters sloplint for locked repos). The compiler ships the source's own check, `hallmark/scripts/sloplint.mjs`, unchanged, and the sweep section says how to run it.",
+    "Start here: pick the mode": "Hand-written glue in the hand-made skill. Here a shorter mode table is written for the merge as an extra section, recorded as such.",
+    "Part A: The Floor (every mode)": "The hand-made skill rewrote Hallmark's Floor in its own words with house exceptions. Here Hallmark's Floor is inline unchanged, and the house exceptions belong to the repo's locked system, which ranks second in the list.",
+    "Part B: Direct mode, choosing the design": "Hand-written from Hallmark's flow. Here Hallmark's own flow and sweep are inline; the long steps stay in `hallmark/HALLMARK.md`.",
+    "Part B2: Extend mode, app screens": "Hand-written house rules for app screens. Not in any source; the update example fills this gap from the field.",
+    "Check before calling it done": "Hand-written. Here Hallmark's sweep is inline.",
+    "Part C: The Apple pass": "The source of `apple-pass/`. The hand-made skill carries all of it inline (about 6,100 tokens). Here the parts every change needs are inline and the rest is one read away, so the whole SKILL.md stays under the spec's 5,000 tokens."
+  },
+  "notes": [
+    "UI UX Pro Max's persist step writes `design-system/<project>/MASTER.md` into the project. In a repo with a locked system that is the system's job, so the step is referenced, not inline, and rank 2 of the list covers it.",
+    "Glass: Hallmark's genre files and most themes refuse translucent panels, while the Apple pass builds toolbars from them. The theme wins on a new page (rank 4); the Apple pass's reduced-transparency fallback applies wherever glass is used. The conflict scan does not see this one because the two sources name it differently (glass, translucent); it is recorded here by hand.",
+    "The default file rules keep `hallmark/scripts/capture.mjs` and `picture.mjs` (local puppeteer screenshots). The hand-made skill cut them because the team captures with Playwright; that is a team preference, so they stay here."
+  ],
+  "options": {"plain_dashes": true}
+}
