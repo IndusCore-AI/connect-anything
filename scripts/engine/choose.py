@@ -129,19 +129,30 @@ POS = re.compile(r"\b(always|use|prefer|must|should|keep|allowed|add|start|defau
 NUM = re.compile(r"(\d+(?:\.\d+)?)\s?(px|ms|%|s\b|sec|em|rem|lines?|chars?|characters|tokens|words|pt|dp)", re.I)
 
 
-def rules_of(text):
-    """Bullets and numbered items, plus standalone sentences in short paragraphs, as candidate rules."""
+NEG_CONTEXT = re.compile(r"\b(avoid|cut|never|don'?t|do not|anti-?patterns?|mistakes?|smells?|tells?|red flags?|banned|forbidden|refuse|not allowed|pitfalls?|bad)\b", re.I)
+
+
+def rules_of(text, with_context=False):
+    """Bullets and numbered items as candidate rules. With with_context, each also says whether the list sits
+    under a heading or lead-in that forbids its items ("Common mistakes", "Cut these:")."""
     out = []
     in_code = False
+    ctx_neg = False
     for i, line in enumerate(text.splitlines()):
-        if line.strip().startswith(("```", "~~~")):
+        s = line.strip()
+        if s.startswith(("```", "~~~")):
             in_code = not in_code
             continue
         if in_code:
             continue
         m = RULE_LINE.match(line)
         if m:
-            out.append((i, m.group(1)))
+            out.append((i, m.group(1), ctx_neg) if with_context else (i, m.group(1)))
+        elif s:
+            if s.startswith("#") or s.endswith(":") or len(s) < 120:
+                ctx_neg = bool(NEG_CONTEXT.search(s)) and (s.startswith("#") or s.endswith(":"))
+            else:
+                ctx_neg = False
     return out
 
 
@@ -161,11 +172,11 @@ def _rule_index(units):
     """Rules from units [(alias, section, text, rank)] with stems, document frequency and idf."""
     rules = []
     for alias, sec_id, text, rank in units:
-        for _, r in rules_of(text):
+        for _, r, neg in rules_of(text, with_context=True):
             cw = content_words(r)
             if len(cw) >= 3:
                 rules.append({"source": alias, "section": sec_id, "text": r, "stems": {stem(w) for w in cw}, "rank": rank,
-                              "n": len(cw)})
+                              "n": len(cw), "list_forbids": neg})
     df = Counter()
     for r in rules:
         df.update(r["stems"])
@@ -212,7 +223,13 @@ def find_duplicates(units):
             dups.append({"a": (a["source"], a["section"], 0, a["text"], a["stems"], a["rank"]),
                          "b": (b["source"], b["section"], 0, b["text"], b["stems"], b["rank"]), "similarity": round(sim, 2)})
     dups.sort(key=lambda d: -d["similarity"])
-    return dups[:60]
+    seen, unique = set(), []
+    for d in dups:
+        pk = pair_key(d["a"][3], d["b"][3])
+        if pk not in seen:
+            seen.add(pk)
+            unique.append(d)
+    return unique[:60]
 
 
 GENERIC = {stem(w) for w in """give make take read build show need decide other ask asks move change keep let set put get
@@ -222,7 +239,8 @@ case cases point points place step steps state states style styles kind sort lev
 many less more most own new old high low top bottom left right side""".split()}
 
 
-PROHIBIT = re.compile(r"\b(never|no|don'?t|do not|avoid|ban(?:ned|s)?|forbid(?:den|s)?|refuse[sd]?|not)\b", re.I)
+PROHIBIT = re.compile(r"\b(never|no|don'?t|do not|avoid|ban(?:ned|s)?|forbid(?:den|s)?|refuse[sd]?|not|cut|drop|remove|strip|delete|skip)\b", re.I)
+ASK = re.compile(r"\b(use|uses|prefer|always|keep|add|include|write|start|default|choose|pick|want|wants|should|must|recommend(?:ed)?|ok|allowed)\b", re.I)
 
 
 def _prohibited(text):
@@ -234,9 +252,13 @@ def _prohibited(text):
     while i < len(toks):
         if PROHIBIT.fullmatch(toks[i]):
             j = i + 1
+            while j < len(toks) and toks[j] in (":", "("):  # "Banned: a, b, c"
+                j += 1
             while j < len(toks) and j - i <= 25:
                 lw = toks[j].lower()
-                if lw in (".", ";", ":", "(", ")") or lw in ("but", "unless", "except", "instead", "when", "if", "use", "prefer"):
+                if lw in (".", ";", ":", "(", ")") or lw in ("but", "unless", "except", "instead", "when", "if"):
+                    break
+                if lw in ("use", "prefer") and j > i + 1:  # "never X, use Y" stops here; "never use X" forbids X
                     break
                 cw = content_words(lw)
                 if cw:
@@ -248,13 +270,28 @@ def _prohibited(text):
     return out
 
 
+def _asked(text):
+    """Stems a rule asks for: content words within six words after use / prefer / keep / by default..."""
+    toks = re.findall(r"[A-Za-z0-9][A-Za-z0-9'_-]*|[.;:()]", text)
+    out = set()
+    for i, t in enumerate(toks):
+        if ASK.fullmatch(t):
+            for w in toks[i + 1:i + 7]:
+                if w in (".", ";") or PROHIBIT.fullmatch(w):
+                    break
+                cw = content_words(w.lower())
+                if cw:
+                    out.add(stem(cw[0]))
+    return out
+
+
 def find_conflicts(units, limit=25):
     """Rules from different sources where one forbids a specific term the other recommends, or where both
     give a number in the same unit for the same thing and the numbers differ."""
     rules, df, idf, inv = _rule_index(units)
     for r in rules:
-        r["forbids"] = _prohibited(r["text"])
-        r["asks"] = r["stems"] - r["forbids"]
+        r["forbids"] = set(r["stems"]) if r.get("list_forbids") else _prohibited(r["text"])
+        r["asks"] = set() if r.get("list_forbids") else (_asked(r["text"]) - r["forbids"])
     max_df = max(4, len(rules) // 40)
     found = []
     for i, j in _pairs(rules, df, inv, max_df):
@@ -263,7 +300,7 @@ def find_conflicts(units, limit=25):
         if sim >= 0.55:
             continue  # the same rule twice is a duplicate, not a conflict
         kind, terms = None, []
-        clash = (a["forbids"] & b["asks"] - b["forbids"]) | (b["forbids"] & a["asks"] - a["forbids"])
+        clash = (a["forbids"] & b["asks"]) | (b["forbids"] & a["asks"])
         clash = {t for t in clash if df[t] <= max_df and len(t) > 3 and t not in GENERIC}
         specific_shared = {t for t in shared if df[t] <= max_df and t not in GENERIC}
         if clash and len(specific_shared) >= 2:
@@ -280,8 +317,12 @@ def find_conflicts(units, limit=25):
                                     {"source": b["source"], "section": b["section"], "text": b["text"]}],
                           "ranks": (a["rank"], b["rank"])})
     found.sort(key=lambda c: (-c["weight"], -c["overlap"]))
-    out, topics = [], Counter()
+    out, topics, seen = [], Counter(), set()
     for c in found:  # at most two conflicts per topic term, so one busy term cannot crowd out the rest
+        pk = pair_key(c["sides"][0]["text"], c["sides"][1]["text"])
+        if pk in seen:
+            continue
+        seen.add(pk)
         key = c["shared"][0]
         if topics[key] >= 2:
             continue
@@ -333,7 +374,43 @@ def default_precedence(profile, aliases, checkers):
     return out
 
 
-def build_plan(mode, name, recs, assessments, scans, profile, job="", gap="", budget=None, extra=None):
+def find_pairs(sources, recs, profile, rank=None):
+    """Duplicates and conflicts across the copied sources: their SKILL.md sections and markdown references."""
+    rank = rank or {s["alias"]: i for i, s in enumerate(sources)}
+    by_alias = {s["alias"]: s for s in sources}
+    flat_units = [(s["alias"], x) for s in sources if s["mode"] == "flatten" for x in s["sections"] if x["action"] != "drop"]
+    # duplicates and conflicts over the inline candidates plus the next best
+    cand = [(a, s["id"], s["text"], rank.get(a, 99)) for a, s in flat_units]
+    for rec in recs:  # rules in the sources' reference files can clash with inline rules too
+        if by_alias[rec["alias"]]["mode"] != "flatten":
+            continue
+        for f in rec["files"]:
+            if f["kind"] == "markdown" and f["path"] != rec.get("main_file") and f.get("text") and f["size"] < 200_000 and not REPO_DOCS.search(f["path"]):
+                cand.append((rec["alias"], f["path"], f["text"], rank.get(rec["alias"], 99)))
+    dups = find_duplicates(cand)
+    duplicates = []
+    for n, d in enumerate(dups, 1):
+        a, b = d["a"], d["b"]
+        ca, cb = by_alias[a[0]]["check_script"], by_alias[b[0]]["check_script"]
+        if ca != cb:
+            keep, drop, why = (a, b, f"`{a[0]}` ships a check script") if ca else (b, a, f"`{b[0]}` ships a check script")
+        elif a[5] != b[5]:
+            keep, drop, why = (a, b, "higher in the source order") if a[5] < b[5] else (b, a, "higher in the source order")
+        else:
+            keep, drop, why = (a, b, "the longer, more specific wording") if len(a[4]) >= len(b[4]) else (b, a, "the longer, more specific wording")
+        duplicates.append({"id": f"d{n}", "key": pair_key(keep[3], drop[3]), "similarity": d["similarity"], "why": why,
+                           "kept": {"source": keep[0], "section": keep[1], "text": keep[3]},
+                           "dropped": {"source": drop[0], "section": drop[1], "text": drop[3]}})
+    conflicts = []
+    must = profile.get("must") or []
+    for n, c in enumerate(find_conflicts(cand), 1):
+        win, why = default_winner(c, {s["alias"]: _rec_for(recs, s["alias"]) for s in sources}, must)
+        conflicts.append({"id": f"c{n}", "key": pair_key(c["sides"][0]["text"], c["sides"][1]["text"]), "kind": c["kind"],
+                          "topic": ", ".join(c["shared"][:4]), "sides": c["sides"], "winner": win, "why": why, "status": "proposed"})
+    return duplicates, conflicts
+
+
+def build_plan(mode, name, recs, assessments, scans, profile, job="", gap="", budget=None, extra=None, per_repo=None):
     """recs: read records; assessments: alias -> licence; scans: alias -> (findings, summary)."""
     budget = {**DEFAULT_BUDGET, **(profile.get("budget") or {}), **(budget or {})}
     ranked_aliases = profile.get("sources") or [r["alias"] for r in recs]
@@ -406,44 +483,23 @@ def build_plan(mode, name, recs, assessments, scans, profile, job="", gap="", bu
     lines_used, tokens_used = overhead_lines, overhead_tokens
     n_src = max(1, len(ranked_aliases))
     bonus = lambda a: 0.15 * (1 - rank.get(a, n_src) / n_src)  # the order you gave the sources counts a little
+    repo_of = {s["alias"]: s["source"] for s in sources}
+    per_repo_used = Counter()
     for alias, sec in sorted(flat_units, key=lambda x: (-(x[1]["score"] + bonus(x[0])), rank.get(x[0], 99))):
         n_lines = sec["lines"][1] - sec["lines"][0] + 1
         if sec["score"] <= 0.05:
             continue
+        if per_repo and per_repo_used[repo_of[alias]] >= per_repo:
+            sec["why"] = f"score {sec['score']}: kept in the source folder; {per_repo} sections from this repo are already inline"
+            continue
         if lines_used + n_lines <= budget["lines"] and tokens_used + sec["tokens"] <= budget["tokens"]:
             sec["action"], sec["why"] = "inline", f"score {sec['score']}: fits the job" + (f" ({', '.join(sec['hits'][:4])})" if sec["hits"] else "")
+            per_repo_used[repo_of[alias]] += 1
             lines_used += n_lines
             tokens_used += sec["tokens"]
         else:
             sec["why"] = f"score {sec['score']}: kept in the source folder; the SKILL.md budget is full"
-    # duplicates and conflicts over the inline candidates plus the next best
-    cand = [(a, s["id"], s["text"], rank.get(a, 99)) for a, s in flat_units]
-    for rec in recs:  # rules in the sources' reference files can clash with inline rules too
-        if by_alias[rec["alias"]]["mode"] != "flatten":
-            continue
-        for f in rec["files"]:
-            if f["kind"] == "markdown" and f["path"] != rec.get("main_file") and f.get("text") and f["size"] < 200_000 and not REPO_DOCS.search(f["path"]):
-                cand.append((rec["alias"], f["path"], f["text"], rank.get(rec["alias"], 99)))
-    dups = find_duplicates(cand)
-    duplicates = []
-    for n, d in enumerate(dups, 1):
-        a, b = d["a"], d["b"]
-        ca, cb = by_alias[a[0]]["check_script"], by_alias[b[0]]["check_script"]
-        if ca != cb:
-            keep, drop, why = (a, b, f"`{a[0]}` ships a check script") if ca else (b, a, f"`{b[0]}` ships a check script")
-        elif a[5] != b[5]:
-            keep, drop, why = (a, b, "higher in the source order") if a[5] < b[5] else (b, a, "higher in the source order")
-        else:
-            keep, drop, why = (a, b, "the longer, more specific wording") if len(a[4]) >= len(b[4]) else (b, a, "the longer, more specific wording")
-        duplicates.append({"id": f"d{n}", "key": pair_key(keep[3], drop[3]), "similarity": d["similarity"], "why": why,
-                           "kept": {"source": keep[0], "section": keep[1], "text": keep[3]},
-                           "dropped": {"source": drop[0], "section": drop[1], "text": drop[3]}})
-    conflicts = []
-    must = profile.get("must") or []
-    for n, c in enumerate(find_conflicts(cand), 1):
-        win, why = default_winner(c, {s["alias"]: _rec_for(recs, s["alias"]) for s in sources}, must)
-        conflicts.append({"id": f"c{n}", "key": pair_key(c["sides"][0]["text"], c["sides"][1]["text"]), "kind": c["kind"],
-                          "topic": ", ".join(c["shared"][:4]), "sides": c["sides"], "winner": win, "why": why, "status": "proposed"})
+    duplicates, conflicts = find_pairs(sources, recs, profile, rank)
     flat_aliases = [s["alias"] for s in sources if s["mode"] == "flatten"]
     plan = {
         "version": 1, "mode": mode, "name": name, "title": name.replace("-", " ").title(), "job": job, "gap": gap or None,

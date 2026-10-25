@@ -1,0 +1,14 @@
+{
+  "name": "connect-anything",
+  "displayName": "Connect Anything",
+  "version": "0.1.0",
+  "description": "Compose, compile and update agent skills with provenance: every source read in full and scanned, licences checked, one SKILL.md with a what-wins list, MERGE.md naming every conflict, a lockfile per source commit, and an eval gate that refuses a merge that loses to the originals.",
+  "author": {
+    "name": "IndusCore",
+    "url": "https://induscore.site"
+  },
+  "homepage": "https://github.com/gaurpulkit/connect-anything",
+  "repository": "https://github.com/gaurpulkit/connect-anything",
+  "license": "MIT",
+  "keywords": ["skills", "agent-skills", "compose", "skill-set", "stack", "merge", "combine", "update", "lockfile", "provenance", "eval", "security"]
+}

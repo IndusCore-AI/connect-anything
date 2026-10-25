@@ -121,8 +121,13 @@ def missing_refs(skill_dir):
     return sorted(set(missing))
 
 
+COMPILER_TAIL = re.compile(r"^## (Where the rest is|Sources|Skills this one runs \(not copied\))\s*$", re.M)
+
+
 def duplicate_rules(skill_dir, threshold=0.8):
     text = open(os.path.join(skill_dir, "SKILL.md"), encoding="utf-8").read()
+    m = COMPILER_TAIL.search(text)
+    text = text[: m.start()] if m else text  # the compiler's own index lists are not rules
     rules = []
     for line in text.splitlines():
         m = re.match(r"^\s*(?:[-*+]|\d+[.)])\s+(.*\S)", line)

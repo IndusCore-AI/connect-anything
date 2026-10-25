@@ -65,9 +65,10 @@ def _section_text(plan, src, sec, mods):
         mods.append(f"{n_rebased} relative path(s) pointed at `{src['alias']}/`")
     # headings: the compiled skill has one H1, so a source's H1 becomes an H2 and its children follow
     lines = text.splitlines()
-    levels = [len(m.group(1)) for m in (re.match(r"^(#{1,6})\s", l) for l in lines) if m]
+    outside = _outside_fences(lines)
+    levels = [len(mm.group(1)) for i, mm in ((i, re.match(r"^(#{1,6})\s", l)) for i, l in enumerate(lines)) if mm and outside[i]]
     if levels and min(levels) == 1:
-        lines = [("#" + l) if re.match(r"^#{1,5}\s", l) else l for l in lines]
+        lines = [("#" + l) if outside[i] and re.match(r"^#{1,5}\s", l) else l for i, l in enumerate(lines)]
         mods.append("heading levels shifted down one")
         text = "\n".join(lines) + "\n"
     if plan["options"].get("plain_dashes") and has_dashes(text):
@@ -112,9 +113,22 @@ def rebase_paths(text, src):
         return m.group(0)
 
     out = re.sub(r"(\[[^\]]*\])\(([^)\s]+)\)", link, text)
-    out = re.sub(r"`([A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)+/?)`", tick, out)
+    out = re.sub(r"`([A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*/?)`", tick, out)
     out = re.sub(r"(<skill-dir>|\$\{CLAUDE_SKILL_DIR\}|\{baseDir\})/([A-Za-z0-9_./-]+)", skilldir, out)
     return out, count[0]
+
+
+def _outside_fences(lines):
+    out, fence = [], None
+    for l in lines:
+        s = l.strip()
+        mm = re.match(r"^(`{3,}|~{3,})", s)
+        if mm:
+            out.append(False)
+            fence = None if fence and s.startswith(fence) else (fence or mm.group(1))
+            continue
+        out.append(fence is None)
+    return out
 
 
 def _is_inline(plan, alias, sec_id):
@@ -313,6 +327,10 @@ def source_readme(plan, src):
         if s["action"] == "drop":
             lines.append(f"- Section \"{_q(s['title'])}\" of SKILL.md: {s['why']}.")
     lines += ["", "## Licence duties", "", f"- {lic['duties']}"]
+    if lic["spdx"] == "CC-BY-4.0" or "CC-BY-4.0" in (lic.get("all") or []):
+        owner = src["source"].split("/")[0] if src["sourceType"] == "github" else src["source"]
+        lines.append(f"- Credit: {', '.join(lic.get('copyright') or []) or owner}, {src.get('sourceUrl') or src['source']}. "
+                     "Licence: https://creativecommons.org/licenses/by/4.0/. Changes: listed under \"Changes made\" above, or none.")
     if lic.get("notice"):
         lines.append("- The source's NOTICE file is carried in `NOTICE`.")
     for p in lic.get("problems") or []:
@@ -542,8 +560,10 @@ def write_folder(plan, out_dir):
                 os.makedirs(os.path.dirname(target), exist_ok=True)
                 shutil.copyfile(os.path.join(src["staging"], rel), target)
             lic = src["licence"]
-            if lic.get("file"):
-                shutil.copyfile(os.path.join(src["repo_root"], lic["file"]), os.path.join(dest, "LICENSE"))
+            lic_files = lic.get("files") or ([lic["file"]] if lic.get("file") else [])
+            for i, lf in enumerate(lic_files):
+                name = "LICENSE" if i == 0 else os.path.basename(lf)
+                shutil.copyfile(os.path.join(src["repo_root"], lf), os.path.join(dest, name))
             if lic.get("notice"):
                 write_text(os.path.join(dest, "NOTICE"), lic["notice"].rstrip() + "\n")
     skill_md = compose_skill_md(plan)

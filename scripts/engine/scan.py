@@ -40,6 +40,7 @@ PATTERNS = [
     ("api-key-ref", "review", r"(?-i:\b[A-Z][A-Z0-9_]*_(API_KEY|TOKEN|SECRET)\b)", "references an API key or token"),
     ("tracking-link", "review", r"[?&](ref|utm_source|utm_medium|utm_campaign|via|aff|affiliate)=", "tracking or affiliate link"),
     ("hidden-comment", "review", r"<!--(?![^>]*-->\s*$)|<!--[^>]*\b(you must|always|never|ignore|assistant|claude|the agent|do not)\b", "HTML comment the reader never sees"),
+    ("paid-service", "review", r"\btop-?up\b|\bcredits? (balance|remaining|left)\b|\bbilling\b|\bper (call|request|run)\b[^\n]{0,30}\$|\$\d+(\.\d+)? (per|a) (call|run|request|month)|https?://api\.[a-z0-9-]+\.(ai|com|io|dev|app)", "depends on a paid or account-bound service"),
     ("package-install", "info", r"\b(npm|pnpm|yarn|bun)\s+(i|install|add)\b|\bnpx\s+(-y\s+)?[a-z@]|\bpip3?\s+install\b|\bbrew\s+install\b|\bgo\s+install\b|\bcargo\s+install\b", "installs a package"),
     ("subprocess", "info", r"os\.system\(|os\.popen\(|subprocess\.|child_process|execSync|spawnSync|\bspawn\(|\bexecFile\(|Deno\.run|Bun\.spawn", "runs subprocesses"),
     ("network", "info", r"\brequests\.(get|post|put|delete|request|Session)\b|urllib\.request|urlopen\(|http\.client|\bfetch\(|\baxios\b|XMLHttpRequest|new WebSocket|\bsocket\.(socket|create_connection)\b|https?\.(request|get)\(|\bcurl\s|\bwget\s|Invoke-WebRequest", "makes network calls"),

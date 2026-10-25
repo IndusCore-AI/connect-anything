@@ -67,7 +67,8 @@ def make_plan(mode, name, specs, job="", gap="", profile_path=None, own=(), allo
     recs, assessments, scans = prepare(specs, mode, own=own, allow=allow, strip=strip, refresh=refresh)
     if not recs:
         raise EngineError("no usable source: every spec was empty or not a skill")
-    plan = choose.build_plan(mode, name, recs, assessments, scans, profile, job=job, gap=gap, budget=budget)
+    plan = choose.build_plan(mode, name, recs, assessments, scans, profile, job=job, gap=gap, budget=budget,
+                             per_repo=3 if mode == "compile" else None)
     by_alias = {r["alias"]: r for r in recs}
     for src in plan["sources"]:
         src["strip_ranges"] = by_alias[src["alias"]].get("strip_ranges", [])
@@ -86,8 +87,10 @@ def make_plan(mode, name, specs, job="", gap="", profile_path=None, own=(), allo
                 f["keep"], f["why"] = False, "source is referenced, not copied"
             for sec in src["sections"]:
                 sec["action"], sec["why"] = "reference", "named only; the original stays installed"
-    if mode == "compile":
-        _compile_fit(plan, fit_threshold if fit_threshold is not None else 0.2)
+    if mode == "compile" or orchestrate or strip:
+        if mode == "compile":
+            _compile_fit(plan, fit_threshold if fit_threshold is not None else 0.2)
+        plan["duplicates"], plan["conflicts"] = choose.find_pairs(plan["sources"], recs, profile)
     plan["options"]["plain_dashes"] = plain_dashes
     if evals:
         plan["evals"] = [os.path.abspath(os.path.expanduser(e)) for e in evals]
@@ -99,10 +102,22 @@ def make_plan(mode, name, specs, job="", gap="", profile_path=None, own=(), allo
     return plan
 
 
+SKIP_COPIES = re.compile(r"(^|/)(evals?|tests?|fixtures|examples?|archive|old|versions?|skill-versions|history|benchmarks?|evidence)(/|$)", re.I)
+
+
 def _compile_fit(plan, threshold):
-    """Compile keeps only candidates whose best section fits the profile; the rest are dropped with the score."""
+    """Compile keeps only the candidates that contribute: a section inline, or a strong fit. Version, eval and
+    example copies inside a repo are skipped. Every cut carries its reason."""
     for src in plan["sources"]:
         if src["mode"] == "excluded":
+            continue
+        sp = os.path.dirname(src.get("skillPath") or "")
+        if sp and SKIP_COPIES.search(sp):
+            src["mode"], src["excluded_reason"] = "excluded", f"a version, eval or example copy inside the repo ({sp})"
+            for f in src["files"]:
+                f["keep"] = False
+            for s in src["sections"]:
+                s["action"], s["why"] = "drop", "candidate skipped"
             continue
         best = max((s.get("score") or 0 for s in src["sections"]), default=0)
         src["fit"] = round(best, 3)
@@ -116,6 +131,12 @@ def _compile_fit(plan, threshold):
             for s in src["sections"]:
                 if s["action"] == "reference" and (s.get("score") or 0) < threshold / 2:
                     s["action"], s["why"] = "drop", f"score {s.get('score')}: does not fit the profile"
+            if not any(s["action"] == "inline" for s in src["sections"]) and best < 2 * threshold:
+                src["mode"], src["excluded_reason"] = "excluded", f"nothing from it made the cut (best section {best:.2f}, none inline)"
+                for f in src["files"]:
+                    f["keep"] = False
+                for s in src["sections"]:
+                    s["action"], s["why"] = "drop", "candidate contributes nothing inline"
 
 
 def save_plan(plan, workdir):
@@ -169,6 +190,11 @@ def build(plan, out=None, live=False, runner=None, model=None, judge_model=None,
     dpath = decisions_path or os.path.join(workdir, "decisions.json")
     decisions = read_json(dpath) if os.path.isfile(dpath) else None
     if decisions:
+        base = os.path.dirname(os.path.abspath(dpath))
+        decisions = dict(decisions)
+        if decisions.get("overrides"):
+            decisions["overrides"] = {k: (v if isinstance(v, dict) or os.path.isabs(v) else os.path.join(base, v))
+                                      for k, v in decisions["overrides"].items()}
         unmatched = decmod.apply(plan, decisions)
         for u in unmatched:
             log(f"decision not applied, nothing matches it any more: {u}")
@@ -196,7 +222,8 @@ def build(plan, out=None, live=False, runner=None, model=None, judge_model=None,
     write_text(os.path.join(build_dir, "MERGE.md"), merge.merge_md(plan, compare=compare, checks=pre, scoreboard=lines))
     lock = lockmod.write_lock(plan, build_dir, eval_result=result, decisions=_portable(decisions, workdir))
     final = checkmod.run_checks(build_dir, expect_lock=True, house_style=style)
-    save_plan({k: v for k, v in plan.items() if k != "_workdir"}, workdir)
+    # the generated plan.json stays as it was; the plan with decisions applied is kept beside it
+    write_json(os.path.join(workdir, "plan.built.json"), {k: v for k, v in plan.items() if k != "_workdir"})
     report = {"build": build_dir, "verdict": result["verdict"], "reasons": result["reasons"], "checks": final,
               "scoreboard": lines, "lock": lock}
     ok_checks = checkmod.all_ok(final)
@@ -231,24 +258,36 @@ def _portable(decisions, workdir):
 
 
 def _apply_strips(plan, build_dir):
-    """Cut promotional sections out of copied files (the source README records each cut)."""
+    """Cut promotional sections out of copied files (the source README records each cut). Ranges in one file are
+    merged first and cut from the bottom up, so one cut never shifts another onto real content."""
     for s in plan["sources"]:
+        by_file = {}
         for rng in s.get("strip_ranges") or []:
-            if not rng.get("start"):
-                continue
-            rel = merge.renamed_skill_file(s["alias"]) if rng["file"] == "SKILL.md" else rng["file"]
+            if rng.get("start"):
+                by_file.setdefault(rng["file"], []).append(rng)
+        for rel_src, ranges in by_file.items():
+            merged = []
+            for r in sorted(ranges, key=lambda r: r["start"]):
+                if merged and r["start"] <= merged[-1]["end"] + 1:
+                    merged[-1]["end"] = max(merged[-1]["end"], r["end"])
+                    merged[-1]["findings"].append(r["finding"])
+                else:
+                    merged.append({**r, "findings": [r["finding"]]})
+            rel = merge.renamed_skill_file(s["alias"]) if rel_src == "SKILL.md" else merge.vendored_name(s["alias"], rel_src)
             p = os.path.join(build_dir, s["alias"], rel)
             if not os.path.isfile(p):
                 continue
             lines = open(p, encoding="utf-8").read().splitlines(keepends=True)
-            del lines[rng["start"] - 1:rng["end"]]
+            for r in sorted(merged, key=lambda r: -r["start"]):
+                del lines[r["start"] - 1:r["end"]]
             write_text(p, "".join(lines))
-            readme = os.path.join(build_dir, s["alias"], "README.md")
-            note = (f"\n## Cut from the copy\n\n- `{rel}` lines {rng['start']} to {rng['end']}"
-                    f"{' (section ' + json.dumps(rng.get('title')) + ')' if rng.get('title') else ''}: "
-                    f"promotional instructions (finding `{rng['finding']}`), cut at the compiler's request.\n")
-            with open(readme, "a", encoding="utf-8") as fh:
-                fh.write(note)
+            notes = "".join(
+                f"- `{rel}` lines {r['start']} to {r['end']}"
+                f"{' (section ' + json.dumps(r.get('title')) + ')' if r.get('title') else ''}: promotional instructions "
+                f"(finding{'s' if len(r['findings']) > 1 else ''} {', '.join('`' + f + '`' for f in r['findings'])}), cut at the compiler's request.\n"
+                for r in merged)
+            with open(os.path.join(build_dir, s["alias"], "README.md"), "a", encoding="utf-8") as fh:
+                fh.write("\n## Cut from the copy\n\n" + notes)
 
 
 def _emit(build_dir, target, name, force):

@@ -284,6 +284,8 @@ def live_tier(evals, arms, runner, budget, trials=1, workdir=None, dry_run=False
     if dry_run:
         return {"dry_run": True, "planned_calls": planned, "estimate_usd": round(planned * budget.last, 2), "cap_usd": budget.cap}
     rnd = random.Random(seed)
+    if workdir:
+        os.makedirs(workdir, exist_ok=True)
     results = {a["name"]: [] for a in arms}
     incomplete = False
     for e in evals:

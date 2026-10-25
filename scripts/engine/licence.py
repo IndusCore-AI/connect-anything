@@ -57,7 +57,7 @@ DUTIES = {
     "Unlicense": "Public domain. Credited anyway.",
     "CC0-1.0": "Public domain dedication. Credited anyway.",
     "Apache-2.0": "Give a copy of the licence, mark every changed file with a notice that it was changed, keep the copyright and attribution notices, and carry the NOTICE file's contents.",
-    "CC-BY-4.0": "Credit the author, link the licence, and say what was changed.",
+    "CC-BY-4.0": "Credit the author, link the licence (https://creativecommons.org/licenses/by/4.0/), and say what was changed.",
 }
 
 
@@ -113,9 +113,18 @@ def assess(rec, own=False):
         if spdx is None:
             problems.append(f"{f['path']}: licence text not recognised")
     fm_spdx = _from_frontmatter((rec.get("frontmatter") or {}).get("license"))
-    nearest = next(((f, s) for f, s in found if s), None)
+    # the nearest folder that holds a recognised licence decides; several there (code and docs) all apply
+    nearest_level = next((f["level"] for f, s in found if s), None)
+    here = [(f, s) for f, s in found if s and f["level"] == nearest_level]
+    nearest = here[0] if here else None
     spdx = nearest[1] if nearest else None
-    evidence = f"{nearest[0]['path']}" if nearest else None
+    evidence = ", ".join(f["path"] for f, _ in here) if here else None
+    if len({s for _, s in here}) > 1:
+        ids = sorted({s for _, s in here}, key=lambda s: RESTRICTIVENESS.index(s) if s in RESTRICTIVENESS else 99)
+        problems.append(f"{len(here)} licences side by side ({', '.join(f['path'] + ': ' + s for f, s in here)}); "
+                        "every one of them is met, and the strictest sets the duties")
+        verdicts = {verdict_for(s) for s in ids}
+        spdx = ids[-1] if verdicts == {"flatten"} else next(s for s in ids if verdict_for(s) != "flatten")
     if fm_spdx and spdx and fm_spdx != spdx and not fm_spdx.startswith("LicenseRef"):
         problems.append(f"SKILL.md says {fm_spdx}, {evidence} says {spdx}; the stricter one is used")
         spdx = max(spdx, fm_spdx, key=lambda s: RESTRICTIVENESS.index(s) if s in RESTRICTIVENESS else 99)
@@ -130,14 +139,18 @@ def assess(rec, own=False):
     lic_text = nearest[0]["text"] if nearest else ""
     notice = "\n\n".join(n["text"].strip() for n in rec.get("notice_files", [])) or None
     v = verdict_for(spdx) if spdx else "reference"
+    all_ids = sorted({s for _, s in here}) if here else []
     return {
         "spdx": spdx or "NOASSERTION",
+        "all": all_ids,
         "verdict": v,
         "file": nearest[0]["path"] if nearest else None,
+        "files": [f["path"] for f, _ in here],
         "file_text": lic_text,
         "copyright": copyright_lines(lic_text),
         "notice": notice,
-        "duties": DUTIES.get(spdx, "Not copied. Referenced only." if v != "flatten" else ""),
+        "duties": " ".join(DUTIES.get(s, "") for s in (all_ids if len(all_ids) > 1 else [spdx])).strip()
+                  or ("Not copied. Referenced only." if v != "flatten" else ""),
         "problems": problems,
         "evidence": evidence or ("frontmatter" if fm_spdx else "none"),
     }

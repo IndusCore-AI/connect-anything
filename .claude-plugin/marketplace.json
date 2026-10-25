@@ -1,0 +1,18 @@
+{
+  "name": "induscore",
+  "description": "Agent skills from IndusCore.",
+  "owner": {
+    "name": "IndusCore",
+    "url": "https://induscore.site"
+  },
+  "plugins": [
+    {
+      "name": "connect-anything",
+      "source": "./",
+      "description": "Compose two or three skills into one, compile one skill from many candidates, and update a skill you use, each with full reads, scans, licence checks, a lockfile and an eval gate.",
+      "version": "0.1.0",
+      "category": "development",
+      "tags": ["skills", "compose", "skill-set", "stack", "merge", "update", "provenance", "eval"]
+    }
+  ]
+}

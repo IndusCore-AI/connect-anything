@@ -7,6 +7,7 @@ The build applies it, and the lockfile carries it, so `update` re-applies the sa
 {
   "title": "...", "description": "...", "intro": "...", "precedence": ["...", ...],
   "order": ["extra:how-to-use", "hallmark:the-floor", ...],
+  "sources": {"<alias>": {"mode": "excluded|reference", "why": "..."}},
   "sections": {"<alias>:<section id>": {"action": "inline|reference|drop", "why": "..."}},
   "files": {"<alias>:<path>": {"keep": false, "why": "..."}},
   "conflicts": {"<key>": {"status": "confirmed|dismissed", "winner": "<alias>", "why": "..."}},
@@ -32,6 +33,20 @@ def apply(plan, dec):
             plan[k] = dec[k]
     plan["options"].update(dec.get("options") or {})
     by_alias = {s["alias"]: s for s in plan["sources"]}
+    for alias, d in (dec.get("sources") or {}).items():
+        src = by_alias.get(alias)
+        if src is None:
+            unmatched.append(f"source {alias}")
+            continue
+        mode = d.get("mode")
+        if mode not in ("excluded", "reference"):
+            raise EngineError(f"decisions: source {alias} mode {mode!r}; a decision can only exclude or reference a source "
+                              "(copying is decided by its licence and the scan)")
+        src["mode"], src["excluded_reason"] = mode, d.get("why") or "the compiler's decision"
+        for f in src["files"]:
+            f["keep"], f["why"] = False, "source is not copied"
+        for s in src["sections"]:
+            s["action"], s["why"] = ("drop", "source excluded") if mode == "excluded" else ("reference", "named only")
     for key, d in (dec.get("sections") or {}).items():
         alias, _, sid = key.partition(":")
         sec = next((x for x in by_alias.get(alias, {}).get("sections", []) if x["id"] == sid), None)
@@ -69,5 +84,24 @@ def apply(plan, dec):
             item["status"] = d.get("status", "confirmed")
             if d.get("why"):
                 item["why"] = d["why"]
+    # an order is the SKILL.md body: an inline section left out of it is kept one read away instead
+    if dec.get("order"):
+        listed = set(dec["order"])
+        for s in plan["sources"]:
+            for x in s["sections"]:
+                if x["action"] == "inline" and f"{s['alias']}:{x['id']}" not in listed:
+                    x["action"], x["why"] = "reference", "not in the chosen order for SKILL.md; kept in the source folder"
+        known = {f"{s['alias']}:{x['id']}" for s in plan["sources"] for x in s["sections"]} | \
+                {f"extra:{e.get('id') or e['title']}" for e in plan.get("extra_sections", [])}
+        unmatched += [f"order entry {k}" for k in dec["order"] if k not in known]
+    # a conflict or duplicate with a side whose source is no longer copied is moot
+    gone = {s["alias"] for s in plan["sources"] if s["mode"] != "flatten"}
+    for c in plan.get("conflicts", []):
+        out = [s["source"] for s in c["sides"] if s["source"] in gone]
+        if out and c.get("status") != "confirmed":
+            c["status"], c["why"] = "dismissed", f"moot: `{out[0]}` is not copied"
+    for dd in plan.get("duplicates", []):
+        if dd["kept"]["source"] in gone or dd["dropped"]["source"] in gone:
+            dd["status"], dd["why"] = "dismissed", "moot: one copy's source is not copied"
     plan["decisions_applied"] = True
     return unmatched
