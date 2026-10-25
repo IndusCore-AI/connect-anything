@@ -49,6 +49,35 @@ PATTERNS = [
 
 ZERO_WIDTH = re.compile("[" + "".join(chr(c) for c in (0x200B, 0x200C, 0x200D, 0x2060, 0x2061, 0x2062, 0x2063, 0x2064, 0x180E)) + "]")
 BIDI = re.compile("[" + "".join(chr(c) for c in (*range(0x202A, 0x202F), *range(0x2066, 0x206A))) + "]")
+# Unicode tag characters and the supplementary variation selectors are invisible to people and read by models
+TAGS = re.compile("[" + chr(0xE0000) + "-" + chr(0xE007F) + chr(0xE0100) + "-" + chr(0xE01EF) + "]")
+# a variation selector after a letter, digit or space (after an emoji symbol it is ordinary), and a BOM mid-text
+STRAY_VS = re.compile("(?<=[A-Za-z0-9 ])[" + chr(0xFE00) + "-" + chr(0xFE0F) + "](?!" + chr(0x20E3) + ")|(?<!^)" + chr(0xFEFF))
+ODD_SPACE = re.compile("[" + "".join(chr(c) for c in (0x00A0, 0x1680, *range(0x2000, 0x200B), 0x2028, 0x2029, 0x202F, 0x205F, 0x3000)) + "]")
+# Cyrillic and Greek letters that look like Latin ones, folded before matching
+HOMOGLYPHS = {**{chr(a): b for a, b in zip((0x0430, 0x0435, 0x043E, 0x0440, 0x0441, 0x0443, 0x0445, 0x0456, 0x0458, 0x0455,
+                                            0x0410, 0x0415, 0x041E, 0x0420, 0x0421, 0x0425, 0x041D, 0x041A, 0x041C, 0x0422, 0x0412),
+                                           "aeopcyxijsAEOPCXHKMTB")},
+              **{chr(a): b for a, b in zip((0x03BF, 0x03B1, 0x03B5, 0x03C1, 0x039F, 0x0391, 0x0395, 0x03A1), "oaepOAEP")}}
+HOMO_RE = re.compile("[" + "".join(HOMOGLYPHS) + "]")
+LATIN = re.compile(r"[A-Za-z]")
+CYR_GREEK = re.compile("[" + chr(0x0370) + "-" + chr(0x03FF) + chr(0x0400) + "-" + chr(0x04FF) + "]")
+
+
+def normalise(text):
+    """What a model effectively reads: compatibility forms folded, odd spaces and look-alike letters made plain,
+    runs of spaces collapsed, backslash line continuations joined."""
+    import unicodedata
+    t = unicodedata.normalize("NFKC", text)
+    t = TAGS.sub("", t)
+    t = ODD_SPACE.sub(" ", t)
+    t = HOMO_RE.sub(lambda m: HOMOGLYPHS[m.group(0)], t)
+    t = re.sub(r"\\\n\s*", " ", t)
+    return re.sub(r"[ \t]{2,}", " ", t)
+
+
+def mixed_script_words(line):
+    return [w for w in re.findall(r"\w{3,}", line) if LATIN.search(w) and CYR_GREEK.search(w)]
 B64_BLOB = re.compile(r"[A-Za-z0-9+/]{160,}={0,2}")
 SEVERITY_ORDER = {"block": 0, "review": 1, "info": 2}
 
@@ -96,7 +125,20 @@ def scan_text(path, text, kind="text"):
     compiled = _compiled()
     radar = [(re.compile(p, re.I), f"skill-radar pattern {n}") for n, (p, _label) in enumerate(radar_patterns(), 1)]
     is_doc = kind in ("markdown", "text")
-    lines = text.splitlines()
+    raw_lines = text.splitlines()
+    for i, line in enumerate(raw_lines, 1):
+        if TAGS.search(line):
+            findings.append(_mk(path, i, "hidden-unicode", "block" if is_doc else "review", "invisible tag characters",
+                                line.encode("unicode_escape").decode()[:160]))
+        if STRAY_VS.search(line):
+            findings.append(_mk(path, i, "hidden-unicode", "block" if is_doc else "review", "stray variation selector or byte-order mark",
+                                line.encode("unicode_escape").decode()[:160]))
+        mixed = mixed_script_words(line)
+        if mixed:
+            findings.append(_mk(path, i, "mixed-script", "block" if is_doc else "review", "words that mix Latin with look-alike letters",
+                                ", ".join(mixed[:3])[:160]))
+    norm = normalise(text)
+    lines = norm.splitlines()
     for i, line in enumerate(lines, 1):
         if BIDI.search(line):
             findings.append(_mk(path, i, "hidden-unicode", "block", "bidirectional control characters (text shown differs from text read)",
@@ -130,8 +172,20 @@ def scan_text(path, text, kind="text"):
                     if f["severity"] == "block":
                         f["line"] = i
                         findings.append(f)
+    # a phrase split across a line wrap: join each paragraph and look again for the blocking patterns
+    seen_lines = {(f["line"], f["rule"]) for f in findings}
+    start = 1
+    for para in re.split(r"\n[ \t]*\n", norm):
+        joined = " ".join(l.strip() for l in para.splitlines())
+        if "\n" in para.strip():
+            for pid, sev, rx, label in compiled:
+                if rx is None or sev != "block" or pid in ("promo-instruction",):
+                    continue
+                if rx.search(joined) and not any(start <= ln <= start + para.count("\n") and r == pid for ln, r in seen_lines):
+                    findings.append(_mk(path, start, pid, sev, label + " (across lines)", joined[:160]))
+        start += para.count("\n") + 2
     if kind == "markdown":
-        findings.extend(promo_sections(path, text))
+        findings.extend(promo_sections(path, norm))
     return findings
 
 
@@ -180,7 +234,7 @@ def _mk(path, line, pid, sev, label, excerpt):
             "severity": sev, "label": label, "excerpt": excerpt}
 
 
-def scan_files(files, allow=()):
+def scan_files(files, allow=(), allow_where=()):
     """Scan file records from read_tree. Returns (findings, summary)."""
     findings = []
     for f in files:
@@ -198,7 +252,7 @@ def scan_files(files, allow=()):
             continue
         findings.extend(scan_text(f["path"], f["text"], kind))
     for fd in findings:
-        if fd["id"] in allow:
+        if fd["id"] in allow or (fd["file"], fd["line"], fd["rule"]) in allow_where:
             fd["allowed"] = True
     seen, unique = set(), []
     for fd in findings:

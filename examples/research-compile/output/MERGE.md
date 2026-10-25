@@ -409,9 +409,9 @@ None found.
 - `ai-analyst-workbench-ethan-workbench-maintenance/scripts/backup.sh:31` touches agent configuration
 - `ai-analyst-workbench-ethan-workbench-maintenance/scripts/backup.sh:45` touches agent configuration
 - `ai-analyst-workbench-ethan-workbench-maintenance/scripts/backup.sh:46` touches agent configuration
-- `ai-analyst-workbench-ethan-workbench-maintenance/scripts/backup.sh:76` touches agent configuration
-- `ai-analyst-workbench-ethan-workbench-maintenance/scripts/backup.sh:78` touches agent configuration
-- `ai-analyst-workbench-ethan-workbench-maintenance/scripts/backup.sh:82` touches agent configuration
+- `ai-analyst-workbench-ethan-workbench-maintenance/scripts/backup.sh:71` touches agent configuration
+- `ai-analyst-workbench-ethan-workbench-maintenance/scripts/backup.sh:73` touches agent configuration
+- `ai-analyst-workbench-ethan-workbench-maintenance/scripts/backup.sh:77` touches agent configuration
 - `reverse-engineer-bounded-probe/SKILL.md:25` depends on a paid or account-bound service
 - `reverse-engineer-bounded-probe/SKILL.md:66` depends on a paid or account-bound service
 - `reverse-engineer-claims-audit/SKILL.md:42` installs something that keeps running
@@ -427,7 +427,7 @@ None found.
 - `reverse-engineer-rebuild-on-looot/scripts/catalog-search.mjs:7` depends on a paid or account-bound service
 - `reverse-engineer-request-provider/SKILL.md:35` depends on a paid or account-bound service
 - `reverse-engineer-request-provider/SKILL.md:75` depends on a paid or account-bound service
-- `reverse-engineer-request-provider/SKILL.md:141` depends on a paid or account-bound service
+- `reverse-engineer-request-provider/SKILL.md:139` depends on a paid or account-bound service
 - `reverse-engineer-request-provider/scripts/catalog-search.mjs:7` depends on a paid or account-bound service
 - `reverse-engineer-reverse-engineer/SKILL.md:155` depends on a paid or account-bound service
 - `reverse-engineer-reverse-engineer/SKILL.md:168` depends on a paid or account-bound service
@@ -455,7 +455,7 @@ None found.
 ## Checks
 
 - PASS spec: frontmatter valid, name matches the folder
-- PASS size: SKILL.md 93 lines (limit 500), body about 2123 tokens (limit 5000)
+- PASS size: SKILL.md 93 lines (limit 500), body about 2138 tokens (limit 5000)
 - PASS refs: every path SKILL.md names exists
 - PASS one-copy: no rule appears twice
 - PASS nested: one SKILL.md
@@ -472,7 +472,7 @@ None found.
 | --- | --- | --- | --- |
 | Static coverage (4 evals with needs) | 1.00 | 1.00 | +0.00 |
 | Needs already in context on activation | 1.00 | 0.62 | -0.38 |
-| Context on activation (est. tokens) | 36,038 (24 SKILL.md) | 2,123 (1 SKILL.md) | -33,915 |
+| Context on activation (est. tokens) | 36,038 (24 SKILL.md) | 2,138 (1 SKILL.md) | -33,900 |
 | Listing (description characters) | 7,743 | 529 | -7,214 |
 | Live tier | not run (pass --live with --max-cost-usd) | | |
 

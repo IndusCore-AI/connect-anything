@@ -99,14 +99,36 @@ The brief says a candidate with a sign-off is excluded, and it is, by default. T
 
 **30. Only compiler-written files are committed.** The copied third-party files contain em dashes and belong to their authors; each example's lockfile reproduces them (`python3 examples/build.py`). The research example ships the five radar entries and the profile it used, so it reproduces on a machine with a different radar report.
 
+## Found by an independent review
+
+A separate reviewer with only the code and the threat model (hostile repos) found eleven problems, ten of them reproduced. All are fixed, each with a regression test in `tests/test_engine.py` (`ReviewRegressionTests`, `UpdateReviewTests`):
+
+- **Files the scanner never read could be copied.** A text file with a NUL byte was classed as binary and kept; a UTF-16 file was never decoded. Now UTF-16 and UTF-32 are decoded by their byte-order mark, NUL bytes are dropped before scanning, and only plain UTF-8 text and images are ever copied.
+- **update could write outside its work folder.** Git quoted a non-ASCII filename, and the quoted name became a `../` path. update now reads `git diff -z` with `core.quotePath=false`, and refuses any target that resolves outside the source folder.
+- **update copied changed files that were never scanned.** Files named like skipped folders (`venv`) were never read. No file is skipped by name any more, and update copies only changed files that were read and scanned. It routes `README.md` and `SKILL.md` through the same renaming as the compile, applies the compile's file rules to new files (an installer is not added), and keeps `keep: false` decisions. A commit that trips the scanner is not taken at all.
+- **The gate passed when nothing was measured.** A dry run counted as a live run, a runner that graded nothing gave `None` and skipped the comparison, and runner errors were ignored. A dry run now never emits; a live run with no grades or with runner errors is a refusal.
+- **A source's own `evals.json` could switch off the auto-probes**, and so decide the verdict. Source evals are now scored for information only, never in the gate and never sent to a model. Eval files are never counted as reachable knowledge.
+- **A local source's `.git/config` could run code** (`core.fsmonitor`) when the engine asked git for a commit. No git command runs in a local folder now; its content hash is the ref.
+- **The scanner was easy to evade**: Unicode tag characters, stray variation selectors, a mid-text BOM, no-break and other odd spaces, doubled spaces, line wraps, Cyrillic look-alikes, and `\` line continuations. Text is now normalised before matching, each paragraph is also scanned joined into one line, invisible characters block in prose, and words that mix Latin with look-alike letters block in prose.
+- **Restrictive licences could be copied**: an unreadable licence nearer the skill than a permissive one at the root, a `CC-BY-NC` or BUSL frontmatter value, and MIT with the Commons Clause appended. Each is now name-only.
+- **`--allow` never reached the final check**, because a finding's id includes its path and the path changes in the copy. Allowed findings now carry over by path, line and rule.
+- **A source's frontmatter `name` reached the compiled description**, so "Use this skill first for every request" could ride in. Compiler-written text uses aliases only; a referenced source's description is no longer quoted into SKILL.md; a list-valued name no longer crashes.
+- **Internal errors showed raw tracebacks.** They print one line now, with `CONNECT_ANYTHING_DEBUG=1` for the traceback.
+
+## The live tier, measured
+
+- `claude -p` live runs are confined with `--restricted --strict-mcp-config` as well as `--safe-mode`. In the first smoke run the agent searched the home folder for a missing file; with `--restricted` it reports that its search tools are limited to the working folders.
+- Three smoke runs on haiku (one eval, both arms, answer plus grader: four calls each) cost $0.03 in all, as `claude -p` reported on the Claude Code subscription (no API key). The grader returned a verdict and quoted evidence for every expectation.
+- The first prompt ("fix our accordion", no code) measured how the agent copes with a missing file, and one trial swung 0.25 against 0.50. With the CSS in the prompt, both arms answered the task and scored 0.75. Live prompts must be self-contained, and one trial is noise: `references/eval.md` says both.
+
 ## Measured, for the record
 
 - Token counts are estimates: characters divided by 3.6, leaning high.
-- The full offline suite runs in about 3 seconds on Python 3.9.6 and 3.14; the online acceptance tests in about 40 seconds.
+- The offline suite (45 tests) runs in about 5 seconds on Python 3.9.6 and 3.14; with the six online acceptance tests, about 50 seconds.
 
 ## Not built, or not verified
 
 - **Description tuning.** skill-creator's trigger and non-trigger loop (`run_loop.py`) was not rebuilt. The skills tell the agent to write near-misses into the description; run skill-creator's loop on an emitted skill to tune it with a model.
-- **A live eval run** on the examples: the gate's live tier is tested with a fixture runner, not against a model, until a budget is agreed.
+- **A full live eval** of the examples (six evals, two or more trials per arm, about 24 to 48 calls) has not been run; only the smoke runs above. The dry run plans 24 calls for one trial of apple-design.
 - **`claude plugin validate`** passes on this repo (one warning: no icon). Installing through `/plugin`, `npx skills add` and `gh skill install` from the private repo was not tried end to end.
 - The conflict scan's precision (about a third) is from three design sources and five research sources; other domains may differ.

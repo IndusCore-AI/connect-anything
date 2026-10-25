@@ -8,7 +8,7 @@
   "skill": {
     "name": "screen-kit",
     "mode": "compile",
-    "computedHash": "9cf40d8c922ddb1d27808eb1f70ba026e43ecdf1973d07f7029534d7fc93ce52",
+    "computedHash": "43bb5d642645cf113c0c70a9de1fd7d75a2460e7c33ff2707d28ce383e9cc389",
     "job": "Design dashboards and app screens"
   },
   "skills": {
@@ -190,7 +190,7 @@
       "static": {
         "coverage": 1.0,
         "in_context": 1.0,
-        "context_tokens": 978,
+        "context_tokens": 973,
         "skills_loaded": 1,
         "listing_chars": 91
       },

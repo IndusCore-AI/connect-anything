@@ -8,7 +8,7 @@
   "skill": {
     "name": "research-brief",
     "mode": "compile",
-    "computedHash": "c6bf4e0f6b0d4f3a4494a35f4814d2aeb3174c3f8ad9e422a93e6efcec469ddc",
+    "computedHash": "8540b16341f2644fdf20c3820861b546e0c501cf2fa755b03c060a0d39fd7ad1",
     "job": "Research a market, product or company from public evidence and write a short brief where every number and claim carries its source and plain writing"
   },
   "skills": {
@@ -1596,13 +1596,13 @@
       "static": {
         "coverage": 1.0,
         "in_context": 0.625,
-        "context_tokens": 2123,
+        "context_tokens": 2138,
         "skills_loaded": 1,
         "listing_chars": 529
       },
       "live": null
     },
-    "eval_set_hash": "43b148a4bd9d4eef",
+    "eval_set_hash": "5613d28d7429ae5b",
     "tolerance": 0.05
   }
 }

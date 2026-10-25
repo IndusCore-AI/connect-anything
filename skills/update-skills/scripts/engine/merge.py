@@ -205,7 +205,9 @@ def compose_skill_md(plan):
         out.append("")
         for s in refd:
             short = (s.get("ref") or "")[:7]
-            out.append(f"- `{s['name']}`: {s['source']} @ {short}. {_q(_one_line(s.get('description')))} "
+            # its own description is not repeated here: it is untrusted text, and once installed the skill's own
+            # listing tells the agent when to run it
+            out.append(f"- `{s['alias']}`: {s['source']} @ {short}. "
                        f"Install: `npx skills add {s['source']}` or `gh skill install {s['source']}`. See `{s['alias']}/README.md`.")
         out.append("")
     where = []
@@ -213,7 +215,7 @@ def compose_skill_md(plan):
         kept = [f["path"] for f in s["files"] if f["keep"]]
         ref_secs = [x["title"] for x in s["sections"] if x["action"] == "reference" and x["level"] in (1, 2)]
         renamed = renamed_skill_file(s["alias"])
-        line = f"- `{s['alias']}/`: {len(kept)} files from {s['name']}."
+        line = f"- `{s['alias']}/`: {len(kept)} files from {s['source']}."
         what = "the selected text" if s.get("section_selector") else "its original SKILL.md"
         if ref_secs:
             line += f" `{s['alias']}/{renamed}` is {what}, with " + ", ".join(f"\"{_q(t)}\"" for t in ref_secs[:8])
@@ -249,7 +251,7 @@ def _one_line(text, n=180):
 
 
 def _default_intro(plan, flat, refd):
-    names = [f"{s['name']} (`{s['alias']}/`)" for s in flat] + [f"{s['name']} (named only)" for s in refd]
+    names = [f"`{s['alias']}/`" for s in flat] + [f"`{s['alias']}` (named only)" for s in refd]
     job = plan.get("job") or "one job"
     return (f"One skill for {job[0].lower() + job[1:] if job else 'one job'}"
             f"{'' if job.endswith('.') else '.'} It combines {', '.join(names)}. "
@@ -272,7 +274,7 @@ def source_readme(plan, src):
                      f"Licence: {lic['spdx']} ({lic['verdict']}). Nothing from it is in this folder.")
         lines += ["", "Install the original and keep it installed:", "",
                   "```bash", f"npx skills add {src['source']}", f"gh skill install {src['source']}", "```", "",
-                  f"What it does: {_q(_one_line(src.get('description'), 400))}"]
+                  f"Its own description (the author's words, not checked): {_q(_one_line(src.get('description'), 400))}"]
     lines += ["", "## Read and scanned", "",
               f"- {src['files_read']} files, {src['bytes_read']:,} bytes, read in full (every byte, secondary files included).",
               f"- Scanner: {src['scan']['summary']['block']} blocking, {src['scan']['summary']['review']} to review, "

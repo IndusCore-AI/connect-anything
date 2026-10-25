@@ -102,8 +102,10 @@ def file_disposition(f, findings_by_file, verdict):
     if verdict != "flatten":
         return False, "source is referenced, not copied"
     path = f["path"]
-    if f["kind"] in ("binary-exec", "archive", "symlink"):
-        return False, f"{f['kind']} file; nothing unreadable is copied"
+    if f["kind"] not in ("markdown", "script", "data", "text", "image"):
+        return False, f"{f['kind']} file; nothing the scanner cannot read is copied"
+    if f.get("encoding", "utf-8") != "utf-8" or f.get("nul_bytes"):
+        return False, f"text in {f.get('encoding')} or with NUL bytes; read and scanned, but only plain UTF-8 text is copied"
     if path == "SKILL.md":
         return True, "the source's own SKILL.md, renamed so loaders never see a second skill"
     for rx, why in DROP_FILE_RULES:
@@ -374,6 +376,15 @@ def default_precedence(profile, aliases, checkers):
     return out
 
 
+def safe_name(value, fallback):
+    """A source's own name, as the compiler may write it: lowercase letters, digits and hyphens, or the alias."""
+    from .util import to_skill_name
+    if not isinstance(value, str) or not value.strip():
+        return fallback
+    n = to_skill_name(value)
+    return n if n != "skill" and len(n) <= 64 else fallback
+
+
 def find_pairs(sources, recs, profile, rank=None):
     """Duplicates and conflicts across the copied sources: their SKILL.md sections and markdown references."""
     rank = rank or {s["alias"]: i for i, s in enumerate(sources)}
@@ -458,8 +469,9 @@ def build_plan(mode, name, recs, assessments, scans, profile, job="", gap="", bu
                      "info": dict(Counter(f["rule"] for f in findings if f["severity"] == "info")),
                      "network_files": sorted({f["file"] for f in findings if f["rule"] == "network"})},
             "files_read": rec["files_read"], "bytes_read": rec["bytes_read"],
-            "description": (rec.get("frontmatter") or {}).get("description", ""),
-            "name": (rec.get("frontmatter") or {}).get("name", alias),
+            # untrusted text: the description is kept for measurement and READMEs; the name is reduced to a skill name
+            "description": str((rec.get("frontmatter") or {}).get("description") or ""),
+            "name": safe_name((rec.get("frontmatter") or {}).get("name"), alias),
             "check_script": has_check_script(rec), "files": files, "sections": sections,
             "body_tokens": rec["body_tokens"],
         })
@@ -526,6 +538,6 @@ def _rec_for(recs, alias):
 def draft_description(plan):
     """A first description: the job, then what it merges. The agent tunes it with trigger phrases."""
     job = plan.get("job") or ""
-    names = [s["name"] or s["alias"] for s in plan["sources"] if s["mode"] != "excluded"]
+    names = [s["alias"] for s in plan["sources"] if s["mode"] != "excluded"]  # aliases: a source's own name is its author's text
     text = (job.rstrip(".") + ". " if job else "") + "Combines " + ", ".join(names) + " into one skill with one trigger."
     return text[:1000]

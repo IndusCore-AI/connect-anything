@@ -200,14 +200,14 @@ Also: avoid full-viewport moving backgrounds, slow looping oscillations (near 0.
 
 Read these only when a step above sends you to them.
 
-- `apple-pass/`: 1 files from apple-design. `apple-pass/APPLE-PASS.md` is the selected text, with "Part C: The Apple pass", "The Core Idea", "2. Direct manipulation, 1:1 tracking", "5. Velocity handoff, the seam between drag and animation", "6. Momentum projection, animate to where the gesture is *going*", "8. Hint in the direction of the gesture", "9. Rubber-banding, soft boundaries", "10. Gesture design details (the "feel" checklist)" and 6 more sections.
-- `hallmark/`: 153 files from hallmark. `hallmark/HALLMARK.md` is its original SKILL.md, with "Branches".
+- `apple-pass/`: 1 files from ~/.claude/skills/apple-design/SKILL.md. `apple-pass/APPLE-PASS.md` is the selected text, with "Part C: The Apple pass", "The Core Idea", "2. Direct manipulation, 1:1 tracking", "5. Velocity handoff, the seam between drag and animation", "6. Momentum projection, animate to where the gesture is *going*", "8. Hint in the direction of the gesture", "9. Rubber-banding, soft boundaries", "10. Gesture design details (the "feel" checklist)" and 6 more sections.
+- `hallmark/`: 153 files from Nutlope/hallmark. `hallmark/HALLMARK.md` is its original SKILL.md, with "Branches".
   - `hallmark/references/` (22): `anatomy.md`, `brand-truth.md`, `craft.md`, `dark-mode.md`, `data-viz.md`, `design-md.md`, `direction.md`, `export-formats.md`, `fonts.md`, `gates.md` and 12 more
   - `hallmark/scripts/` (6): `capture.mjs`, `photos.json`, `picture.mjs`, `sloplint-render.mjs`, `sloplint.mjs`, `theme.mjs`
   - `hallmark/references/genres/` (4): `atmospheric.md`, `editorial.md`, `modern-minimal.md`, `playful.md`
   - `hallmark/references/macrostructures/` (21): `01-bento-grid.md`, `02-long-document.md`, `03-marquee-hero.md`, `04-stat-led.md`, `05-workbench.md`, `06-conversational-faq.md`, `07-manifesto.md`, `08-photographic.md`, `09-quote-led.md`, `10-specimen.md` and 11 more
   - `hallmark/references/themes/` (98): `README.md`, `almanac.jpg`, `almanac.md`, `arcade.jpg`, `arcade.md`, `atelier.jpg`, `atelier.md`, `bloom.jpg`, `bloom.md`, `blueprint.jpg` and 88 more
-- `uiux-pro-max/`: 42 files from ui-ux-pro-max. `uiux-pro-max/UIUX-PRO-MAX.md` is its original SKILL.md, with "UI/UX Pro Max - Design Intelligence", "Rule Categories by Priority", "Workflow", "Query Contract", "If a search returns 0 results", "Example Workflow", "Output Formats", "Tips for Better Results" and 1 more sections.
+- `uiux-pro-max/`: 42 files from nextlevelbuilder/ui-ux-pro-max-skill. `uiux-pro-max/UIUX-PRO-MAX.md` is its original SKILL.md, with "UI/UX Pro Max - Design Intelligence", "Rule Categories by Priority", "Workflow", "Query Contract", "If a search returns 0 results", "Example Workflow", "Output Formats", "Tips for Better Results" and 1 more sections.
   - `uiux-pro-max/data/` (13): `app-interface.csv`, `charts.csv`, `colors.csv`, `google-fonts.csv`, `icons.csv`, `landing.csv`, `motion.csv`, `products.csv`, `react-performance.csv`, `styles.csv` and 3 more
   - `uiux-pro-max/references/` (2): `pro-rules.md`, `quick-reference.md`
   - `uiux-pro-max/scripts/` (4): `core.py`, `design_system.py`, `reasoning_contract.py`, `search.py`

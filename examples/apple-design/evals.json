@@ -4,7 +4,7 @@
     {
       "id": 1,
       "name": "sheet-dismiss",
-      "prompt": "Our mobile settings sheet slides up from the bottom. Users say closing it feels stiff and sometimes jumps. Tell me exactly how the open and close motion should work and give me the code shape for it.",
+      "prompt": "Our mobile settings sheet slides up from the bottom. Users say closing it feels stiff and sometimes jumps when they grab it mid-animation. Explain exactly how the open and close motion should work and sketch the code. Answer in your reply; there are no project files to open.",
       "expected_output": "Spring motion that starts from the on-screen value, exits the way it entered, resists past its edge, and has a reduced-motion path.",
       "files": [],
       "expectations": [
@@ -32,7 +32,7 @@
     {
       "id": 2,
       "name": "pottery-landing",
-      "prompt": "Build the landing page for a small pottery studio's weekend wheel-throwing classes. There is no design system yet. I have no testimonials or numbers to give you.",
+      "prompt": "Build the landing page for a small pottery studio's weekend wheel-throwing classes. There is no design system yet. I have no testimonials or numbers to give you. Answer in your reply; there are no project files to open.",
       "expected_output": "A Direct-mode page: a theme chosen from the library, the Floor held, and no invented numbers or quotes.",
       "files": [],
       "expectations": [
@@ -60,7 +60,7 @@
     {
       "id": 3,
       "name": "dashboard-buttons-review",
-      "prompt": "Review the buttons and keyboard focus on our analytics dashboard (Next.js, Tailwind). List what you would check and in what order.",
+      "prompt": "Review the buttons and keyboard focus on our analytics dashboard (Next.js, Tailwind). List what you would check and in what order. Answer in your reply; there are no project files to open.",
       "expected_output": "A review that covers focus rings, press feedback on pointer-down, and the UX rule search.",
       "files": [],
       "expectations": [
@@ -86,7 +86,7 @@
     {
       "id": 4,
       "name": "bengali-fonts",
-      "prompt": "We need fonts for a Bengali-language landing page that ships as a claude.ai artifact. Which faces, and how should letter spacing change between the headline and the body?",
+      "prompt": "We need fonts for a Bengali-language landing page that ships as a claude.ai artifact. Which faces, and how should letter spacing change between the headline and the body? Answer in your reply; there are no project files to open.",
       "expected_output": "Google Fonts faces that cover Bengali, and size-specific tracking (tighter on large type, near zero on body).",
       "files": [],
       "expectations": [
@@ -111,7 +111,7 @@
     {
       "id": 5,
       "name": "app-settings-screen",
-      "prompt": "Add a notifications settings screen to our existing Next.js app. It must work well on phones.",
+      "prompt": "Add a notifications settings screen to our existing Next.js app. It must work well on phones. Answer in your reply; there are no project files to open.",
       "expected_output": "Extends the product: inherits its tokens, controls sized for touch, stack guidance from the search.",
       "files": [],
       "expectations": [
@@ -137,7 +137,7 @@
     {
       "id": 6,
       "name": "cheap-motion",
-      "prompt": "Our accordion animates its height with transition: all 300ms and it janks on low-end Android phones. Fix it.",
+      "prompt": "Our accordion janks on low-end Android phones. Here is its CSS:\n\n.panel { overflow: hidden; height: 0; transition: all 300ms; }\n.panel.open { height: 240px; }\n\nRewrite it so it runs smoothly, and say why. Answer in your reply; there are no project files to open.",
       "expected_output": "No transition: all, animate transform and opacity only, a reduced-motion fallback.",
       "files": [],
       "expectations": [

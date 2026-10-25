@@ -57,7 +57,7 @@ Rebuild them all with `python3 examples/build.py`.
 ## Tests
 
 ```bash
-python3 tests/run.py            # offline: 35 tests, no network, no model calls
+python3 tests/run.py            # offline: 45 tests, no network, no model calls
 python3 tests/run.py --online   # adds the six acceptance tests against the real sources
 ```
 
@@ -65,7 +65,7 @@ python3 tests/run.py --online   # adds the six acceptance tests against the real
 
 The eval file is Anthropic skill-creator's `evals/evals.json` format (Apache-2.0, https://github.com/anthropics/skills), with two fields added. The lockfile's source entries follow the `skills` CLI's `skills-lock.json` (vercel-labs/skills) and compute `computedHash` the same way. Skills follow the Agent Skills specification (https://agentskills.io/specification) and pass `skills-ref validate`. The scanner starts from skill-radar's pattern list.
 
-![MIT licence](https://img.shields.io/badge/licence-MIT-1f5fbf) ![Agent Skills spec](https://img.shields.io/badge/agent%20skills-spec%20valid-0f6b3a) ![Python standard library only](https://img.shields.io/badge/python-stdlib%20only-5a6371) ![Tests](https://img.shields.io/badge/tests-41%20passing-0f6b3a)
+![MIT licence](https://img.shields.io/badge/licence-MIT-1f5fbf) ![Agent Skills spec](https://img.shields.io/badge/agent%20skills-spec%20valid-0f6b3a) ![Python standard library only](https://img.shields.io/badge/python-stdlib%20only-5a6371) ![Tests](https://img.shields.io/badge/tests-51%20passing-0f6b3a)
 
 MIT. See [LICENSE](LICENSE). Decisions and their evidence: [DECISIONS.md](DECISIONS.md). Changes: [CHANGELOG.md](CHANGELOG.md).
 

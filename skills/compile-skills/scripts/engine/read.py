@@ -25,6 +25,24 @@ NOTICE_NAMES = ("NOTICE", "NOTICE.md", "NOTICE.txt")
 MAX_TEXT_BYTES = 5_000_000
 
 
+def decode_text(data):
+    """Bytes to text for the scanner: UTF-16 and UTF-32 by their byte-order mark, else UTF-8 with replacement.
+    NUL bytes are dropped so they cannot split a line the scanner reads."""
+    for bom, enc in ((b"\xff\xfe\x00\x00", "utf-32-le"), (b"\x00\x00\xfe\xff", "utf-32-be"),
+                     (b"\xff\xfe", "utf-16-le"), (b"\xfe\xff", "utf-16-be")):
+        if data.startswith(bom):
+            return data[len(bom):].decode(enc, errors="replace"), enc
+    if data[:4096].count(b"\x00") > len(data[:4096]) // 4 and len(data) > 8:
+        for enc in ("utf-16-le", "utf-16-be"):  # UTF-16 without a byte-order mark
+            try:
+                text = data.decode(enc)
+                if sum(c.isprintable() or c in "\n\r\t" for c in text) > 0.95 * len(text):
+                    return text, enc
+            except UnicodeDecodeError:
+                pass
+    return data.decode("utf-8", errors="replace").replace("\x00", ""), "utf-8"
+
+
 def classify(rel, data):
     ext = os.path.splitext(rel)[1].lower()
     base = os.path.basename(rel)
@@ -34,28 +52,32 @@ def classify(rel, data):
         return "binary-exec"
     if ext in ARCHIVE_EXT:
         return "archive"
-    if b"\x00" in data[:8192]:
-        return "binary"
+    texty = ext in TEXT_EXT and ext != "" or base in LICENSE_NAMES or base in NOTICE_NAMES
+    if not texty and b"\x00" in data[:8192]:
+        text, enc = decode_text(data)
+        if enc == "utf-8":
+            return "binary"
     if ext in (".md", ".markdown", ".mdx"):
         return "markdown"
     if ext in SCRIPT_EXT or data.startswith(b"#!"):
         return "script"
     if ext in (".json", ".jsonl", ".csv", ".tsv", ".yaml", ".yml", ".toml"):
         return "data"
-    if ext in TEXT_EXT or base in LICENSE_NAMES or base in NOTICE_NAMES:
+    if texty:
         return "text"
     try:
         data.decode("utf-8")
         return "text"
     except UnicodeDecodeError:
-        return "binary"
+        text, enc = decode_text(data)
+        return "text" if enc != "utf-8" else "binary"
 
 
 def read_tree(root):
     """Read every file under root. Returns a list of file records; text is kept for text kinds."""
     records = []
     for rel, ap in iter_files(root):
-        if os.path.basename(rel) == ".connect-anything-fetch.json":
+        if rel == ".connect-anything-fetch.json":  # our own marker, only at the staging root
             continue
         rec = {"path": rel}
         if os.path.islink(ap):
@@ -73,8 +95,9 @@ def read_tree(root):
         if kind in ("markdown", "script", "data", "text"):
             if size > MAX_TEXT_BYTES:
                 rec["oversize"] = True
-            text = data.decode("utf-8", errors="replace")
-            rec["decode_errors"] = text.count(chr(0xFFFD)) - data.decode("utf-8", errors="ignore").count(chr(0xFFFD))
+            text, enc = decode_text(data)
+            rec["encoding"] = enc
+            rec["nul_bytes"] = data.count(b"\x00") if enc == "utf-8" else 0
             rec["text"] = text
             rec["lines"] = text.count("\n") + (0 if text.endswith("\n") or not text else 1)
             rec["executable"] = bool(os.stat(ap).st_mode & 0o111)
@@ -165,7 +188,7 @@ def _licence_files(repo_root, skill_root):
     d = skill_root
     repo_root = os.path.normpath(repo_root)
     while True:
-        for name in os.listdir(d):
+        for name in sorted(os.listdir(d)):
             ap = os.path.join(d, name)
             if not os.path.isfile(ap):
                 continue

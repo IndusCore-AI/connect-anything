@@ -4,7 +4,7 @@
 | --- | --- | --- | --- |
 | Static coverage (1 evals with needs) | 1.00 | 1.00 | +0.00 |
 | Needs already in context on activation | 1.00 | 1.00 | +0.00 |
-| Context on activation (est. tokens) | 730 (1 SKILL.md) | 978 (1 SKILL.md) | +248 |
+| Context on activation (est. tokens) | 730 (1 SKILL.md) | 973 (1 SKILL.md) | +243 |
 | Listing (description characters) | 124 | 91 | -33 |
 | Live tier | not run (pass --live with --max-cost-usd) | | |
 

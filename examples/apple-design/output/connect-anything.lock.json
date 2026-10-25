@@ -8,7 +8,7 @@
   "skill": {
     "name": "apple-design",
     "mode": "connect",
-    "computedHash": "779416dda96aedb46fcd354799b0c7081291118776fef48a610611dfc843cab8",
+    "computedHash": "37410b6831854c998bef6dfe4419833bce9dc1b478b04e614aa074fd87b4210f",
     "job": "Design, build or review any screen people see or touch: choose the design for new work, hold a floor against AI-looking UI, run the mechanical check, and finish with Apple's interaction pass"
   },
   "skills": {
@@ -1316,13 +1316,13 @@
       "static": {
         "coverage": 1.0,
         "in_context": 0.5,
-        "context_tokens": 4849,
+        "context_tokens": 4865,
         "skills_loaded": 1,
         "listing_chars": 566
       },
       "live": null
     },
-    "eval_set_hash": "ca4bf781d39c71f8",
+    "eval_set_hash": "f3b20bea9246e03f",
     "tolerance": 0.05
   }
 }

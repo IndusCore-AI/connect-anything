@@ -9,7 +9,7 @@ npx skills add UMDhodi/pixel-perfect-mobile
 gh skill install UMDhodi/pixel-perfect-mobile
 ```
 
-What it does: Mobile UI design system for production-ready component specs, design tokens, and code. Works with Claude, GPT, Gemini, Cursor, VS Code, Claude Code, OpenCode, Manus, and more. Use for: component specs (button, card, input, nav, toggle, snackbar), design tokens (colors, spacing, radius, typography), iOS HIG / Material Design 3 rules, Figma specs, Tailwind / SwiftUI / Jetpack Compose / React...
+Its own description (the author's words, not checked): Mobile UI design system for production-ready component specs, design tokens, and code. Works with Claude, GPT, Gemini, Cursor, VS Code, Claude Code, OpenCode, Manus, and more. Use for: component specs (button, card, input, nav, toggle, snackbar), design tokens (colors, spacing, radius, typography), iOS HIG / Material Design 3 rules, Figma specs, Tailwind / SwiftUI / Jetpack Compose / React...
 
 ## Read and scanned
 

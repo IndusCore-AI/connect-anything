@@ -6,7 +6,7 @@ license: MIT. Each source folder holds its own LICENSE
 
 # Screen Kit
 
-One skill for design dashboards and app screens. It combines ios-app-design (`ios-app-design/`). When two of them disagree, the list below settles it; `MERGE.md` names every conflict and the winner.
+One skill for design dashboards and app screens. It combines `ios-app-design/`. When two of them disagree, the list below settles it; `MERGE.md` names every conflict and the winner.
 
 **What wins, top first:**
 1. The user's own words in the conversation
@@ -50,7 +50,7 @@ Read only references relevant to the current decision. Their examples and prefer
 
 Read these only when a step above sends you to them.
 
-- `ios-app-design/`: 10 files from ios-app-design. `ios-app-design/IOS-APP-DESIGN.md` is its original SKILL.md, with "Completion".
+- `ios-app-design/`: 10 files from ahonn/dotfiles. `ios-app-design/IOS-APP-DESIGN.md` is its original SKILL.md, with "Completion".
   - `ios-app-design/references/` (9): `accessibility.md`, `color-and-theme.md`, `haptics-and-feedback.md`, `icons-and-imagery.md`, `layout.md`, `liquid-glass.md`, `motion.md`, `navigation.md`, `typography.md`
 
 ## Sources

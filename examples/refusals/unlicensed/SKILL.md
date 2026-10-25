@@ -1,12 +1,12 @@
 ---
 name: mobile-screens
-description: Design mobile app screens. Combines Mobile App Design Standards, pixel-perfect-mobile, mobile-app-ui-design into one skill with one trigger.
+description: Design mobile app screens. Combines mobile-app-design, pixel-perfect, podo into one skill with one trigger.
 license: MIT. Each source folder holds its own LICENSE
 ---
 
 # Mobile Screens
 
-One skill for design mobile app screens. It combines mobile-app-ui-design (`podo/`), Mobile App Design Standards (named only), pixel-perfect-mobile (named only). When two of them disagree, the list below settles it; `MERGE.md` names every conflict and the winner.
+One skill for design mobile app screens. It combines `podo/`, `mobile-app-design` (named only), `pixel-perfect` (named only). When two of them disagree, the list below settles it; `MERGE.md` names every conflict and the winner.
 
 **What wins, top first:**
 1. The user's own words in the conversation
@@ -30,14 +30,14 @@ Craft-focused mobile UI design skill modeled on the visual and interaction patte
 
 Their licences do not allow copying, so this skill names them and you install the originals. Run each at the point the steps above call for it: in Claude Code invoke it by name, in other agents read its SKILL.md.
 
-- `Mobile App Design Standards`: awesome-skills/mobile-app-design @ 83e4721. This skill should be used when the user asks to "design mobile UI", "review app design", "check UI guidelines", "improve app UX", "design React Native interface", "create app... Install: `npx skills add awesome-skills/mobile-app-design` or `gh skill install awesome-skills/mobile-app-design`. See `mobile-app-design/README.md`.
-- `pixel-perfect-mobile`: UMDhodi/pixel-perfect-mobile @ ee3ceee. Mobile UI design system for production-ready component specs, design tokens, and code. Works with Claude, GPT, Gemini, Cursor, VS Code, Claude Code, OpenCode, Manus, and more.... Install: `npx skills add UMDhodi/pixel-perfect-mobile` or `gh skill install UMDhodi/pixel-perfect-mobile`. See `pixel-perfect/README.md`.
+- `mobile-app-design`: awesome-skills/mobile-app-design @ 83e4721. Install: `npx skills add awesome-skills/mobile-app-design` or `gh skill install awesome-skills/mobile-app-design`. See `mobile-app-design/README.md`.
+- `pixel-perfect`: UMDhodi/pixel-perfect-mobile @ ee3ceee. Install: `npx skills add UMDhodi/pixel-perfect-mobile` or `gh skill install UMDhodi/pixel-perfect-mobile`. See `pixel-perfect/README.md`.
 
 ## Where the rest is
 
 Read these only when a step above sends you to them.
 
-- `podo/`: 2 files from mobile-app-ui-design. `podo/PODO.md` is its original SKILL.md, with "mobile-app-ui-design", "Decision tree", "When NOT to use".
+- `podo/`: 2 files from podo/design-agent-skills. `podo/PODO.md` is its original SKILL.md, with "mobile-app-ui-design", "Decision tree", "When NOT to use".
 
 ## Sources
 

@@ -92,8 +92,8 @@ def upstream(skill_dir, entry, ref=None, workdir=None):
     up_old = os.path.join(old_root, sp_dir)
     for rel, ap in iter_files(folder):
         if rel in ("README.md", "LICENSE", "NOTICE"):
-            continue
-        src_rel = "SKILL.md" if rel == renamed else rel
+            continue  # the compiler's own files
+        src_rel = "SKILL.md" if rel == renamed else rel[len("SOURCE-"):] if rel.startswith("SOURCE-") and "/" not in rel else rel
         sp = os.path.join(up_old, src_rel)
         if os.path.isfile(sp) and sha256_file(sp) != sha256_file(ap):
             res["local_edits"].append(rel)
@@ -101,22 +101,36 @@ def upstream(skill_dir, entry, ref=None, workdir=None):
         return res
     diffdir = os.path.join(workdir or fetchmod.STAGING_DIR, "diff", repo.replace("/", "__"))
     fetchmod.fetch_commits(repo, [old, new], diffdir)
-    out = run(["git", "-C", diffdir, "diff", "--name-status", "--no-renames", old, new, "--", sp_dir or "."], timeout=120)
+    # -z and quotePath=false: names come back raw and NUL-separated, never quoted into something like ../"..."
+    out = run(["git", "-c", "core.quotePath=false", "-C", diffdir, "diff", "--name-status", "--no-renames", "-z",
+               old, new, "--", sp_dir or "."], timeout=120)
     new_root, _ = fetchmod.stage_github({"repo": repo, "ref": new})
     rec_files = {f["path"]: f for f in readmod.read_tree(os.path.join(new_root, sp_dir))}
-    for line in out.strip().splitlines():
-        status, path = line.split("\t", 1)
+    parts = [p for p in out.split("\0") if p]
+    for status, path in zip(parts[0::2], parts[1::2]):
         rel = os.path.relpath(path, sp_dir) if sp_dir else path
+        if rel.startswith("..") or os.path.isabs(rel):
+            continue  # outside the skill's folder
         f = rec_files.get(rel)
         res["changed"].append({"status": status[0], "path": rel, "sha256": f["sha256"] if f else None,
-                               "read": bool(f and f.get("read")), "bytes": f["size"] if f else 0})
+                               "read": bool(f and f.get("read")), "bytes": f["size"] if f else 0,
+                               "kind": f["kind"] if f else None, "encoding": f.get("encoding") if f else None,
+                               "nul_bytes": f.get("nul_bytes") if f else None})
     changed_records = [rec_files[c["path"]] for c in res["changed"] if c["path"] in rec_files]
     findings, summary = scanmod.scan_files(changed_records)
     res["scan"] = {"summary": summary, "findings": [x for x in findings if x["severity"] != "info"]}
+    new_fm = {}
+    skill_md = os.path.join(new_root, sp_dir, "SKILL.md")
+    if os.path.isfile(skill_md):
+        from .util import parse_frontmatter as _pf
+        new_fm = _pf(split_frontmatter(open(skill_md, encoding="utf-8", errors="replace").read())[0])[0]
     lic_rec = {"licence_files": readmod._licence_files(new_root, os.path.join(new_root, sp_dir))[0],
-               "notice_files": [], "frontmatter": {}}
+               "notice_files": [], "frontmatter": new_fm}
     res["licence"] = {k: v for k, v in licmod.assess(lic_rec).items() if k != "file_text"}
     res["new_root"], res["sp_dir"] = new_root, sp_dir
+    res["findings_by_file"] = {}
+    for fd in findings:
+        res["findings_by_file"].setdefault(fd["file"], []).append(fd)
     if scanmod.blocked(findings):
         res["status"] = "blocked"
     elif res["licence"]["verdict"] != "flatten":
@@ -206,8 +220,8 @@ def gap_candidates(specs, gap, exclude_repos=()):
                         "scan": {"summary": summary, "findings": [x for x in findings if x["severity"] != "info"]},
                         "verdict": verdict, "why": (f"scanner: {blocked[0]['label']} at {blocked[0]['file']}:{blocked[0]['line']}" if blocked
                                                     else f"licence {lic['spdx']}, so it is named, not copied" if verdict == "reference" else ""),
-                        "files": rec["files"], "description": (rec.get("frontmatter") or {}).get("description", ""),
-                        "name": (rec.get("frontmatter") or {}).get("name", rec["alias"]),
+                        "files": rec["files"], "description": str((rec.get("frontmatter") or {}).get("description") or ""),
+                        "name": choose.safe_name((rec.get("frontmatter") or {}).get("name"), rec["alias"]),
                         "best_gap": 0.0, "pieces": pieces,
                         "files_read": rec["files_read"], "bytes_read": rec["bytes_read"]})
     return out
@@ -248,13 +262,31 @@ def build_proposal(skill_dir, lock, ups, cands, gap, workdir, take=2, pieces_per
         if u["status"] != "changed":
             continue
         folder = os.path.join(prop, u["folder"])
-        renamed = lock["skills"][u["folder"]].get("renamedSkillFile") or renamed_skill_file(u["folder"])
+        entry = lock["skills"][u["folder"]]
+        renamed = entry.get("renamedSkillFile") or renamed_skill_file(u["folder"])
+        kept = set(entry.get("kept") or [])
+        dec_files = (lock.get("decisions") or {}).get("files") or {}
         for c in u["changed"]:
-            target_rel = renamed if c["path"] == "SKILL.md" else c["path"]
+            target_rel = renamed if c["path"] == "SKILL.md" else vendored_name(u["folder"], c["path"])
             if target_rel in u["local_edits"]:
                 changes.append(f"kept the local edit of `{u['folder']}/{target_rel}`; upstream changed it too, merge by hand")
                 continue
-            dest = os.path.join(folder, target_rel)
+            dest = os.path.normpath(os.path.join(folder, target_rel))
+            if not dest.startswith(os.path.normpath(folder) + os.sep):
+                changes.append(f"refused `{c['path']}`: it would land outside `{u['folder']}/`")
+                continue
+            if c["status"] != "D" and not c.get("read"):
+                changes.append(f"not taken `{u['folder']}/{target_rel}`: the scanner could not read it")
+                continue
+            if dec_files.get(f"{u['folder']}:{c['path']}", {}).get("keep") is False or (kept and c["status"] == "M" and c["path"] not in kept):
+                changes.append(f"not taken `{u['folder']}/{target_rel}`: the compiled skill leaves this file out")
+                continue
+            if c["status"] == "A":
+                ok, why = choose.file_disposition({"path": c["path"], "kind": c["kind"], "encoding": c["encoding"],
+                                                   "nul_bytes": c["nul_bytes"]}, u.get("findings_by_file", {}), "flatten")
+                if not ok:
+                    changes.append(f"not added `{u['folder']}/{target_rel}`: {why}")
+                    continue
             if c["status"] == "D":
                 if os.path.exists(dest):
                     os.remove(dest)
@@ -306,7 +338,7 @@ def build_proposal(skill_dir, lock, ups, cands, gap, workdir, take=2, pieces_per
                 where = f"{alias}/{vendored_name(alias, p['file'])}"
                 block.append(f"- `{where}`, \"{p['title']}\": {_gist(p['text'])}")
         for alias, c in refd:
-            block.append(f"- `{c['name']}` ({c['source']}; {c['why']}). Install it and run it for {gap}; see `{alias}/README.md`.")
+            block.append(f"- `{alias}` ({c['source']}; {c['why']}). Install it and run it for {gap}; see `{alias}/README.md`.")
         block_text = "\n".join(block) + "\n"
         if plain:  # house style applies to the lines this run writes, never to the installed text around them
             from .util import plain_dashes

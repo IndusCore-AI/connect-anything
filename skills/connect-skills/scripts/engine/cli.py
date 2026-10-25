@@ -92,6 +92,8 @@ def cmd_build(args):
                             dry_run=args.dry_run, tolerance=args.tolerance, force=args.force,
                             decisions_path=os.path.abspath(os.path.expanduser(args.decisions)) if args.decisions else None)
     pipeline.print_report(report, plan)
+    if report.get("dry_run"):
+        return 0
     return 0 if report.get("emitted") else EXIT_REFUSED
 
 
@@ -137,6 +139,11 @@ def main_update(argv):
         return 2
     except EngineError as e:
         print(f"update: {e}", file=sys.stderr)
+        return 2
+    except Exception as e:
+        if os.environ.get("CONNECT_ANYTHING_DEBUG"):
+            raise
+        print(f"update: internal error ({type(e).__name__}: {e}). Run again with CONNECT_ANYTHING_DEBUG=1 for the traceback.", file=sys.stderr)
         return 2
 
 
@@ -199,4 +206,9 @@ def main(mode, argv=None):
         return 2
     except EngineError as e:
         print(f"{mode}: {e}", file=sys.stderr)
+        return 2
+    except Exception as e:  # an engine bug: say so plainly; the traceback is one variable away
+        if os.environ.get("CONNECT_ANYTHING_DEBUG"):
+            raise
+        print(f"{mode}: internal error ({type(e).__name__}: {e}). Run again with CONNECT_ANYTHING_DEBUG=1 for the traceback.", file=sys.stderr)
         return 2

@@ -193,7 +193,7 @@ RADAR_FAIL_LABELS = ("下载后直接执行", "可疑提示注入措辞", "读 S
 RADAR_PROMO_LABEL = "自我推广/签名行"
 
 
-def run_checks(skill_dir, allow=(), expect_lock=True, house_style=False):
+def run_checks(skill_dir, allow=(), expect_lock=True, house_style=False, allow_where=()):
     """All checks. Returns a list of {name, ok, detail}."""
     results = []
 
@@ -217,7 +217,7 @@ def run_checks(skill_dir, allow=(), expect_lock=True, house_style=False):
         pp = provenance_problems(skill_dir)
         add("provenance", not pp, "every source folder has its README and LICENSE" if not pp else "; ".join(pp[:5]))
     files = read_tree(skill_dir)
-    findings, summary = scan_files(files, allow=allow)
+    findings, summary = scan_files(files, allow=allow, allow_where=allow_where)
     bad = blocked(findings)
     own = [f for f in findings if COMPILER_FILES.match(f["file"]) and (f["rule"] in PROMO_RULES or f["rule"] == "tracking-link")]
     dashes = [rel for rel in (x["path"] for x in files) if COMPILER_FILES.match(rel) and rel != LOCK_NAME

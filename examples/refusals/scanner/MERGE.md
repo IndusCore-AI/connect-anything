@@ -70,7 +70,7 @@ None found.
 ## Checks
 
 - PASS spec: frontmatter valid, name matches the folder
-- PASS size: SKILL.md 58 lines (limit 500), body about 978 tokens (limit 5000)
+- PASS size: SKILL.md 58 lines (limit 500), body about 973 tokens (limit 5000)
 - PASS refs: every path SKILL.md names exists
 - PASS one-copy: no rule appears twice
 - PASS nested: one SKILL.md
@@ -87,7 +87,7 @@ None found.
 | --- | --- | --- | --- |
 | Static coverage (1 evals with needs) | 1.00 | 1.00 | +0.00 |
 | Needs already in context on activation | 1.00 | 1.00 | +0.00 |
-| Context on activation (est. tokens) | 730 (1 SKILL.md) | 978 (1 SKILL.md) | +248 |
+| Context on activation (est. tokens) | 730 (1 SKILL.md) | 973 (1 SKILL.md) | +243 |
 | Listing (description characters) | 124 | 91 | -33 |
 | Live tier | not run (pass --live with --max-cost-usd) | | |
 

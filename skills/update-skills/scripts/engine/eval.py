@@ -41,13 +41,27 @@ def norm(text):
 
 
 # ------------------------------------------------------------------ eval sets
-def load_eval_set(paths):
-    """Merge one or more skill-creator eval files. Ids are renumbered so each stays unique."""
+def load_eval_set(paths, strict=True):
+    """Merge one or more skill-creator eval files. Ids are renumbered so each stays unique. A malformed file is an
+    error when the user supplied it (strict) and is skipped when a fetched source did."""
     evals, names = [], []
     for p in paths:
-        data = read_json(p)
+        try:
+            data = read_json(p)
+            if not isinstance(data, dict) or not isinstance(data.get("evals", []), list):
+                raise EngineError(f"{p}: not a skill-creator eval file (an object with an evals list)")
+            items = [x for x in data.get("evals", []) if isinstance(x, dict) and isinstance(x.get("prompt", ""), str)]
+            for x in items:
+                for k in ("needs", "expectations"):
+                    if not isinstance(x.get(k, []), list) or not all(isinstance(v, str) for v in x.get(k, [])):
+                        raise EngineError(f"{p}: eval {x.get('id')} has a {k} field that is not a list of strings")
+        except EngineError:
+            if strict:
+                raise
+            log(f"skipped a source's eval file that does not parse: {p}")
+            continue
         names.append(data.get("skill_name", os.path.basename(os.path.dirname(os.path.dirname(p)))))
-        for e in data.get("evals", []):
+        for e in items:
             e = dict(e)
             e.setdefault("name", f"eval-{e.get('id', len(evals) + 1)}")
             e["origin"] = p
@@ -149,6 +163,8 @@ def compiled_arm(plan, out_dir):
 def _text_files(root):
     out = []
     for rel, ap in iter_files(root):
+        if rel.startswith("evals/") or "/evals/" in rel:
+            continue  # eval files are what is being measured, never the knowledge an arm can reach
         if rel.endswith(TEXT_KINDS_EXT) and os.path.getsize(ap) < 2_000_000:
             out.append(open(ap, encoding="utf-8", errors="replace").read())
     return out
@@ -197,7 +213,8 @@ class Budget:
 
 
 def _arm_prompt(arm, task):
-    parts = ["These skills are loaded for this task. Follow them where they apply; read the files they point to when a step sends you there.", ""]
+    parts = ["These skills are loaded for this task. Follow them where they apply; read the files they point to when a step sends you there.",
+             "The working folder holds only the task's input files, if it has any. Answer in your reply.", ""]
     for name, body in arm["context"]:
         root = arm.get("root_for", {}).get(name, "")
         parts.append(f"<skill name=\"{name}\"{' path=' + json.dumps(root) if root else ''}>\n{body.strip()}\n</skill>")
@@ -208,8 +225,10 @@ def _arm_prompt(arm, task):
 def run_claude(prompt, cwd, add_dirs, model, budget_per_call, tools="Read,Glob,Grep"):
     if not shutil.which("claude"):
         raise EngineError("claude CLI not found; use --runner command:'<cmd>' or --runner fixture:<file>")
-    cmd = ["claude", "-p", prompt, "--output-format", "json", "--safe-mode", "--no-session-persistence",
-           "--tools", tools, "--max-budget-usd", f"{budget_per_call:.2f}"]
+    # --safe-mode: no installed skill, plugin or CLAUDE.md leaks in. --restricted: the file tools stay inside the
+    # working folders (the eval folder and --add-dir), so an eval agent cannot read the rest of the machine.
+    cmd = ["claude", "-p", prompt, "--output-format", "json", "--safe-mode", "--restricted", "--strict-mcp-config",
+           "--no-session-persistence", "--tools", tools, "--max-budget-usd", f"{budget_per_call:.2f}"]
     if model:
         cmd += ["--model", model]
     for d in add_dirs:
@@ -297,6 +316,7 @@ def live_tier(evals, arms, runner, budget, trials=1, workdir=None, dry_run=False
         os.makedirs(workdir, exist_ok=True)
     results = {a["name"]: [] for a in arms}
     incomplete = False
+    errors = []
     for e in evals:
         for trial in range(trials):
             order = arms[:]
@@ -312,6 +332,8 @@ def live_tier(evals, arms, runner, budget, trials=1, workdir=None, dry_run=False
                 add_dirs = [arm["root"]] if arm.get("root") else arm.get("dirs", [])
                 ans = runner.answer(arm, e, trial, cwd, add_dirs)
                 budget.add(ans["cost"])
+                if ans.get("error"):
+                    errors.append(f"eval {e['id']} ({arm['name']}): the runner reported an error")
                 runner.last_grade_cost = 0.0
                 graded = runner.grade(e, ans["text"], cwd)
                 budget.add(getattr(runner, "last_grade_cost", 0.0))
@@ -332,26 +354,35 @@ def live_tier(evals, arms, runner, budget, trials=1, workdir=None, dry_run=False
     for name, runs in results.items():
         rates = [r["result"]["pass_rate"] for r in runs if r["result"]["pass_rate"] is not None]
         summary[name] = {"pass_rate": round(sum(rates) / len(rates), 4) if rates else None, "runs": len(runs)}
-    return {"runs": results, "summary": summary, "incomplete": incomplete, "spent_usd": round(budget.spent, 4),
+    return {"runs": results, "summary": summary, "incomplete": incomplete, "errors": errors, "spent_usd": round(budget.spent, 4),
             "calls": budget.calls, "trials": trials, "model": runner.model, "judge_model": runner.judge_model}
 
 
 # ------------------------------------------------------------------ gate
 def gate(static, live=None, tolerance=0.05):
+    """pass only when something was measured and the compiled skill did not lose. A dry run measures nothing."""
     t = static["totals"]
     o, c = t["originals"]["coverage"], t["compiled"]["coverage"]
     reasons, verdict = [], "pass"
-    if static["evals_scored"] == 0 and not live:
+    measured_live = bool(live) and not live.get("dry_run")
+    if measured_live:
+        lo, lc = live["summary"]["originals"]["pass_rate"], live["summary"]["compiled"]["pass_rate"]
+    if static["evals_scored"] == 0 and not measured_live:
         return "refuse", ["no eval has `needs` and no live run was made, so nothing shows the merge is as good as the originals"]
     if o is not None and c is not None and c + 1e-9 < o:
         verdict = "refuse"
         reasons.append(f"static coverage {c:.2f} is below the originals' {o:.2f}")
-    if live and not live.get("dry_run"):
+    if measured_live:
         if live.get("incomplete"):
             verdict = "refuse"
             reasons.append(f"the live run stopped at the budget (${live['spent_usd']:.2f}) before both arms finished")
-        lo, lc = live["summary"]["originals"]["pass_rate"], live["summary"]["compiled"]["pass_rate"]
-        if lo is not None and lc is not None and lc + tolerance < lo:
+        if live.get("errors"):
+            verdict = "refuse"
+            reasons.append(f"the live runner failed on {len(live['errors'])} answer(s), so the scores are not trustworthy")
+        if lo is None or lc is None:
+            verdict = "refuse"
+            reasons.append("the live run produced no grades (no output_checks, and no grader for expectations with this runner)")
+        elif lc + tolerance < lo:
             verdict = "refuse"
             reasons.append(f"live pass rate {lc:.2f} is below the originals' {lo:.2f} by more than {tolerance:.2f}")
     if verdict == "pass":
@@ -393,11 +424,12 @@ def scoreboard_lines(static, live, verdict, reasons, tolerance):
 
 def run_eval(plan, out_dir, eval_paths=None, live=False, runner_spec=None, model=None, judge_model=None, trials=1,
              max_cost=None, dry_run=False, tolerance=0.05, workdir=None, source_evals=None):
-    evals = load_eval_set(list(eval_paths or []) + list(source_evals or []))
-    for e in evals:  # prompts written by a fetched source are untrusted: they never reach a model
-        e["untrusted"] = e.get("origin") in (source_evals or [])
+    # the gate uses the user's evals, or mechanical probes when there are none. A fetched source's own evals are
+    # untrusted: they are scored for information only and never decide the verdict or reach a model.
+    evals = load_eval_set(list(eval_paths or [])) if eval_paths else []
     if not evals:
         evals = auto_probes(plan)
+    info_evals = load_eval_set(list(source_evals or []), strict=False) if source_evals else []
     arms = [originals_arm(plan), compiled_arm(plan, out_dir)]
     static = static_tier(evals, arms)
     live_res = None
@@ -406,8 +438,7 @@ def run_eval(plan, out_dir, eval_paths=None, live=False, runner_spec=None, model
             if max_cost is None:
                 raise EngineError("a live eval needs --max-cost-usd: agree the budget before any model is called")
         runner = Runner(runner_spec, model=model, judge_model=judge_model)
-        live_evals = [x for x in evals if not x.get("untrusted")]
-        live_res = live_tier(live_evals, arms, runner, Budget(max_cost or 0.0), trials=trials, workdir=workdir, dry_run=dry_run)
+        live_res = live_tier(evals, arms, runner, Budget(max_cost or 0.0), trials=trials, workdir=workdir, dry_run=dry_run)
     verdict, reasons = gate(static, live_res, tolerance)
     result = {"verdict": verdict, "reasons": reasons, "tiers": ["static"] + (["live"] if live_res and not live_res.get("dry_run") else []),
               "originals": {"static": static["totals"]["originals"], "live": (live_res or {}).get("summary", {}).get("originals")},
@@ -415,6 +446,12 @@ def run_eval(plan, out_dir, eval_paths=None, live=False, runner_spec=None, model
               "eval_set_hash": eval_set_hash(evals), "tolerance": tolerance, "evals": len(evals),
               "auto_probes": all(e.get("origin") == "auto-probe" for e in evals)}
     lines = scoreboard_lines(static, live_res, verdict, reasons, tolerance)
+    if info_evals:
+        info = static_tier(info_evals, arms)
+        if info["evals_scored"]:
+            ti = info["totals"]
+            lines += ["", f"For information, not part of the verdict: the sources' own evals ({info['evals_scored']}) reach "
+                          f"{ti['compiled']['coverage']:.2f} in the compiled skill and {ti['originals']['coverage']:.2f} in the originals."]
     if workdir:
         write_json(os.path.join(workdir, "scoreboard.json"), {**result, "static": static, "live": live_res})
         write_text(os.path.join(workdir, "scoreboard.md"), "\n".join(lines) + "\n")

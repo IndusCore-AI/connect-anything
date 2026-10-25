@@ -219,10 +219,11 @@ def build(plan, out=None, live=False, runner=None, model=None, judge_model=None,
     write_text(os.path.join(build_dir, "evals", "scoreboard.md"), "\n".join(lines) + "\n")
     compare = merge.compare_with(plan, build_dir, plan["compare_to"]) if plan.get("compare_to") else None
     style = bool(plan["options"].get("plain_dashes"))
-    pre = checkmod.run_checks(build_dir, expect_lock=False, house_style=style)
+    allowed = allowed_in_output(plan)
+    pre = checkmod.run_checks(build_dir, expect_lock=False, house_style=style, allow_where=allowed)
     write_text(os.path.join(build_dir, "MERGE.md"), merge.merge_md(plan, compare=compare, checks=pre, scoreboard=lines))
     lock = lockmod.write_lock(plan, build_dir, eval_result=result, decisions=_portable(decisions, workdir))
-    final = checkmod.run_checks(build_dir, expect_lock=True, house_style=style)
+    final = checkmod.run_checks(build_dir, expect_lock=True, house_style=style, allow_where=allowed)
     # the generated plan.json stays as it was; the plan with decisions applied is kept beside it
     write_json(os.path.join(workdir, "plan.built.json"), {k: v for k, v in plan.items() if k != "_workdir"})
     report = {"build": build_dir, "verdict": result["verdict"], "reasons": result["reasons"], "checks": final,
@@ -234,6 +235,10 @@ def build(plan, out=None, live=False, runner=None, model=None, judge_model=None,
             ["# Not emitted", "", *[f"- {r}" for r in result["reasons"]],
              *[f"- check failed: {c['name']}: {c['detail']}" for c in final if not c["ok"]], "", *lines]) + "\n")
         return report
+    if dry_run:
+        report["emitted"] = None
+        report["dry_run"] = True
+        return report
     if emit:
         target = os.path.abspath(os.path.expanduser(out or os.path.join(os.getcwd(), name)))
         _emit(build_dir, target, name, force)
@@ -242,6 +247,16 @@ def build(plan, out=None, live=False, runner=None, model=None, judge_model=None,
         if os.path.exists(refused):
             os.remove(refused)
     return report
+
+
+def allowed_in_output(plan):
+    """(path in the compiled folder, line, rule) for every finding a person allowed at plan time."""
+    out = set()
+    for s in plan["sources"]:
+        for f in s["scan"]["findings"]:
+            if f.get("allowed") and not f.get("stripped"):
+                out.add((f"{s['alias']}/{merge.vendored_name(s['alias'], f['file'])}", f["line"], f["rule"]))
+    return out
 
 
 def _portable(decisions, workdir):
@@ -312,7 +327,9 @@ def print_report(report, plan):
     for c in report["checks"]:
         print(f"{'PASS' if c['ok'] else 'FAIL'}  {c['name']}: {c['detail']}")
     print("")
-    if report.get("emitted"):
+    if report.get("dry_run"):
+        print(f"dry run: nothing emitted. The build is at {report['build']}")
+    elif report.get("emitted"):
         print(f"emitted {plan['name']} -> {report['emitted']}")
     else:
         print(f"NOT EMITTED. The build is kept for inspection at {report['build']}; reasons in {os.path.join(plan['_workdir'], 'REFUSED.md')}")

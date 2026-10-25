@@ -61,9 +61,17 @@ DUTIES = {
 }
 
 
+RESTRICTIONS = re.compile(r"commons clause|non-?commercial|not be used for commercial|may not (be )?(sell|sold|resell)|"
+                          r"right to sell|business source license|polyform|server side public license|elastic license|"
+                          r"no derivative|may not (be )?(copied|modified|redistributed)", re.I)
+
+
 def identify(text):
-    """Best SPDX id for a licence text, or None."""
+    """Best SPDX id for a licence text, or None. Extra restrictions on top of a permissive text (the Commons
+    Clause, a non-commercial rider) make it LicenseRef-Restricted."""
     t = re.sub(r"[ \t]+", " ", text)
+    if RESTRICTIONS.search(t):
+        return "LicenseRef-Restricted"
     for spdx, pats in FINGERPRINTS:
         if all(re.search(p, t, re.I | re.M) for p in pats):
             return spdx
@@ -76,13 +84,14 @@ def _from_frontmatter(value):
     if not value:
         return None
     v = str(value).strip().lower().rstrip(".")
+    if re.search(r"\bnc\b|\bnd\b|-nc-|-nd-|-nc$|-nd$|busl|business source|polyform|sspl|elastic|commons clause|"
+                 r"non-?commercial|proprietary|all rights reserved|commercial", v):
+        return "LicenseRef-Restricted"
     if v in SPDX_ALIASES:
         return SPDX_ALIASES[v]
     for key, spdx in SPDX_ALIASES.items():
         if re.match(rf"^{re.escape(key)}\b", v):
             return spdx
-    if re.search(r"proprietary|all rights reserved|commercial", v):
-        return "LicenseRef-Proprietary"
     return None
 
 
@@ -113,8 +122,15 @@ def assess(rec, own=False):
         if spdx is None:
             problems.append(f"{f['path']}: licence text not recognised")
     fm_spdx = _from_frontmatter((rec.get("frontmatter") or {}).get("license"))
-    # the nearest folder that holds a recognised licence decides; several there (code and docs) all apply
-    nearest_level = next((f["level"] for f, s in found if s), None)
+    # the nearest folder that holds any licence file decides; several there (code and docs) all apply, and one
+    # it cannot read there means all rights reserved, whatever a parent folder says
+    nearest_level = found[0][0]["level"] if found else None
+    if found and any(s is None for f, s in found if f["level"] == nearest_level):
+        unread = next(f for f, s in found if f["level"] == nearest_level and s is None)
+        problems.append(f"{unread['path']}: licence text not recognised, so the source is treated as all rights reserved")
+        return {"spdx": "NOASSERTION", "all": [], "verdict": "reference", "file": unread["path"], "files": [unread["path"]],
+                "file_text": unread["text"], "copyright": copyright_lines(unread["text"]), "notice": None,
+                "duties": "Not copied. Referenced only.", "problems": problems, "evidence": unread["path"]}
     here = [(f, s) for f, s in found if s and f["level"] == nearest_level]
     nearest = here[0] if here else None
     spdx = nearest[1] if nearest else None

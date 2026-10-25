@@ -20,7 +20,7 @@ HOME = os.path.expanduser("~")
 STATE_DIR = os.environ.get("CONNECT_ANYTHING_HOME") or os.path.join(HOME, ".connect-anything")
 STAGING_DIR = os.path.join(STATE_DIR, "staging")
 
-SKIP_DIRS = {".git", "node_modules", "__pycache__", ".venv", "venv", ".DS_Store"}
+SKIP_DIRS = {".git", "node_modules", "__pycache__", ".venv", "venv"}
 EM_DASH = chr(0x2014)
 EN_DASH = chr(0x2013)
 
@@ -93,9 +93,7 @@ def iter_files(root):
     """Yield (relative posix path, absolute path) for every regular file under root, skipping SKIP_DIRS."""
     for dirpath, dirnames, filenames in os.walk(root, followlinks=False):
         dirnames[:] = sorted(d for d in dirnames if d not in SKIP_DIRS)
-        for fn in sorted(filenames):
-            if fn in SKIP_DIRS:
-                continue
+        for fn in sorted(filenames):  # files are never skipped by name; only the folders above are
             ap = os.path.join(dirpath, fn)
             rel = os.path.relpath(ap, root).replace(os.sep, "/")
             yield rel, ap

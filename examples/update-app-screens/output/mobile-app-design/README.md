@@ -1,4 +1,4 @@
-# Mobile App Design Standards (from awesome-skills/mobile-app-design)
+# mobile-app-design-standards (from awesome-skills/mobile-app-design)
 
 Source: https://github.com/awesome-skills/mobile-app-design, commit 83e4721. **Referenced only:** licence NOASSERTION, so it is named, not copied.
 

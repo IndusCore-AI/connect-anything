@@ -134,15 +134,9 @@ def stage_local(src):
         raise EngineError(f"local source not found: {path}")
     is_file = os.path.isfile(path)
     base = os.path.dirname(path) if is_file else path
+    # No git command runs in a local folder: a .git someone else supplied can make git execute its config
+    # (core.fsmonitor, filters). The content hash below is the ref for a local source.
     sha, dirty = None, None
-    try:
-        run(["git", "-C", base, "ls-files", "--error-unmatch", path], timeout=20)  # tracked at all?
-        sha = run(["git", "-C", base, "rev-parse", "HEAD"], timeout=20).strip()
-        dirty = bool(run(["git", "-C", base, "status", "--porcelain", "--", path], timeout=20).strip())
-        if dirty:
-            sha = None  # a commit would not describe what was read; the content hash does
-    except EngineError:
-        pass
     tmp = tempfile.mkdtemp(prefix="local-", dir=_ensure(STAGING_DIR))
     if is_file:
         shutil.copy2(path, os.path.join(tmp, os.path.basename(path)))

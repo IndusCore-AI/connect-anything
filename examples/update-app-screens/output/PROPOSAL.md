@@ -4,7 +4,7 @@ Installed skill: `~/.claude/skills/apple-design`. Nothing there has been changed
 
 **Verdict: PASS.** No loss on the existing evals (1.00, was 1.00). Gap probes reachable: 1.00, was 0.00.
 
-To apply: `update apply --work <work> --approve 8121575265d3`. A backup of the installed folder is kept in the work folder.
+To apply: `update apply --work <work> --approve 2e1047992c62`. A backup of the installed folder is kept in the work folder.
 
 The skill had no lockfile, so one was adopted from what its per-source READMEs record; the proposal carries it.
 
@@ -36,13 +36,13 @@ Scores are on one scale: 1.00 is the best piece found for the gap anywhere. The 
 
 ## Eval: installed against proposed
 
-- Existing evals (6): reachable 1.00 now, 1.00 proposed; context 10,352 tokens now, 10,579 proposed.
-- Gap probes (2): reachable 0.00 now, 1.00 proposed; context 10,352 tokens now, 10,579 proposed.
+- Existing evals (6): reachable 1.00 now, 1.00 proposed; context 10,352 tokens now, 10,576 proposed.
+- Gap probes (2): reachable 0.00 now, 1.00 proposed; context 10,352 tokens now, 10,576 proposed.
 
 ## Checks on the proposal
 
 - PASS spec: frontmatter valid, name matches the folder
-- FAIL size: SKILL.md 430 lines (limit 500), body about 10579 tokens (limit 5000) (already failing before this update; not caused by it)
+- FAIL size: SKILL.md 430 lines (limit 500), body about 10576 tokens (limit 5000) (already failing before this update; not caused by it)
 - FAIL refs: missing: references/anatomy.md (relative to a source folder), references/brand-truth.md (relative to a source folder), references/craft.md (relative to a source folder), references/direction.md (relative to a source folder), references/gates.md (relative to a source folder), references/imagery.md (relative to a source folder), references/layout.md (relative to a source folder), references/macrostructures.md (relative to a source folder) (already failing before this update; not caused by it)
 - PASS one-copy: no rule appears twice
 - PASS nested: one SKILL.md
@@ -70,7 +70,7 @@ Scores are on one scale: 1.00 is the best piece found for the gap anywhere. The 
 +- `ios-app-design/references/liquid-glass.md`, "Where Liquid Glass Appears": - Tab bars and toolbars - Navigation bars - Control Center - Lock Screen time display - Dock and Home Screen icons - Widgets - Alerts and action...
 +- `ios-app-design/references/icons-and-imagery.md`, "Icons & Imagery": SF Symbols, app icons, and image handling for iOS.
 +- `ios-app-design/references/icons-and-imagery.md`, "Common Mistakes": - Custom icon sets when SF Symbols has equivalent, check SF Symbols app first - Inconsistent icon weight, match SF Symbol weight to text weight...
-+- `Mobile App Design Standards` (awesome-skills/mobile-app-design; licence NOASSERTION, so it is named, not copied). Install it and run it for app screens; see `mobile-app-design/README.md`.
++- `mobile-app-design` (awesome-skills/mobile-app-design; licence NOASSERTION, so it is named, not copied). Install it and run it for app screens; see `mobile-app-design/README.md`.
 +
  ## Check before calling it done
  

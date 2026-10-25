@@ -4,7 +4,7 @@
     {
       "id": 1,
       "name": "company-brief",
-      "prompt": "Research Northwind Fabrics (northwindfabrics.example), a mid-size textile supplier, and write me a one-page brief for an investor call tomorrow: what they sell, who buys it, how big they are, what they are doing now.",
+      "prompt": "Research Northwind Fabrics (northwindfabrics.example), a mid-size textile supplier, and write me a one-page brief for an investor call tomorrow: what they sell, who buys it, how big they are, what they are doing now. Answer in your reply; there are no project files to open, and do not browse.",
       "expected_output": "A brief whose claims are each tagged observed, inferred or unknown, with a source per claim and open questions listed.",
       "files": [],
       "expectations": [
@@ -31,7 +31,7 @@
     {
       "id": 2,
       "name": "fact-check-one-pager",
-      "prompt": "Here is our sales one-pager claim list: 'Founded 2011. 400 customers in 30 countries. Cuts sampling time by 60%. Used by three of the top five denim brands.' Which of these can we keep, and how would you check them?",
+      "prompt": "Here is our sales one-pager claim list: 'Founded 2011. 400 customers in 30 countries. Cuts sampling time by 60%. Used by three of the top five denim brands.' Which of these can we keep, and how would you check them? Answer in your reply; there are no project files to open, and do not browse.",
       "expected_output": "Each claim tagged by its basis, ranked by damage if wrong, with how to settle it; nothing confirmed without a source.",
       "files": [],
       "expectations": [
@@ -53,7 +53,7 @@
     {
       "id": 3,
       "name": "plain-market-summary",
-      "prompt": "Rewrite this market summary so it reads like a person wrote it: 'The textile ERP space is undergoing a pivotal transformation. Experts agree that robust, seamless solutions are reshaping the landscape.'",
+      "prompt": "Rewrite this market summary so it reads like a person wrote it: 'The textile ERP space is undergoing a pivotal transformation. Experts agree that robust, seamless solutions are reshaping the landscape.' Answer in your reply; there are no project files to open, and do not browse.",
       "expected_output": "Plain claims: no vague authority, no adjective without a specific, no inflated significance; no invented numbers.",
       "files": [],
       "expectations": [
@@ -80,7 +80,7 @@
     {
       "id": 4,
       "name": "send-check",
-      "prompt": "My competitor brief on Contoso Mills is done. What should I check before I send it to the board?",
+      "prompt": "My competitor brief on Contoso Mills is done. What should I check before I send it to the board? Answer in your reply; there are no project files to open, and do not browse.",
       "expected_output": "A reader test: every claim's source findable from the brief alone, inferences marked, open questions left open.",
       "files": [],
       "expectations": [
