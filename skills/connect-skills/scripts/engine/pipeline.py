@@ -244,6 +244,10 @@ def build(plan, out=None, live=False, runner=None, model=None, judge_model=None,
         target = os.path.abspath(os.path.expanduser(out or os.path.join(os.getcwd(), name)))
         _emit(build_dir, target, name, force)
         report["emitted"] = target
+        if os.path.basename(target) != name:
+            report["warnings"] = [f"emitted into '{os.path.basename(target)}', which is not the skill's name; "
+                                  f"rename the folder to '{name}' before installing, because the spec requires the "
+                                  f"folder name to match it"]
         refused = os.path.join(workdir, "REFUSED.md")
         if os.path.exists(refused):
             os.remove(refused)
@@ -344,5 +348,7 @@ def print_report(report, plan):
         print(f"dry run: nothing emitted. The build is at {report['build']}")
     elif report.get("emitted"):
         print(f"emitted {plan['name']} -> {report['emitted']}")
+        for w in report.get("warnings") or []:
+            print(f"note: {w}")
     else:
         print(f"NOT EMITTED. The build is kept for inspection at {report['build']}; reasons in {os.path.join(plan['_workdir'], 'REFUSED.md')}")

@@ -9,7 +9,7 @@ The ordering is reproduced with NFKD and a secondary weight for combining marks,
 ```json
 {
   "version": 1,
-  "tool": {"name": "connect-anything", "version": "0.1.1", "url": "https://github.com/IndusCore-AI/connect-anything"},
+  "tool": {"name": "connect-anything", "version": "0.1.2", "url": "https://github.com/IndusCore-AI/connect-anything"},
   "skill": {"name": "apple-design", "mode": "connect", "computedHash": "<sha256 of the compiled folder, this file excluded>", "job": "..."},
   "skills": {
     "hallmark": {

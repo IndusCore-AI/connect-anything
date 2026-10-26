@@ -31,7 +31,7 @@ Mode: `connect`. Job: Design, build or review any screen people see or touch: ch
 
 Dismissed:
 
-- c1 (duration, exit, enter): Hallmark sets the duration tokens, UI UX Pro Max says an exit takes the shorter one; both hold
+- c1 (duration, enter, exit): Hallmark sets the duration tokens, UI UX Pro Max says an exit takes the shorter one; both hold
 - c2 (hit, target): both hold: a 44px target, and about 10px of slop around it while a press is held
 - c3 (hit, target): different subjects (press slop, button emphasis)
 - c4 (mask, fade): different subjects

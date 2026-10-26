@@ -12,7 +12,7 @@ import sys
 import unicodedata
 
 TOOL_NAME = "connect-anything"
-TOOL_VERSION = "0.1.1"
+TOOL_VERSION = "0.1.2"
 TOOL_URL = "https://github.com/IndusCore-AI/connect-anything"
 LOCK_NAME = "connect-anything.lock.json"
 LOCK_VERSION = 1

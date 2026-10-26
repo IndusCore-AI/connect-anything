@@ -156,6 +156,14 @@ a regression test in `tests/test_engine.py` (`AuditFixTests`, plus additions to 
 - **A dry run demanded a budget.** `--dry-run` plans calls and prints an estimate with no model call, so it now
   works without `--max-cost-usd`; a real live run still refuses without one.
 
+## Found by a real agent run (0.1.2)
+
+- **The emitted folder could not be checked as emitted.** A `claude -p` run composed two local skills and built
+  with `--out /tmp/ca-func/out`; the build passed, and then `connect check` on that folder failed, because the
+  Agent Skills spec wants the folder name to equal `name`. The engine now prints a note naming the folder to
+  rename it to, and `connect-skills` tells the agent to pass `--out <folder>/<name>`. The check stays strict; only
+  the guidance is new.
+
 ## The live tier, measured
 
 - `claude -p` live runs are confined with `--restricted --strict-mcp-config` as well as `--safe-mode`. In the first smoke run the agent searched the home folder for a missing file; with `--restricted` it reports that its search tools are limited to the working folders.
@@ -165,7 +173,7 @@ a regression test in `tests/test_engine.py` (`AuditFixTests`, plus additions to 
 ## Measured, for the record
 
 - Token counts are estimates: characters divided by 3.6, leaning high.
-- The offline suite (56 tests) runs in about 7 seconds on Python 3.14; with the six online acceptance tests, about 70 seconds.
+- The offline suite (57 tests) runs in about 7 seconds on Python 3.14; with the six online acceptance tests, about 70 seconds.
 
 ## Not built, or not verified
 

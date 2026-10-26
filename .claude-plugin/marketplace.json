@@ -10,7 +10,7 @@
       "name": "connect-anything",
       "source": "./",
       "description": "Compose two or three skills into one, compile one skill from many candidates, and update a skill you use, each with full reads, scans, licence checks, a lockfile and an eval gate.",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "category": "development",
       "tags": ["skills", "compose", "skill-set", "stack", "merge", "update", "provenance", "eval"]
     }

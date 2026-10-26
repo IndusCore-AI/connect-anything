@@ -10,7 +10,7 @@
 ![Agent Skills spec](https://img.shields.io/badge/Agent%20Skills-spec%20valid-1f9971)
 ![Dependencies](https://img.shields.io/badge/dependencies-0-1f9971)
 ![Python](https://img.shields.io/badge/python-%3E%3D3.9-555)
-![Tests](https://img.shields.io/badge/tests-56%20offline-1f9971)
+![Tests](https://img.shields.io/badge/tests-57%20offline-1f9971)
 [![License: MIT](https://img.shields.io/badge/license-MIT-0f74c5)](LICENSE)
 
 Claude Code · Codex CLI · Cursor · GitHub Copilot · claude.ai
@@ -169,7 +169,7 @@ It needs Python 3.9 or later and `git`, and nothing else: no packages, no networ
 ## Tests
 
 ```bash
-python3 tests/run.py            # offline: 56 tests, no network, no model calls
+python3 tests/run.py            # offline: 57 tests, no network, no model calls
 python3 tests/run.py --online   # adds the six acceptance tests against the real sources
 python3 tools/sync.py --check   # the three skill folders match scripts/ and references/
 ```

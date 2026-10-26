@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.2 (2026-10-26)
+
+A functional test with a real agent, composing two local skills, surfaced one rough edge: the build accepts any
+`--out` folder, but the Agent Skills spec requires the folder name to match the skill's `name`, so a build written
+to `--out out` emitted a good skill that `connect check out` then rejected.
+
+- A build whose `--out` folder carries another name now prints a note naming the folder to rename it to, in the
+  text report, the JSON report and the agent's workflow. It is a note, not a failure: the skill is still emitted.
+- `connect-skills` tells the agent to pass `--out <folder>/<name>`, so the emitted folder is installable as is.
+- One new offline test (57 in all).
+
 ## 0.1.1 (2026-10-26)
 
 The repository moved to the IndusCore-AI organisation, and a second independent review of the engine and its

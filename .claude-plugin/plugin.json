@@ -1,7 +1,7 @@
 {
   "name": "connect-anything",
   "displayName": "Connect Anything",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Compose, compile and update agent skills with provenance: every source read in full and scanned, licences checked, one SKILL.md with a what-wins list, MERGE.md naming every conflict, a lockfile per source commit, and an eval gate that refuses a merge that loses to the originals.",
   "author": {
     "name": "IndusCore",
