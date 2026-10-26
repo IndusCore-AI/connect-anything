@@ -4,7 +4,7 @@ Installed skill: `~/.claude/skills/apple-design`. Nothing there has been changed
 
 **Verdict: PASS.** No loss on the existing evals (1.00, was 1.00). Gap probes reachable: 1.00, was 0.00.
 
-To apply: `update apply --work <work> --approve 8ba7e9a2f056`. A backup of the installed folder is kept in the work folder.
+To apply: `update apply --work <work> --approve edf6d18126fd`. A backup of the installed folder is kept in the work folder.
 
 The skill had no lockfile, so one was adopted from what its per-source READMEs record; the proposal carries it.
 
