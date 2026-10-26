@@ -177,7 +177,7 @@ a regression test in `tests/test_engine.py` (`AuditFixTests`, plus additions to 
 
 ## Not built, or not verified
 
-- **Description tuning.** skill-creator's trigger and non-trigger loop (`run_loop.py`) was not rebuilt. The skills tell the agent to write near-misses into the description; run skill-creator's loop on an emitted skill to tune it with a model.
+- **Description tuning.** skill-creator's trigger and non-trigger loop (`run_loop.py`) was not rebuilt. The skills tell the agent to write near-misses into the description; run skill-creator's loop on an emitted skill to tune it with a model. Measured once on 2026-10-26 instead, with the plugin installed and a real Claude Code setup (about 90 other skills, MCP servers, global rules), seven `claude -p` prompts: "combine my two code review skills" went to connect-skills, "one research skill from these 8 radar skills" to compile-skills, "check whether my apple-design sources changed" to update-skills; "install a skill from GitHub" went to skill-radar, "write a new skill" to skill-creator, and a plain question to no skill. "Merge hallmark and ui-ux-pro-max" went to no skill because the agent found that apple-design already is that merge, which is the right answer.
 - **A full live eval** of the examples (six evals, two or more trials per arm, about 24 to 48 calls) has not been run; only the smoke runs above. The dry run plans 24 calls for one trial of apple-design.
 - **`claude plugin validate`** passes on this repo with nothing to report. Installing through `/plugin` was
   verified end to end; `npx skills add` and `gh skill install` are recorded in "Install routes, tested" below.
