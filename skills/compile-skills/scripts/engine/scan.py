@@ -186,7 +186,42 @@ def scan_text(path, text, kind="text"):
         start += para.count("\n") + 2
     if kind == "markdown":
         findings.extend(promo_sections(path, norm))
+    findings.extend(download_then_run(path, raw_lines))
     return findings
+
+
+# A download saved to a file and run on a later line is the same attack as curl | sh, just written in two steps.
+DOWNLOAD_SAVE = re.compile(r"\b(curl|wget|iwr|invoke-webrequest|invoke-restmethod)\b[^\n]*?"
+                           r"(?:\s-o\s+|\s--output\s+|\s-O\s+|\s-OutFile\s+)([\"']?)([^\s\"';|&]+)", re.I)
+
+
+def _runs_path(line, dest):
+    q = re.escape(dest)
+    commands = r"(?:sudo\s+)?(?:ba|z|da)?sh|python3?|node|perl|ruby|source|\.|powershell|pwsh"
+    if re.search(r"(?:^|[\s;&|(])(?:" + commands + r")\s+[\"']?(?:\./)?" + q + r"(?=$|[\s;&|)\"'])", line, re.I):
+        return True
+    if re.search(r"(?:^|[\s;&|(])[\"']?\./" + q + r"(?=$|[\s;&|)\"'])", line):
+        return True
+    if re.search(r"(?:^|[\s;&|])(?:start-process|&)\s+[\"']?" + q, line, re.I):
+        return True
+    return False
+
+
+def download_then_run(path, lines):
+    out, seen = [], set()
+    for i, line in enumerate(lines):
+        for m in DOWNLOAD_SAVE.finditer(line):
+            dest = m.group(3).strip("\"'")
+            if not dest or dest.startswith("-") or "://" in dest or dest in seen:
+                continue
+            for j in range(i, min(i + 40, len(lines))):
+                if _runs_path(lines[j], dest):
+                    seen.add(dest)
+                    out.append(_mk(path, j + 1, "download-exec", "block",
+                                   "downloads a script to a file and runs it",
+                                   f"{line.strip()[:80]} ... {lines[j].strip()[:60]}"))
+                    break
+    return out
 
 
 NEGATION = re.compile(r"\b(never|don'?t|do not|no|not|without|avoid|strip|remove|refuse)\b", re.I)
@@ -234,7 +269,7 @@ def _mk(path, line, pid, sev, label, excerpt):
             "severity": sev, "label": label, "excerpt": excerpt}
 
 
-def scan_files(files, allow=(), allow_where=()):
+def scan_files(files, allow=(), allow_where=(), allow_text=()):
     """Scan file records from read_tree. Returns (findings, summary)."""
     findings = []
     for f in files:
@@ -251,8 +286,13 @@ def scan_files(files, allow=(), allow_where=()):
         if "text" not in f:
             continue
         findings.extend(scan_text(f["path"], f["text"], kind))
+    allowed_text = {(rule, normalise(text)) for rule, text in allow_text}
     for fd in findings:
         if fd["id"] in allow or (fd["file"], fd["line"], fd["rule"]) in allow_where:
+            fd["allowed"] = True
+        elif (fd["rule"], normalise(fd["excerpt"])) in allowed_text:
+            # a finding a person allowed at plan time, matched by its text so it still holds after the
+            # section moved into the root SKILL.md (new path, new line number)
             fd["allowed"] = True
     seen, unique = set(), []
     for fd in findings:

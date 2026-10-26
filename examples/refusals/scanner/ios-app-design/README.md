@@ -1,6 +1,6 @@
 # ios-app-design (from ahonn/dotfiles)
 
-Source: https://github.com/ahonn/dotfiles, commit 27f1e58 (2026-10-08), MIT licence (`LICENSE`). Merged into `screen-kit` on 2026-10-25, after every file was read in full and scanned.
+Source: https://github.com/ahonn/dotfiles, commit 27f1e58 (2026-10-08), MIT licence (`LICENSE`). Merged into `screen-kit` on 2026-10-26, after every file was read in full and scanned.
 
 ## Read and scanned
 

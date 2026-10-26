@@ -30,7 +30,7 @@ Anthropic's skill-creator format (`evals/evals.json`, Apache-2.0, https://github
 
 Write the set before you build. Two rules make it measure something:
 
-- **`needs` must be distinctive.** Matching ignores case and punctuation, so a generic phrase (`--stack`, `google-fonts`) is satisfied by any mention of the word. Copy a phrase only one source has (`--domain google-fonts`, `touch-target-size`).
+- **`needs` must be distinctive.** Matching ignores case and punctuation, so a generic phrase (`--stack`, `google-fonts`) is satisfied by any mention of the word. Copy a phrase only one source has (`--domain google-fonts`, `touch-target-size`). A blank entry is ignored; an eval whose needs are all blank is not scored at all, rather than passing for free.
 - **Live prompts must be self-contained.** The agent answers in an empty folder with read access to the skill folders only. Put the code or text in the prompt, or the input files in `files`; a prompt that says "fix our accordion" with nothing attached measures how the agent copes with a missing file.
 
  A source's own `evals/evals.json` joins the set automatically. With no eval set at all, the engine writes mechanical probes from the highest-scoring sections of each source, labelled as such; they guard against cutting what the job ranked highest, and they are weaker than evals a person wrote for the job.

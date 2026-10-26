@@ -2,13 +2,13 @@
   "version": 1,
   "tool": {
     "name": "connect-anything",
-    "version": "0.1.0",
-    "url": "https://github.com/gaurpulkit/connect-anything"
+    "version": "0.1.1",
+    "url": "https://github.com/IndusCore-AI/connect-anything"
   },
   "skill": {
     "name": "research-brief",
     "mode": "compile",
-    "computedHash": "8540b16341f2644fdf20c3820861b546e0c501cf2fa755b03c060a0d39fd7ad1",
+    "computedHash": "660f75ff69a9460528200ace670612352a4b20f41a8081ee8deca4deb1933964",
     "job": "Research a market, product or company from public evidence and write a short brief where every number and claim carries its source and plain writing"
   },
   "skills": {

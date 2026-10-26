@@ -28,7 +28,7 @@ ALLOWED_FIELDS = {"name", "description", "license", "allowed-tools", "metadata",
 MAX_LINES, MAX_TOKENS = 500, 5000
 COMPILER_FILES = re.compile(r"^(SKILL\.md|MERGE\.md|[^/]+/README\.md|" + re.escape(LOCK_NAME) + r"|evals/.*)$")
 PROMO_RULES = {"promo-instruction", "promo-line"}
-SELF_CREDIT = re.compile(r"github\.com/(gaurpulkit|induscore)[^\s]*/connect-anything|(built|made|compiled|generated) (with|by) connect-anything|powered by connect-anything|connect-anything (by|from) induscore", re.I)
+SELF_CREDIT = re.compile(r"github\.com/(gaurpulkit|induscore-ai|induscore)[^\s]*/connect-anything|(built|made|compiled|generated) (with|by) connect-anything|powered by connect-anything|connect-anything (by|from) (induscore|induscore-ai)", re.I)
 
 
 def spec_problems(skill_dir):
@@ -193,7 +193,7 @@ RADAR_FAIL_LABELS = ("下载后直接执行", "可疑提示注入措辞", "读 S
 RADAR_PROMO_LABEL = "自我推广/签名行"
 
 
-def run_checks(skill_dir, allow=(), expect_lock=True, house_style=False, allow_where=()):
+def run_checks(skill_dir, allow=(), expect_lock=True, house_style=False, allow_where=(), allow_text=()):
     """All checks. Returns a list of {name, ok, detail}."""
     results = []
 
@@ -217,7 +217,7 @@ def run_checks(skill_dir, allow=(), expect_lock=True, house_style=False, allow_w
         pp = provenance_problems(skill_dir)
         add("provenance", not pp, "every source folder has its README and LICENSE" if not pp else "; ".join(pp[:5]))
     files = read_tree(skill_dir)
-    findings, summary = scan_files(files, allow=allow, allow_where=allow_where)
+    findings, summary = scan_files(files, allow=allow, allow_where=allow_where, allow_text=allow_text)
     bad = blocked(findings)
     own = [f for f in findings if COMPILER_FILES.match(f["file"]) and (f["rule"] in PROMO_RULES or f["rule"] == "tracking-link")]
     dashes = [rel for rel in (x["path"] for x in files) if COMPILER_FILES.match(rel) and rel != LOCK_NAME

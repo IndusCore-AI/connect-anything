@@ -1,0 +1,125 @@
+<!doctype html>
+<!-- Dev only: source of docs/hero.png. Left: the commands and what the engine prints. Right: three sources
+     folded into one skill, with the numbers from examples/apple-design. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>connect-anything</title>
+<style>
+  :root {
+    --paper: #f4f5f7;
+    --card: #ffffff;
+    --ink: #15181d;
+    --muted: #5a6371;
+    --rule: #e1e4e9;
+    --soft: #f6f7f9;
+    --key: #1f5fbf;
+    --pass: #0f6b3a;
+    --pass-bg: #e6f4ec;
+    --term: #161a20;
+    --term-ink: #eef1f5;
+    --term-dim: #93a0b0;
+    --shadow: rgba(20, 24, 30, 0.12);
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; overflow-x: clip; }
+  body { background: var(--paper); color: var(--ink); font: 16px/1.5 var(--sans); }
+  .hero {
+    width: 1280px; height: 700px; padding: 52px 56px; display: grid;
+    grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr); gap: 44px; align-items: center;
+  }
+  .eyebrow { font: 600 13px/1 var(--mono); letter-spacing: 0.09em; text-transform: uppercase; color: var(--key); margin: 0 0 16px; }
+  h1 { font-size: 43px; line-height: 1.06; letter-spacing: -0.025em; margin: 0 0 16px; font-weight: 680; }
+  .lede { font-size: 17px; line-height: 1.5; color: var(--muted); margin: 0 0 28px; max-width: 44ch; }
+  .term { background: var(--term); color: var(--term-ink); border-radius: 14px; padding: 20px 22px; font: 12.5px/1.65 var(--mono); box-shadow: 0 18px 36px -22px var(--shadow); }
+  .term p { margin: 0; white-space: pre-wrap; overflow-wrap: break-word; }
+  .you { color: var(--term-ink); margin-bottom: 12px !important; }
+  .you::before { content: "$ "; color: var(--term-dim); }
+  .dim { color: var(--term-dim); }
+  .ok { color: #7fd4a2; font-weight: 600; }
+  .out { margin-top: 12px !important; color: #cfe0ff; }
+  .right { min-width: 0; }
+  .sources { display: grid; gap: 9px; }
+  .src { background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: 11px 14px; display: grid; grid-template-columns: 108px 1fr; gap: 2px 12px; align-items: baseline; }
+  .tag { font: 600 12.5px/1.4 var(--mono); color: var(--key); }
+  .meta { font-size: 12px; color: var(--muted); text-align: right; }
+  .line { font-size: 13.5px; grid-column: 1 / -1; }
+  .fine { font-size: 12px; color: var(--muted); grid-column: 1 / -1; }
+  .flow { text-align: center; font: 600 11.5px/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); padding: 11px 0; }
+  .flow::before, .flow::after { content: ""; display: inline-block; width: 34px; height: 1px; background: var(--rule); vertical-align: middle; margin: 0 10px; }
+  .outcard { background: var(--card); border: 1px solid var(--rule); border-radius: 14px; padding: 16px 18px 18px; box-shadow: 0 18px 40px -26px var(--shadow); }
+  .outhead { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .outhead strong { font: 650 17px/1.2 var(--mono); }
+  .outhead .meta { margin-left: auto; }
+  .chip { display: inline-block; font: 700 11px/1 var(--mono); letter-spacing: 0.06em; padding: 4px 8px; border-radius: 999px; }
+  .chip.pass { color: var(--pass); background: var(--pass-bg); }
+  .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 14px; }
+  .stats div { background: var(--soft); border-radius: 9px; padding: 10px 11px; }
+  .stats b { display: block; font: 650 20px/1.1 var(--mono); font-variant-numeric: tabular-nums; }
+  .stats span { display: block; font-size: 11.5px; line-height: 1.3; color: var(--muted); margin-top: 4px; }
+  .wins-title { font: 600 11.5px/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
+  .wins ol { margin: 0; padding-left: 20px; font-size: 12.5px; line-height: 1.55; }
+  .wins li::marker { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .wins b { font-weight: 600; }
+</style>
+</head>
+<body>
+<main class="hero">
+  <section>
+    <p class="eyebrow">connect-anything</p>
+    <h1>Two skills in.<br>One skill out.<br>Every line accounted for.</h1>
+    <p class="lede">Compose the skills you run together, or compile one from many candidates. The merge reads every file in full, checks every licence and emits only when it matches the originals.</p>
+    <div class="term" aria-label="The commands and what the engine prints">
+      <p class="you">connect plan apple-pass=./SKILL.md#part-c hallmark=Nutlope/hallmark@7ec8682 uiux-pro-max=nextlevelbuilder/ui-ux-pro-max-skill@d14efff:.claude/skills/ui-ux-pro-max --name apple-design</p>
+      <p class="dim">fetch 3 sources at locked commits</p>
+      <p class="dim">read 252 files in full, scan 252, licences MIT, MIT, MIT</p>
+      <p class="dim">connect build --name apple-design</p>
+      <p>eval <span class="ok">1.00 = 1.00</span> <span class="dim">compiled against the originals</span></p>
+      <p>check <span class="ok">pass</span> <span class="dim">spec, size, refs, one-copy, scan, lock</span></p>
+      <p class="out">emitted: apple-design + MERGE.md + connect-anything.lock.json</p>
+    </div>
+  </section>
+  <section class="right">
+    <div class="sources">
+      <div class="src">
+        <span class="tag">apple-pass</span><span class="meta">local, own</span>
+        <span class="line">Part C: the Apple pass</span>
+        <span class="fine">7 sections inline, 1,910 tokens</span>
+      </div>
+      <div class="src">
+        <span class="tag">hallmark</span><span class="meta">7ec8682, MIT</span>
+        <span class="line">48 themes, 21 page shapes, the anti-slop floor</span>
+        <span class="fine">178 files read, 0 blocking, 19 to review</span>
+      </div>
+      <div class="src">
+        <span class="tag">uiux-pro-max</span><span class="meta">d14efff, MIT</span>
+        <span class="line">Product reasoning, 119 UX rules, stack guidance</span>
+        <span class="fine">73 files read, 0 blocking, 38 to review</span>
+      </div>
+    </div>
+    <div class="flow">one merge, every conflict named</div>
+    <div class="outcard">
+      <div class="outhead">
+        <span class="chip pass">PASS</span>
+        <strong>apple-design</strong>
+        <span class="meta">one skill, one trigger</span>
+      </div>
+      <div class="stats">
+        <div><b>4,865</b><span>tokens on activation</span></div>
+        <div><b>15,345</b><span>the three originals</span></div>
+        <div><b>3</b><span>sources in the lock</span></div>
+      </div>
+      <p class="wins-title">What wins, top first</p>
+      <ol>
+        <li>The user's own words in the conversation</li>
+        <li>The project's locked system: tokens, copy rules, checks</li>
+        <li>Safety, licence and honesty rules from any source</li>
+        <li><b>apple-pass</b>, then <b>hallmark</b>, then <b>uiux-pro-max</b></li>
+      </ol>
+    </div>
+  </section>
+</main>
+</body>
+</html>

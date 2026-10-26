@@ -4,7 +4,7 @@ Installed skill: `~/.claude/skills/apple-design`. Nothing there has been changed
 
 **Verdict: PASS.** No loss on the existing evals (1.00, was 1.00). Gap probes reachable: 1.00, was 0.00.
 
-To apply: `update apply --work <work> --approve 2e1047992c62`. A backup of the installed folder is kept in the work folder.
+To apply: `update apply --work <work> --approve 8ba7e9a2f056`. A backup of the installed folder is kept in the work folder.
 
 The skill had no lockfile, so one was adopted from what its per-source READMEs record; the proposal carries it.
 
@@ -13,7 +13,7 @@ The skill had no lockfile, so one was adopted from what its per-source READMEs r
 | Source | Locked | Now | Status | Changed files (all re-read and re-scanned) | Local edits kept |
 | --- | --- | --- | --- | --- | --- |
 | Nutlope/hallmark | 7ec8682 | 7ec8682 | up to date | none | `references/brand-truth.md`, `references/design-md.md` |
-| nextlevelbuilder/ui-ux-pro-max-skill | d14efff | d14efff | up to date | none | none |
+| nextlevelbuilder/ui-ux-pro-max-skill | d14efff | 28b3b8d | changed | M `scripts/core.py`, M `scripts/tests/test_web_stack_freshness.py` | none |
 
 ## The gap: "app screens"
 
@@ -30,6 +30,8 @@ Scores are on one scale: 1.00 is the best piece found for the gap anywhere. The 
 ## What the proposal changes
 
 - SKILL.md frontmatter re-quoted so strict YAML loaders read it (description: plain value contains ': ' or ' #'; quote it)
+- updated `uiux-pro-max/scripts/core.py` from nextlevelbuilder/ui-ux-pro-max-skill @ 28b3b8d
+- updated `uiux-pro-max/scripts/tests/test_web_stack_freshness.py` from nextlevelbuilder/ui-ux-pro-max-skill @ 28b3b8d
 - added `ios-app-design/` from ahonn/dotfiles @ 27f1e58 for the gap
 - named (not copied) `mobile-app-design/` from awesome-skills/mobile-app-design @ 83e4721 for the gap
 - SKILL.md: 4 pointer line(s) added after "Part B2: Extend mode, app screens"
@@ -46,7 +48,7 @@ Scores are on one scale: 1.00 is the best piece found for the gap anywhere. The 
 - FAIL refs: missing: references/anatomy.md (relative to a source folder), references/brand-truth.md (relative to a source folder), references/craft.md (relative to a source folder), references/direction.md (relative to a source folder), references/gates.md (relative to a source folder), references/imagery.md (relative to a source folder), references/layout.md (relative to a source folder), references/macrostructures.md (relative to a source folder) (already failing before this update; not caused by it)
 - PASS one-copy: no rule appears twice
 - PASS nested: one SKILL.md
-- PASS scan: 0 blocking, 58 to review across 211 files; 0 promotional lines in compiler-written files
+- PASS scan: 0 blocking, 58 to review across 212 files; 0 promotional lines in compiler-written files
 - PASS install_skill.py review: 5 lines flagged in total; 0 dangerous, 0 self-promotion in compiler-written files
 - PASS no self-credit: the compiler names itself only in the lockfile
 
@@ -65,7 +67,7 @@ Scores are on one scale: 1.00 is the best piece found for the gap anywhere. The 
 @@ -119,4 +119,11 @@
  - **Native or mobile app screens:** finish with `uiux-pro-max/references/pro-rules.md`, its pre-delivery checklist.
  
-+**More for app screens (added by update on 2026-10-25):**
++**More for app screens (added by update on 2026-10-26):**
 +
 +- `ios-app-design/references/liquid-glass.md`, "Where Liquid Glass Appears": - Tab bars and toolbars - Navigation bars - Control Center - Lock Screen time display - Dock and Home Screen icons - Widgets - Alerts and action...
 +- `ios-app-design/references/icons-and-imagery.md`, "Icons & Imagery": SF Symbols, app icons, and image handling for iOS.

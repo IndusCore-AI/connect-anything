@@ -4,10 +4,12 @@ Every compiled skill carries one. It is the honest share unit: like `package-loc
 
 The source entries borrow the shape of the `skills` CLI's `skills-lock.json` (vercel-labs/skills, `src/local-lock.ts`): `source`, `sourceUrl`, `sourceType`, `ref`, `skillPath`, `computedHash`, keyed by name and sorted. `computedHash` uses the same recipe (SHA-256 over each file's relative path then its bytes, files in Node `localeCompare` order), so the two tools agree on a folder's hash.
 
+The ordering is reproduced with NFKD and a secondary weight for combining marks, which matches ICU root collation for ASCII and for Latin accents (`a`, `Ä`, `é`, `z`). Non-Latin scripts fall back to code-point order. That is deterministic, and it is the only place the two recipes can differ: a path in, say, Greek or Chinese may hash differently from `skills-lock.json`. `connect verify` only compares a folder with its own lockfile, so it is unaffected.
+
 ```json
 {
   "version": 1,
-  "tool": {"name": "connect-anything", "version": "0.1.0", "url": "https://github.com/gaurpulkit/connect-anything"},
+  "tool": {"name": "connect-anything", "version": "0.1.1", "url": "https://github.com/IndusCore-AI/connect-anything"},
   "skill": {"name": "apple-design", "mode": "connect", "computedHash": "<sha256 of the compiled folder, this file excluded>", "job": "..."},
   "skills": {
     "hallmark": {

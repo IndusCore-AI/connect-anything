@@ -1,6 +1,6 @@
 # work-humanizer (from phuryn/work-humanizer)
 
-Source: https://github.com/phuryn/work-humanizer, commit 0a90657 (2026-10-10), MIT licence (`LICENSE`). Merged into `research-brief` on 2026-10-25, after every file was read in full and scanned.
+Source: https://github.com/phuryn/work-humanizer, commit 0a90657 (2026-10-10), MIT licence (`LICENSE`). Merged into `research-brief` on 2026-10-26, after every file was read in full and scanned.
 
 ## Read and scanned
 

@@ -1,6 +1,6 @@
 # apple-design (from ~/.claude/skills/apple-design/SKILL.md)
 
-Source: ~/.claude/skills/apple-design/SKILL.md, commit 53731f8 (2026-10-25), the compiler's own text. Merged into `apple-design` on 2026-10-25, after every file was read in full and scanned.
+Source: ~/.claude/skills/apple-design/SKILL.md, commit 53731f8 (2026-10-26), the compiler's own text. Merged into `apple-design` on 2026-10-26, after every file was read in full and scanned.
 
 ## Read and scanned
 

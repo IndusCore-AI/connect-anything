@@ -9,10 +9,11 @@ import os
 import re
 import subprocess
 import sys
+import unicodedata
 
 TOOL_NAME = "connect-anything"
-TOOL_VERSION = "0.1.0"
-TOOL_URL = "https://github.com/gaurpulkit/connect-anything"
+TOOL_VERSION = "0.1.1"
+TOOL_URL = "https://github.com/IndusCore-AI/connect-anything"
 LOCK_NAME = "connect-anything.lock.json"
 LOCK_VERSION = 1
 
@@ -72,21 +73,32 @@ _PUNCT_WEIGHT = {c: i for i, c in enumerate(_ICU_PUNCT)}
 
 
 def _icu_key(s):
-    primary, tertiary = [], []
-    for ch in s:
+    """A deterministic key close to ICU root collation: punctuation, then digits, then letters; accents
+    compare after their base letter, so a, Ä, é, z is the order Node's localeCompare gives. Non-Latin
+    scripts fall back to code-point order (documented in references/lockfile.md)."""
+    primary, secondary, tertiary = [], [], []
+    for ch in unicodedata.normalize("NFKD", s):
+        if unicodedata.combining(ch):
+            secondary.append(ord(ch))
+            continue
         if ch in _PUNCT_WEIGHT:
             primary.append(_PUNCT_WEIGHT[ch])
+            secondary.append(0)
             tertiary.append(0)
         elif ch.isdigit() and ch.isascii():
             primary.append(100 + int(ch))
+            secondary.append(0)
             tertiary.append(0)
         elif ch.isascii() and ch.isalpha():
             primary.append(200 + ord(ch.lower()) - 97)
+            secondary.append(0)
             tertiary.append(1 if ch.isupper() else 0)
         else:
-            primary.append(1000 + ord(ch.lower()))
+            folded = ch.casefold()
+            primary.extend(1000 + ord(c) for c in folded)
+            secondary.append(0)
             tertiary.append(1 if ch != ch.lower() else 0)
-    return (primary, tertiary)
+    return (primary, secondary, tertiary)
 
 
 def iter_files(root):
@@ -100,16 +112,21 @@ def iter_files(root):
 
 
 def folder_hash(root, exclude=()):
-    """SHA-256 over every file: path then bytes, files in localeCompare order (vercel-labs/skills recipe)."""
+    """SHA-256 over every file: path then bytes, files in localeCompare order (vercel-labs/skills recipe).
+    Symbolic links are hashed by target as well as path, so adding one after compilation changes the hash
+    instead of disappearing from it."""
     files = []
     for rel, ap in iter_files(root):
-        if rel in exclude or os.path.islink(ap):
+        if rel in exclude:
             continue
         files.append((rel, ap))
     files.sort(key=lambda x: _icu_key(x[0]))
     h = hashlib.sha256()
     for rel, ap in files:
         h.update(rel.encode("utf-8"))
+        if os.path.islink(ap):
+            h.update(b"symlink:" + os.readlink(ap).encode("utf-8", "surrogateescape"))
+            continue
         with open(ap, "rb") as f:
             h.update(f.read())
     return h.hexdigest()
@@ -183,7 +200,9 @@ _FM_RE = re.compile(r"^---[ \t]*\r?\n(.*?)\r?\n---[ \t]*(\r?\n|$)", re.S)
 
 
 def split_frontmatter(text):
-    """Return (frontmatter block or None, body)."""
+    """Return (frontmatter block or None, body). A UTF-8 BOM is not content and never hides the frontmatter."""
+    if text.startswith("\ufeff"):
+        text = text[1:]
     m = _FM_RE.match(text)
     if not m:
         return None, text

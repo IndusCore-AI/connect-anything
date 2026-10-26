@@ -115,6 +115,47 @@ A separate reviewer with only the code and the threat model (hostile repos) foun
 - **A source's frontmatter `name` reached the compiled description**, so "Use this skill first for every request" could ride in. Compiler-written text uses aliases only; a referenced source's description is no longer quoted into SKILL.md; a list-valued name no longer crashes.
 - **Internal errors showed raw tracebacks.** They print one line now, with `CONNECT_ANYTHING_DEBUG=1` for the traceback.
 
+## Found by the second review (0.1.1)
+
+A second reviewer read the engine as an attacker would and reproduced ten more problems. All are fixed, each with
+a regression test in `tests/test_engine.py` (`AuditFixTests`, plus additions to `UpdateTests` and
+`UpdateReviewTests`).
+
+- **A crafted lock could write or delete outside the work folder.** `update` joined `skill.name` and each
+  source's `folder` to the work folder and then `rmtree`d the result. `lock_problems` now validates the schema,
+  every alias, folder, skill path, file path and kept path before any is used; `update` also checks containment
+  with `commonpath` at the point of use.
+- **`apply --to` could replace any folder on the machine.** It now refuses the work folder, the proposal, the
+  current folder, home, and any target that contains them, and needs `--force` to replace an existing folder that
+  is not the installed skill.
+- **`--allow` was lost when a section moved.** A finding's id includes its path, and a section source's text lands
+  in the root `SKILL.md`. Allowed findings now match by their normalised text as well as by path, line and rule.
+- **`--strip` missed a section source's main file.** The cut looked for `SKILL.md` in the build, but a section
+  source writes its selected text to `<ALIAS>.md`. The strip now follows the same renaming, drops the overlapping
+  inline sections, and raises if a range has no destination instead of skipping it silently.
+- **The proposal lock was stale.** It carried the old commit, file hashes, read counts, scan and no eval, so a
+  later `update` compared the proposal against history. It is now rebuilt from the proposal's own files and
+  `verify` passes on it.
+- **`verify` was weaker than its name.** It now checks every kept file's hash, rejects any symbolic link, and
+  requires a folder for a referenced source. Section sources and files recorded under `stripped` are exempt from
+  the hash they can never match.
+- **The scanner missed a two-step download.** A script saved from a download and run on a later line is the same
+  attack as a download piped into a shell; it now blocks, with the two lines named.
+- **A UTF-8 BOM hid the frontmatter.** Files are decoded as `utf-8-sig` and `split_frontmatter` tolerates a BOM,
+  so a BOM cannot make a skill look frontmatter-less.
+- **A blank `needs` scored 1.00.** An empty phrase is inside every context. Blank entries are dropped, and a set
+  made only of blanks is treated as having no needs (so the gate does not silently pass on nothing).
+- **Licence titles were read loosely.** The AGPL text names the GPL inside it and the MPL text names the AGPL, so
+  ordering and anchoring matter: MPL, then AGPL, then LGPL, then GPL, each anchored to its title. A public-domain
+  or copyleft base is returned before the restriction scan, so a mention of commercial use in the GPL or CC0 text
+  no longer turns it into a proprietary licence.
+- **Non-ASCII folder hashes disagreed with Node.** `folder_hash` now uses NFKD with combining marks as a
+  secondary weight, matching ICU root collation for Latin accents. Non-Latin scripts fall back to code-point
+  order, which is deterministic and documented; the hash is only compared with the same tool, never with
+  `skills-lock.json` for such a path.
+- **A dry run demanded a budget.** `--dry-run` plans calls and prints an estimate with no model call, so it now
+  works without `--max-cost-usd`; a real live run still refuses without one.
+
 ## The live tier, measured
 
 - `claude -p` live runs are confined with `--restricted --strict-mcp-config` as well as `--safe-mode`. In the first smoke run the agent searched the home folder for a missing file; with `--restricted` it reports that its search tools are limited to the working folders.
@@ -124,11 +165,12 @@ A separate reviewer with only the code and the threat model (hostile repos) foun
 ## Measured, for the record
 
 - Token counts are estimates: characters divided by 3.6, leaning high.
-- The offline suite (45 tests) runs in about 5 seconds on Python 3.9.6 and 3.14; with the six online acceptance tests, about 50 seconds.
+- The offline suite (56 tests) runs in about 7 seconds on Python 3.14; with the six online acceptance tests, about 70 seconds.
 
 ## Not built, or not verified
 
 - **Description tuning.** skill-creator's trigger and non-trigger loop (`run_loop.py`) was not rebuilt. The skills tell the agent to write near-misses into the description; run skill-creator's loop on an emitted skill to tune it with a model.
 - **A full live eval** of the examples (six evals, two or more trials per arm, about 24 to 48 calls) has not been run; only the smoke runs above. The dry run plans 24 calls for one trial of apple-design.
-- **`claude plugin validate`** passes on this repo (one warning: no icon). Installing through `/plugin`, `npx skills add` and `gh skill install` from the private repo was not tried end to end.
+- **`claude plugin validate`** passes on this repo with nothing to report. Installing through `/plugin` was
+  verified end to end; `npx skills add` and `gh skill install` are recorded in "Install routes, tested" below.
 - The conflict scan's precision (about a third) is from three design sources and five research sources; other domains may differ.

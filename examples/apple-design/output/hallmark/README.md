@@ -1,6 +1,6 @@
 # hallmark (from Nutlope/hallmark)
 
-Source: https://github.com/Nutlope/hallmark, commit 7ec8682 (2026-10-22), MIT licence (`LICENSE`). Merged into `apple-design` on 2026-10-25, after every file was read in full and scanned.
+Source: https://github.com/Nutlope/hallmark, commit 7ec8682 (2026-10-22), MIT licence (`LICENSE`). Merged into `apple-design` on 2026-10-26, after every file was read in full and scanned.
 
 ## Read and scanned
 

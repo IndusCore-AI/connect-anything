@@ -117,6 +117,7 @@ def main_update(argv):
     a.add_argument("--work", required=True)
     a.add_argument("--approve", required=True, help="the id printed by update plan")
     a.add_argument("--to", help="apply to another folder (for example the repo that distributes the skill)")
+    a.add_argument("--force", action="store_true", help="replace an existing --to folder that was not the installed skill")
     args = ap.parse_args(argv)
     try:
         if args.cmd == "plan":
@@ -132,7 +133,7 @@ def main_update(argv):
                 return 0
             return EXIT_REFUSED
         if args.cmd == "apply":
-            target, backup = up.apply_update(os.path.abspath(os.path.expanduser(args.work)), args.approve, to=args.to)
+            target, backup = up.apply_update(os.path.abspath(os.path.expanduser(args.work)), args.approve, to=args.to, force=args.force)
             print(f"applied to {target}; the previous version is in {backup}")
             return 0
         ap.print_help()

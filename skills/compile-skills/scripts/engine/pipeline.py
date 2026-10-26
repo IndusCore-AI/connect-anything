@@ -72,8 +72,9 @@ def make_plan(mode, name, specs, job="", gap="", profile_path=None, own=(), allo
     by_alias = {r["alias"]: r for r in recs}
     for src in plan["sources"]:
         src["strip_ranges"] = by_alias[src["alias"]].get("strip_ranges", [])
+        main = os.path.basename(src.get("skillPath") or "SKILL.md")
         for rng in src["strip_ranges"]:
-            if rng["file"] == "SKILL.md" and rng["start"]:
+            if rng["file"] == main and rng["start"]:
                 for sec in src["sections"]:
                     if not (sec["lines"][1] < rng["start"] or sec["lines"][0] > rng["end"]):
                         sec["action"], sec["why"] = "drop", f"cut: promotional (finding {rng['finding']})"
@@ -219,11 +220,11 @@ def build(plan, out=None, live=False, runner=None, model=None, judge_model=None,
     write_text(os.path.join(build_dir, "evals", "scoreboard.md"), "\n".join(lines) + "\n")
     compare = merge.compare_with(plan, build_dir, plan["compare_to"]) if plan.get("compare_to") else None
     style = bool(plan["options"].get("plain_dashes"))
-    allowed = allowed_in_output(plan)
-    pre = checkmod.run_checks(build_dir, expect_lock=False, house_style=style, allow_where=allowed)
+    allowed, allow_text = allowed_in_output(plan)
+    pre = checkmod.run_checks(build_dir, expect_lock=False, house_style=style, allow_where=allowed, allow_text=allow_text)
     write_text(os.path.join(build_dir, "MERGE.md"), merge.merge_md(plan, compare=compare, checks=pre, scoreboard=lines))
     lock = lockmod.write_lock(plan, build_dir, eval_result=result, decisions=_portable(decisions, workdir))
-    final = checkmod.run_checks(build_dir, expect_lock=True, house_style=style, allow_where=allowed)
+    final = checkmod.run_checks(build_dir, expect_lock=True, house_style=style, allow_where=allowed, allow_text=allow_text)
     # the generated plan.json stays as it was; the plan with decisions applied is kept beside it
     write_json(os.path.join(workdir, "plan.built.json"), {k: v for k, v in plan.items() if k != "_workdir"})
     report = {"build": build_dir, "verdict": result["verdict"], "reasons": result["reasons"], "checks": final,
@@ -250,13 +251,15 @@ def build(plan, out=None, live=False, runner=None, model=None, judge_model=None,
 
 
 def allowed_in_output(plan):
-    """(path in the compiled folder, line, rule) for every finding a person allowed at plan time."""
-    out = set()
+    """(path in the compiled folder, line, rule) and the finding's text for every finding a person allowed at
+    plan time. The text match keeps an allowed finding allowed after a section moves into the root SKILL.md."""
+    out, text = set(), set()
     for s in plan["sources"]:
         for f in s["scan"]["findings"]:
             if f.get("allowed") and not f.get("stripped"):
                 out.add((f"{s['alias']}/{merge.vendored_name(s['alias'], f['file'])}", f["line"], f["rule"]))
-    return out
+                text.add((f["rule"], f["excerpt"]))
+    return out, text
 
 
 def _portable(decisions, workdir):
@@ -289,10 +292,20 @@ def _apply_strips(plan, build_dir):
                     merged[-1]["findings"].append(r["finding"])
                 else:
                     merged.append({**r, "findings": [r["finding"]]})
-            rel = merge.renamed_skill_file(s["alias"]) if rel_src == "SKILL.md" else merge.vendored_name(s["alias"], rel_src)
+            main = os.path.basename(s.get("skillPath") or "SKILL.md")
+            if rel_src == main and s.get("section_selector"):
+                # a section source emits only its selected text; any selected section that overlaps a cut was
+                # dropped above, so cutting the renamed file by the original line numbers would delete real text
+                continue
+            if rel_src == main:
+                rel = merge.renamed_skill_file(s["alias"])
+            else:
+                rel = merge.vendored_name(s["alias"], rel_src)
             p = os.path.join(build_dir, s["alias"], rel)
             if not os.path.isfile(p):
-                continue
+                # a section source writes its selected text to the renamed file; a cut that finds no
+                # destination is a bug in the plan, not something to skip silently
+                raise EngineError(f"strip range for {s['alias']}/{rel_src} has no file to cut in the build ({rel})")
             lines = open(p, encoding="utf-8").read().splitlines(keepends=True)
             for r in sorted(merged, key=lambda r: -r["start"]):
                 del lines[r["start"] - 1:r["end"]]

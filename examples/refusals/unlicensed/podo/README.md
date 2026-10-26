@@ -1,6 +1,6 @@
 # mobile-app-ui-design (from podo/design-agent-skills)
 
-Source: https://github.com/podo/design-agent-skills, commit 8eeb2a7 (2026-10-21), MIT licence (`LICENSE`). Merged into `mobile-screens` on 2026-10-25, after every file was read in full and scanned.
+Source: https://github.com/podo/design-agent-skills, commit 8eeb2a7 (2026-10-21), MIT licence (`LICENSE`). Merged into `mobile-screens` on 2026-10-26, after every file was read in full and scanned.
 
 ## Read and scanned
 

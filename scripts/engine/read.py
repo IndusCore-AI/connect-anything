@@ -28,6 +28,8 @@ MAX_TEXT_BYTES = 5_000_000
 def decode_text(data):
     """Bytes to text for the scanner: UTF-16 and UTF-32 by their byte-order mark, else UTF-8 with replacement.
     NUL bytes are dropped so they cannot split a line the scanner reads."""
+    if data.startswith(b"\xef\xbb\xbf"):  # UTF-8 BOM: valid text, but not part of the first line
+        return data[3:].decode("utf-8", errors="replace").replace("\x00", ""), "utf-8-sig"
     for bom, enc in ((b"\xff\xfe\x00\x00", "utf-32-le"), (b"\x00\x00\xfe\xff", "utf-32-be"),
                      (b"\xff\xfe", "utf-16-le"), (b"\xfe\xff", "utf-16-be")):
         if data.startswith(bom):

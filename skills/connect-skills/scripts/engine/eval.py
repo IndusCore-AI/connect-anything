@@ -176,7 +176,13 @@ def static_tier(evals, arms):
     corp = {}
     for arm in arms:
         corp[arm["name"]] = (norm("\n".join(b for _, b in arm["context"])), norm("\n".join(arm["reach"])))
-    scored = [e for e in evals if e.get("needs")]
+    # a blank or whitespace-only need matches every context, so it would score 1.00 for free and hide a missing
+    # eval. Drop blank needs here and treat a set that only had blanks as having none.
+    scored = []
+    for e in evals:
+        needs = [n for n in (e.get("needs") or []) if norm(n)]
+        if needs:
+            scored.append({**e, "needs": needs})
     for e in scored:
         row = {"id": e["id"], "name": e["name"], "needs": len(e["needs"])}
         for arm in arms:
@@ -435,7 +441,7 @@ def run_eval(plan, out_dir, eval_paths=None, live=False, runner_spec=None, model
     live_res = None
     if live or dry_run:
         if not runner_spec or not runner_spec.startswith("fixture:"):
-            if max_cost is None:
+            if max_cost is None and not dry_run:
                 raise EngineError("a live eval needs --max-cost-usd: agree the budget before any model is called")
         runner = Runner(runner_spec, model=model, judge_model=judge_model)
         live_res = live_tier(evals, arms, runner, Budget(max_cost or 0.0), trials=trials, workdir=workdir, dry_run=dry_run)

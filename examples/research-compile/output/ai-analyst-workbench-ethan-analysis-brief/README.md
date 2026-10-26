@@ -1,6 +1,6 @@
 # ethan-analysis-brief (from Ethanyang9512/ai-analyst-workbench)
 
-Source: https://github.com/Ethanyang9512/ai-analyst-workbench, commit 2b5d00b (2026-10-22), CC-BY-4.0 licence (`LICENSE`). Merged into `research-brief` on 2026-10-25, after every file was read in full and scanned.
+Source: https://github.com/Ethanyang9512/ai-analyst-workbench, commit 2b5d00b (2026-10-22), CC-BY-4.0 licence (`LICENSE`). Merged into `research-brief` on 2026-10-26, after every file was read in full and scanned.
 
 ## Read and scanned
 

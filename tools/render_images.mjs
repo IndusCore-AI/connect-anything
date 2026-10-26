@@ -12,7 +12,8 @@ const page = await browser.newPage({ viewport: { width: 1360, height: 800 }, dev
 for (const f of readdirSync(join(root, 'src')).filter((f) => f.endsWith('.html') && f !== 'icon.html')) {
   await page.goto('file://' + join(root, 'src', f));
   const card = await page.$('main');
-  await card.screenshot({ path: join(root, f.replace('.html', '.png')) });
-  console.log('rendered', f);
+  const dest = f === 'hero.html' ? join(root, '..', 'hero.png') : join(root, f.replace('.html', '.png'));
+  await card.screenshot({ path: dest });
+  console.log('rendered', dest);
 }
 await browser.close();

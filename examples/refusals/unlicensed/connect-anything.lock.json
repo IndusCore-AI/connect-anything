@@ -2,13 +2,13 @@
   "version": 1,
   "tool": {
     "name": "connect-anything",
-    "version": "0.1.0",
-    "url": "https://github.com/gaurpulkit/connect-anything"
+    "version": "0.1.1",
+    "url": "https://github.com/IndusCore-AI/connect-anything"
   },
   "skill": {
     "name": "mobile-screens",
     "mode": "connect",
-    "computedHash": "ee1b25db2e003d85bdab592a341e5356d0ca563482a7749bf3eac114f0ce8348",
+    "computedHash": "0ee1862e382507d5c5af1d249150be35b72ab1cfc8ef675991f1f07db7849993",
     "job": "Design mobile app screens"
   },
   "skills": {

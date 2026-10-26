@@ -247,9 +247,17 @@ def _insert_after_section(text, anchor_title, block):
     return "".join(lines[:end]).rstrip() + "\n\n" + block.rstrip() + "\n\n" + "".join(lines[end:]).lstrip("\n")
 
 
+def _under(root, *parts):
+    root = os.path.abspath(root)
+    p = os.path.abspath(os.path.join(root, *parts))
+    if os.path.commonpath([p, root]) != root:
+        raise EngineError(f"refusing a path outside {root}: {p}")
+    return p
+
+
 def build_proposal(skill_dir, lock, ups, cands, gap, workdir, take=2, pieces_per=3, plain=False):
     name = lock["skill"]["name"]
-    prop = os.path.join(workdir, "proposal", name)
+    prop = _under(workdir, "proposal", name)
     if os.path.exists(prop):
         shutil.rmtree(prop)
     shutil.copytree(skill_dir, prop, ignore=shutil.ignore_patterns(".git", "__pycache__", ".DS_Store"))
@@ -261,7 +269,7 @@ def build_proposal(skill_dir, lock, ups, cands, gap, workdir, take=2, pieces_per
     for u in ups:
         if u["status"] != "changed":
             continue
-        folder = os.path.join(prop, u["folder"])
+        folder = _under(prop, u["folder"])
         entry = lock["skills"][u["folder"]]
         renamed = entry.get("renamedSkillFile") or renamed_skill_file(u["folder"])
         kept = set(entry.get("kept") or [])
@@ -428,18 +436,46 @@ def plan_update(skill_dir, workdir, gap="", candidates=(), from_radar=None, sear
     secs = [s for s in parse_sections(split_frontmatter(text)[1]) if s["level"] in (2, 3)]
     current_gap = score_gap(cands, secs, gap) if gap else None
     prop, changes, added, refd, anchor = build_proposal(skill_dir, lock, ups, cands, gap, workdir, take=take, plain=plain)
-    # lock for the proposal
+    # lock for the proposal: refresh every changed source, not just its ref, so the proposal lock describes
+    # the proposal's own files and a later update does not compare against stale hashes
     new_lock = dict(lock)
     new_lock["skills"] = dict(lock["skills"])
     for u in ups:
-        if u["status"] == "changed":
-            new_lock["skills"][u["folder"]] = {**new_lock["skills"][u["folder"]], "ref": u["new"]}
+        if u["status"] != "changed":
+            continue
+        entry = dict(new_lock["skills"][u["folder"]])
+        entry.update({"ref": u["new"], "date": u["date"], "licence": {k: v for k, v in u["licence"].items()
+                                                                     if k in ("spdx", "verdict", "file")}})
+        new_recs = readmod.read_tree(os.path.join(u["new_root"], u["sp_dir"]))
+        entry["files"] = {r["path"]: r["sha256"] for r in new_recs if r.get("sha256")}
+        entry["read"] = {"files": len(new_recs), "bytes": sum(r.get("size") or 0 for r in new_recs)}
+        entry["scan"] = u["scan"]["summary"]
+        entry["computedHash"] = folder_hash(os.path.join(u["new_root"], u["sp_dir"]))
+        kept = set(entry.get("kept") or [])
+        for c in u["changed"]:
+            target_rel = (entry.get("renamedSkillFile") or renamed_skill_file(u["folder"])) if c["path"] == "SKILL.md" \
+                else vendored_name(u["folder"], c["path"])
+            dest = os.path.join(prop, u["folder"], target_rel)
+            if c["status"] == "D":
+                kept.discard(c["path"])
+            elif os.path.exists(dest):
+                kept.add(c["path"])
+        entry["kept"] = sorted(kept)
+        new_lock["skills"][u["folder"]] = entry
     for alias, c in added + refd:
-        new_lock["skills"][alias] = {"source": c["source"], "sourceUrl": f"https://github.com/{c['source']}", "sourceType": "github",
-                                     "ref": c["ref"], "skillPath": (c["skill_path"].rstrip("/") + "/" if c["skill_path"] != "." else "") + "SKILL.md",
-                                     "folder": alias, "use": "flatten" if c["verdict"] == "flatten" else "reference",
-                                     "licence": {"spdx": c["licence"]["spdx"], "verdict": c["licence"]["verdict"]},
-                                     "files": {f["path"]: f["sha256"] for f in c["files"] if f.get("sha256")}, "gap": gap}
+        entry = {"source": c["source"], "sourceUrl": f"https://github.com/{c['source']}", "sourceType": "github",
+                 "ref": c["ref"], "skillPath": (c["skill_path"].rstrip("/") + "/" if c["skill_path"] != "." else "") + "SKILL.md",
+                 "computedHash": folder_hash(c["staging"]), "folder": alias,
+                 "use": "flatten" if c["verdict"] == "flatten" else "reference",
+                 "licence": {"spdx": c["licence"]["spdx"], "verdict": c["licence"]["verdict"]},
+                 "read": {"files": c["files_read"], "bytes": c["bytes_read"]},
+                 "scan": c["scan"]["summary"],
+                 "files": {f["path"]: f["sha256"] for f in c["files"] if f.get("sha256")},
+                 "kept": sorted(f["path"] for f in c["files"] if f.get("keep") and f.get("kind") != "symlink")}
+        if c.get("date"):
+            entry["date"] = c["date"]
+        entry["gap"] = gap
+        new_lock["skills"][alias] = entry
     new_lock["skills"] = dict(sorted(new_lock["skills"].items()))
     from .util import TOOL_NAME, TOOL_URL, TOOL_VERSION
     new_lock["tool"] = {"name": TOOL_NAME, "version": TOOL_VERSION, "url": TOOL_URL}
@@ -477,6 +513,11 @@ def plan_update(skill_dir, workdir, gap="", candidates=(), from_radar=None, sear
     if blocking:
         verdict = "refuse"
         reasons += [f"check {c['name']} fails only after the update: {c['detail']}" for c in blocking]
+    if old_static:
+        new_lock["eval"] = {"verdict": verdict, "tiers": ["static"],
+                            "originals": old_static["totals"]["originals"],
+                            "compiled": old_static["totals"]["compiled"],
+                            "eval_set_hash": evalmod.eval_set_hash(old_evals), "tolerance": tolerance}
     write_json(os.path.join(prop, LOCK_NAME), new_lock)
     pid = hashlib.sha256((folder_hash(prop) + before).encode()).hexdigest()[:12] if verdict == "pass" else None
     state = {"skill_dir": skill_dir, "skill_hash": before, "proposal": prop, "proposal_hash": folder_hash(prop),
@@ -551,17 +592,29 @@ def _proposal_md(lock, adopted, ups, cands, gap, current_gap, changes, old_stati
     return "\n".join(L)
 
 
-def apply_update(workdir, approve, to=None):
+def apply_update(workdir, approve, to=None, force=False):
     state = read_json(os.path.join(workdir, "proposal.json"))
     if not state.get("id"):
         raise EngineError("this proposal was refused; there is nothing to apply")
     if approve != state["id"]:
         raise EngineError(f"approval id {approve!r} does not match this proposal ({state['id']})")
     target = os.path.abspath(os.path.expanduser(to or state["skill_dir"]))
+    workdir_abs, prop_abs = os.path.abspath(workdir), os.path.abspath(state["proposal"])
+    forbidden = {os.path.abspath(os.sep), os.path.abspath(os.path.expanduser("~")), os.path.abspath(os.getcwd()),
+                 workdir_abs, prop_abs}
+    if target in forbidden:
+        raise EngineError(f"refusing to replace {target}: it is the working folder, the proposal, the current folder or home")
+    protected = (workdir_abs, prop_abs, os.path.abspath(os.path.expanduser("~")), os.path.abspath(os.getcwd()),
+                 os.path.abspath(state["skill_dir"]))
+    for root in protected:
+        if target != root and os.path.commonpath([target, root]) == target:
+            raise EngineError(f"refusing to replace {target}: it contains {root}")
     if folder_hash(state["proposal"]) != state["proposal_hash"]:
         raise EngineError("the proposal folder changed after it was made; run update again")
-    if os.path.abspath(target) == state["skill_dir"] and folder_hash(target) != state["skill_hash"]:
+    if os.path.abspath(target) == os.path.abspath(state["skill_dir"]) and folder_hash(target) != state["skill_hash"]:
         raise EngineError("the installed skill changed after the proposal was made; run update again")
+    if os.path.exists(target) and target != os.path.abspath(state["skill_dir"]) and not force:
+        raise EngineError(f"{target} exists; pass --force to replace it, or choose another --to")
     backup = os.path.join(workdir, "backup-" + dt.datetime.now().strftime("%Y%m%d-%H%M%S"))
     if os.path.exists(target):
         shutil.copytree(target, backup)

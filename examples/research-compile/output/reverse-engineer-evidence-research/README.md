@@ -1,6 +1,6 @@
 # evidence-research (from loootai/reverse-engineer)
 
-Source: https://github.com/loootai/reverse-engineer, commit 4aa911d (2026-10-11), MIT licence (`LICENSE`). Merged into `research-brief` on 2026-10-25, after every file was read in full and scanned.
+Source: https://github.com/loootai/reverse-engineer, commit 4aa911d (2026-10-11), MIT licence (`LICENSE`). Merged into `research-brief` on 2026-10-26, after every file was read in full and scanned.
 
 ## Read and scanned
 

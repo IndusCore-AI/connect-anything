@@ -11,13 +11,15 @@ flattened (copied into the compiled skill) or only referenced.
 import re
 
 FINGERPRINTS = [
-    ("AGPL-3.0", [r"GNU AFFERO GENERAL PUBLIC LICENSE"]),
-    ("LGPL-3.0", [r"GNU LESSER GENERAL PUBLIC LICENSE", r"Version 3"]),
-    ("LGPL-2.1", [r"GNU LESSER GENERAL PUBLIC LICENSE", r"Version 2\.1"]),
-    ("GPL-3.0", [r"GNU GENERAL PUBLIC LICENSE", r"Version 3"]),
-    ("GPL-2.0", [r"GNU GENERAL PUBLIC LICENSE", r"Version 2"]),
-    ("MPL-2.0", [r"Mozilla Public License,? (Version|v\.?) ?2\.0"]),
-    ("Apache-2.0", [r"Apache License", r"Version 2\.0"]),
+    # titles first: the AGPL text names the GPL inside it, and MPL names the AGPL, so a loose search for
+    # "GNU GENERAL PUBLIC LICENSE" or "GNU AFFERO" would mislabel both. Anchoring the title fixes that.
+    ("MPL-2.0", [r"^\s*Mozilla Public License,? (Version|v\.?) ?2\.0"]),
+    ("AGPL-3.0", [r"^\s*GNU AFFERO GENERAL PUBLIC LICENSE"]),
+    ("LGPL-3.0", [r"^\s*GNU LESSER GENERAL PUBLIC LICENSE", r"Version 3"]),
+    ("LGPL-2.1", [r"^\s*GNU LESSER GENERAL PUBLIC LICENSE", r"Version 2\.1"]),
+    ("GPL-3.0", [r"^\s*GNU GENERAL PUBLIC LICENSE", r"Version 3"]),
+    ("GPL-2.0", [r"^\s*GNU GENERAL PUBLIC LICENSE", r"Version 2"]),
+    ("Apache-2.0", [r"^\s*Apache License", r"Version 2\.0"]),
     ("CC-BY-NC-SA-4.0", [r"Attribution-NonCommercial-ShareAlike 4\.0"]),
     ("CC-BY-NC-ND-4.0", [r"Attribution-NonCommercial-NoDerivatives 4\.0"]),
     ("CC-BY-NC-4.0", [r"Attribution-NonCommercial 4\.0"]),
@@ -66,15 +68,25 @@ RESTRICTIONS = re.compile(r"commons clause|non-?commercial|not be used for comme
                           r"no derivative|may not (be )?(copied|modified|redistributed)", re.I)
 
 
+PUBLIC_DOMAIN = {"CC0-1.0", "Unlicense", "0BSD", "MIT-0"}
+
+
 def identify(text):
-    """Best SPDX id for a licence text, or None. Extra restrictions on top of a permissive text (the Commons
-    Clause, a non-commercial rider) make it LicenseRef-Restricted."""
+    """Best SPDX id for a licence text, or None. The base licence is identified first, so a phrase such as
+    "non-commercial" inside the Unlicense or a GPL does not turn it into a proprietary licence. Extra
+    restrictions on top of a permissive text (the Commons Clause, an NC rider) do make it Restricted."""
     t = re.sub(r"[ \t]+", " ", text)
-    if RESTRICTIONS.search(t):
-        return "LicenseRef-Restricted"
+    base = None
     for spdx, pats in FINGERPRINTS:
         if all(re.search(p, t, re.I | re.M) for p in pats):
-            return spdx
+            base = spdx
+            break
+    if base in PUBLIC_DOMAIN or base in COPYLEFT:
+        return base
+    if RESTRICTIONS.search(t):
+        return "LicenseRef-Restricted"
+    if base:
+        return base
     if re.search(r"all rights reserved", t, re.I) and not re.search(r"permission is hereby granted", t, re.I):
         return "LicenseRef-AllRightsReserved"
     return None

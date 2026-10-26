@@ -2,13 +2,13 @@
   "version": 1,
   "tool": {
     "name": "connect-anything",
-    "version": "0.1.0",
-    "url": "https://github.com/gaurpulkit/connect-anything"
+    "version": "0.1.1",
+    "url": "https://github.com/IndusCore-AI/connect-anything"
   },
   "skill": {
     "name": "apple-design",
     "mode": "connect",
-    "computedHash": "37410b6831854c998bef6dfe4419833bce9dc1b478b04e614aa074fd87b4210f",
+    "computedHash": "c1dabcfc928db001875e142d7f6310fcaea5524fb5001fc817521904bc36d0f6",
     "job": "Design, build or review any screen people see or touch: choose the design for new work, hold a floor against AI-looking UI, run the mechanical check, and finish with Apple's interaction pass"
   },
   "skills": {

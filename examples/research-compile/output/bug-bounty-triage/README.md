@@ -1,6 +1,6 @@
 # bug-bounty-triage (from Sequester-AG/bug-bounty-triage)
 
-Source: https://github.com/Sequester-AG/bug-bounty-triage, commit 9684e1b (2026-10-09), MIT licence (`LICENSE`). Merged into `research-brief` on 2026-10-25, after every file was read in full and scanned.
+Source: https://github.com/Sequester-AG/bug-bounty-triage, commit 9684e1b (2026-10-09), MIT licence (`LICENSE`). Merged into `research-brief` on 2026-10-26, after every file was read in full and scanned.
 
 ## Read and scanned
 

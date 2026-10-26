@@ -2,13 +2,13 @@
   "version": 1,
   "tool": {
     "name": "connect-anything",
-    "version": "0.1.0",
-    "url": "https://github.com/gaurpulkit/connect-anything"
+    "version": "0.1.1",
+    "url": "https://github.com/IndusCore-AI/connect-anything"
   },
   "skill": {
     "name": "screen-kit",
     "mode": "compile",
-    "computedHash": "43bb5d642645cf113c0c70a9de1fd7d75a2460e7c33ff2707d28ce383e9cc389",
+    "computedHash": "043e2d1d0592961ccb3344a74c90108f2268acb030f78362fea02407b2bc2c69",
     "job": "Design dashboards and app screens"
   },
   "skills": {
